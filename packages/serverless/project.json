@@ -1,0 +1,34 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/serverless/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/serverless/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/serverless"],
+      "options": {
+        "jestConfig": "packages/serverless/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/serverless",
+        "tsConfig": "packages/serverless/tsconfig.lib.json",
+        "packageJson": "packages/serverless/package.json",
+        "main": "packages/serverless/src/index.ts",
+        "assets": ["packages/serverless/*.md"]
+      }
+    }
+  },
+  "tags": []
+}

@@ -3,6 +3,7 @@
   "version": 2,
   "projects": {
     "core": "packages/core",
-    "express": "packages/express"
+    "express": "packages/express",
+    "serverless": "packages/serverless"
   }
 }
