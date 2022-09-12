@@ -1,6 +1,6 @@
 import express from 'express';
 import findFreePorts from 'find-free-ports';
-import { addRoutes, ExpressRoute } from '../src/express';
+import { addRoutes, ExpressRoute } from '@typesafe-api/express';
 import {
   CreateDogEndpointDef,
   GetDogEndpointDef,

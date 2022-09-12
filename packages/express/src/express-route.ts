@@ -1,7 +1,7 @@
 import { Controller } from './controller';
 import { RequestHandler, Router } from 'express';
-import { AbstractEndpointDef } from '../endpoint';
-import { Route } from '../route';
+import { AbstractEndpointDef } from '../../core/src/endpoint';
+import { Route } from '../../core/src/route';
 
 export interface ExpressRoute<T extends AbstractEndpointDef> extends Route {
   middleware: RequestHandler[];

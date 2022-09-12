@@ -1,4 +1,4 @@
-import { Controller, sendError, TRequest, TResponse } from '../src/express';
+import { Controller, sendError, TRequest, TResponse } from '@typesafe-api/express';
 import {
   CreateDogEndpointDef,
   GetDogEndpointDef,

@@ -1,4 +1,4 @@
-import { Controller, TRequest, TResponse } from '../../../../src/express';
+import { Controller, TRequest, TResponse } from '../../../../../express/src';
 import { CreateDogEndpointDef } from '../../../example-routes';
 
 export const reqTest: Controller<CreateDogEndpointDef> = (

@@ -16,6 +16,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@typesafe-api/express": ["packages/express/src/index.ts"],
       "@typesafeapi/core": ["packages/core/src/index.ts"]
     }
   },
