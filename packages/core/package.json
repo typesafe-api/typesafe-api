@@ -1,4 +1,7 @@
 {
   "name": "@typesafe-api/core",
-  "version": "0.0.2"
+  "version": "0.0.3",
+  "peerDependencies": {
+    "url-join-ts": "^1.0.5"
+  }
 }
