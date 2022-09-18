@@ -64,7 +64,7 @@ First let's define some useful interfaces for our API
 ```ts
 // ../nx-typesafe-api-example/libs/api-spec/src/api.ts
 
-import {EndpointDef, ErrorType, ReqOptions, ResOptions} from 'typesafe-api';
+import {EndpointDef, ErrorType, ReqOptions, ResOptions} from '@typesafe-api/core';
 
 // These are the options that will be sent with every request to our API. In this example
 // we are going to implement some dummy authentication for our API using the
@@ -84,11 +84,11 @@ export type DefaultErrorCodes = 500 | 403;
 
 // Create an interface to help us build our endpoints, this just saves adding {@code DefaultReqOpts}
 // and {@code DefaultErrorType} to every endpoint we create
-export interface ExampleApiEndpoint<
+export type ExampleApiEndpoint<
   ReqOpt extends ReqOptions,
   RespOpt extends ResOptions,
   E = ErrorType<DefaultErrorCodes>,
-  > extends EndpointDef<DefaultReqOpts, ReqOpt, RespOpt, E> {}
+  > = EndpointDef<DefaultReqOpts, ReqOpt, RespOpt, E>
 
 ```
 
@@ -97,7 +97,7 @@ Now let's define an endpoint...
 ```ts
 // ../nx-typesafe-api-example/libs/api-spec/src/routes/hello-world.ts
 
-import {ErrorType, ReqOptions, ResOptions, Route} from 'typesafe-api';
+import {ErrorType, ReqOptions, ResOptions, Route} from '@typesafe-api/core';
 import {DefaultErrorCodes, ExampleApiEndpoint} from '../api';
 
 
@@ -138,7 +138,7 @@ Now we have our route and endpoint defined we can very easily create an `ApiClie
 ```ts
 // ../nx-typesafe-api-example/libs/api-spec/src/api-client.ts
 
-import {AbstractApiClient, createRouteRequest} from 'typesafe-api';
+import {AbstractApiClient, createRouteRequest} from '@typesafe-api/core';
 import {helloWoldRoute, HelloWorldEndpointDef} from './routes';
 import {DefaultReqOpts} from './api';
 
@@ -162,18 +162,21 @@ export class RootApiClient extends CustomApiClient {
 
   // You can also add a custom constructor to abstract away the details of your
   // default request options
-  constructor(baseUrl: string, apiKey: string) {
+  constructor(baseUrl: string, private apiKey: string) {
     super({
       baseUrl,
-      defaultReqOptions: {
-        headers: {
-          authorization: apiKey
-        }
-      }
     });
   }
 
-  // Here we add the {@link HelloApiClient} as a child of {@link RootApiClient}
+  public async getDefaultReqOptions(): Promise<DefaultReqOpts> {
+    return {
+      headers: {
+        authorization: this.apiKey
+      }
+    };
+  }
+
+// Here we add the {@link HelloApiClient} as a child of {@link RootApiClient}
   public helloApi = (): HelloApiClient => new HelloApiClient(this.getChildParams());
 }
 
@@ -188,8 +191,6 @@ your entry point for your module e.g.
 export * from './routes';
 export * from './api-client';
 export * from './api';
-// Add this export so API consumers can use your client without having to install `typesafe-api`
-export * from 'typesafe-api/dist/api-client'
 
 ```
  
@@ -208,39 +209,34 @@ Contributions very welcome if you find a way to fully integrate with any other s
 So assuming you are using `express` we want to start out by creating a `Controller` to handle our requests...
 
 ```ts
-// ../nx-typesafe-api-example/apps/backend/src/app/hello-world.ts
+// ../nx-typesafe-api-example/apps/express/src/app/hello-world.ts
 
-import {Controller, sendError, TRequest, TResponse} from 'typesafe-api';
-import {HelloWorldEndpointDef} from '@nx-typesafe-api-example/api-spec';
-
+import { Controller, sendError, TRequest, TResponse } from '@typesafe-api/express';
+import { HelloWorldEndpointDef } from '@nx-typesafe-api-example/api-spec';
 
 export const helloWorldController: Controller<HelloWorldEndpointDef> = (
   req: TRequest<HelloWorldEndpointDef>,
   res: TResponse<HelloWorldEndpointDef>
 ) => {
-
   // `req.query` is typesafe so you know which keys have been set in the request
   const name = req.query.yourName;
 
   // As an example, let's return an error the name parameter is a number
   const isNumber = (s: string) => /^\d+$/.test(s);
   if (isNumber(name)) {
-
     // This error object is typesafe, including the status so you can only select from the
     // statuses given in the endpoint definition
     return sendError(res, {
       status: 400,
-      msg: "Surely your name isn't a number?? 😵"
+      msg: "Surely your name isn't a number?? 😵",
     });
-
   }
 
   // No surprises, this body is typesafe too!
   res.send({
-    msg: `Hello ${name}!`,
-    date: new Date()
-  })
-
+    msg: `Hello ${name} from an express backend`,
+    date: new Date(),
+  });
 };
 
 ``` 
@@ -251,34 +247,38 @@ Creating middleware for our app is easy too as long as it relies on our default 
 Here's a simple example...
 
 ```ts
-// ../nx-typesafe-api-example/apps/backend/src/app/authorize.ts
+// ../nx-typesafe-api-example/apps/express/src/app/authorize.ts
 
-import {NextFunction, RequestHandler} from 'express';
-import {ExampleApiEndpoint} from '@nx-typesafe-api-example/api-spec';
-import {ReqOptions, ResOptions, sendError, TRequest, TResponse} from 'typesafe-api';
+import { NextFunction, RequestHandler } from 'express';
+import { ExampleApiEndpoint } from '@nx-typesafe-api-example/api-spec';
+import { ReqOptions, ResOptions } from '@typesafe-api/core';
+import { sendError, TRequest, TResponse } from '@typesafe-api/express';
 
 // Create a type that can be used to represent any endpoint in our API
-type AnyEndpointDef = ExampleApiEndpoint<ReqOptions, ResOptions>
+type AnyEndpointDef = ExampleApiEndpoint<ReqOptions, ResOptions>;
 
-const handler: RequestHandler = (req: TRequest<AnyEndpointDef>, res: TResponse<AnyEndpointDef>, next: NextFunction) => {
-
+const handler = (
+  req: TRequest<AnyEndpointDef>,
+  res: TResponse<AnyEndpointDef>,
+  next: NextFunction
+) => {
   // Use {@code req.get(..)} to get headers in a typesafe way
   // Naive implementation of authentication
   // DONT TRY THIS AT HOME
-  if (req.get('authorization') === "my-api-key") {
-    return next()
+  if (req.get('authorization') === 'my-api-key') {
+    return next();
   }
 
   // This error object is typesafe, including the status so you can only select from the
   // statuses given in {@link DefaultErrorCodes} (defined in the app spec)
   sendError(res, {
     status: 403,
-    msg: 'Unauthorized'
-  })
-
+    msg: 'Unauthorized',
+  });
 };
 
-export const authorize = (): RequestHandler => handler;
+export const authorize = (): RequestHandler =>
+  handler as unknown as RequestHandler;
 
 ``` 
 
@@ -291,10 +291,10 @@ routes are correct.
 Here is a very simple express app using our newly created `Controller`
 
 ```ts
-// ../nx-typesafe-api-example/apps/backend/src/main.ts
+// ../nx-typesafe-api-example/apps/express/src/main.ts
 
 import express, { RequestHandler } from 'express';
-import { addRoute, ExpressRoute } from 'typesafe-api';
+import { addRoute, ExpressRoute } from '@typesafe-api/express';
 import { helloWorldController } from './app/hello-world';
 import {
   helloWoldRoute,
@@ -322,7 +322,7 @@ addRoute(app, eHelloWorldRoute);
 
 // Start the server
 const port = 7809;
-const server = app.listen(port, () => {
+app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
 
@@ -339,27 +339,46 @@ One you have your API spec installed you can define a component similar to this
 // ../nx-typesafe-api-example/apps/frontend/src/app/app.tsx
 
 import React, { useState } from 'react';
+import { ErrorHandlers, handleError } from '@typesafe-api/core';
 import {
-  ErrorHandlers,
-  handleError,
   HelloWorldEndpointDef,
-  RootApiClient
+  RootApiClient,
 } from '@nx-typesafe-api-example/api-spec';
-import { Box, Button, CardHeader, Container, TextField, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  CardHeader,
+  Container,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 
-const baseUrl = 'http://localhost:7809';
+const expressUrl = 'http://localhost:7809';
+const serverlessUrl = ' http://localhost:7810/dev';
+
+enum Backend {
+  EXPRESS = 'express',
+  SERVERLESS = 'serverless',
+}
 
 export function App() {
   const [name, setName] = useState('');
   const [apiKey, setApiKey] = useState('');
   const [responseText, setResponseText] = useState('');
+  const [backend, setBackend] = useState(Backend.EXPRESS);
 
   // Init the API client
+  const baseUrl = backend === Backend.EXPRESS ? expressUrl : serverlessUrl;
   const helloApi = new RootApiClient(baseUrl, apiKey).helloApi();
 
   // Set up error handlers in case the API call fails
   // (the compiler will tell you if you are missing any error codes)
-  const errorHandlers: ErrorHandlers<HelloWorldEndpointDef> = {
+  const callHelloWorldError: ErrorHandlers<HelloWorldEndpointDef> = {
     500: (err) => {
       alert('Something went wrong please check console logs');
       console.error(err);
@@ -377,10 +396,11 @@ export function App() {
   // Define onClick function that calls the endpoint and handles any errors
   const onClick = async () => {
     try {
-      const { data } = await helloApi.helloWorld(name);
-      setResponseText(data.msg);
+      const response = await helloApi.helloWorld(name);
+      const { msg } = response.data;
+      setResponseText(msg);
     } catch (err) {
-      handleError(err as any, errorHandlers);
+      handleError(err as any, callHelloWorldError);
     }
   };
 
@@ -394,6 +414,24 @@ export function App() {
         variant="contained"
         style={{ textAlign: 'center' }}
       />
+      <FormControl>
+        <FormLabel id="demo-radio-buttons-group-label">Backend</FormLabel>
+        <RadioGroup
+          onChange={(e) => setBackend(e.target.value as Backend)}
+          value={backend}
+        >
+          <FormControlLabel
+            control={<Radio />}
+            label="Express"
+            value={Backend.EXPRESS}
+          />
+          <FormControlLabel
+            control={<Radio />}
+            label="Serverless"
+            value={Backend.SERVERLESS}
+          />
+        </RadioGroup>
+      </FormControl>
       <form noValidate autoComplete="off centre">
         <TextField
           label={nameLabel}
