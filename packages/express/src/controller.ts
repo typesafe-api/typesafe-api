@@ -1,5 +1,5 @@
 import { NextFunction } from 'express';
-import { AbstractEndpointDef, ResponseBody, ResponseHeaders, StandardEndpointDef } from '../../core/src/endpoint';
+import { AbstractEndpointDef, ResponseBody, ResponseHeaders, StandardEndpointDef } from '@typesafe-api/core';
 import { Request, Response } from 'express-serve-static-core';
 
 export interface TRequest<T extends AbstractEndpointDef>

@@ -1,4 +1,4 @@
-import { Deepmerge } from './type/deepmerge';
+import { Deepmerge } from './type';
 import { AxiosRequestConfig } from 'axios';
 
 /* eslint-disable @typescript-eslint/ban-types */

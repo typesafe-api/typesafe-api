@@ -1,5 +1,3 @@
-// TODO this file needs moving out into a library
-
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { Context, Handler } from 'aws-lambda/handler';
 import { AWS } from '@serverless/typescript';
@@ -9,7 +7,7 @@ import {
   ResponseBody,
   Route,
   StandardEndpointDef
-} from '@typesafeapi/core';
+} from '@typesafe-api/core';
 
 type ParsedAPIGatewayProxyEvent<T extends ReqOptions> = APIGatewayProxyEvent & {
   typesafeApi: {

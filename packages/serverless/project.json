@@ -2,6 +2,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/serverless/src",
   "projectType": "library",
+  "implicitDependencies": ["core"],
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
