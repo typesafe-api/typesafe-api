@@ -6,7 +6,7 @@ import {
   ReqOptions,
   ResponseBody,
   Route,
-  StandardEndpointDef
+  StandardEndpointDef,
 } from '@typesafe-api/core';
 
 type ParsedAPIGatewayProxyEvent<T extends ReqOptions> = APIGatewayProxyEvent & {
@@ -28,10 +28,10 @@ const parseEvent = <T extends ReqOptions>(
   return {
     ...event,
     typesafeApi: {
-      query: event.queryStringParameters as T['query'],
-      params: event.pathParameters as T['params'],
+      query: (event.queryStringParameters ?? {}) as T['query'],
+      params: (event.pathParameters ?? {}) as T['params'],
       body: parsedBody,
-      headers: event.headers as T['headers'],
+      headers: (event.headers ?? {}) as T['headers'],
     },
   };
 };
