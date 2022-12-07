@@ -12,7 +12,7 @@ import {
 type ParsedAPIGatewayProxyEvent<T extends ReqOptions> = APIGatewayProxyEvent & {
   typesafeApi: {
     query: T['query'];
-    params: T['query'];
+    params: T['params'];
     body: T['body'];
     headers: T['headers'];
   };
