@@ -6,7 +6,7 @@ import { AxiosRequestConfig } from 'axios';
 export interface ReqOptions {
   query?: {};
   params?: {};
-  body?: any;
+  body?: {};
   /**
    * keys should be lowercase
    */
@@ -15,7 +15,7 @@ export interface ReqOptions {
 }
 
 export interface ResOptions {
-  body: any;
+  body: {};
   headers: {};
 }
 /* eslint-enable @typescript-eslint/ban-types */
@@ -39,9 +39,11 @@ export interface EndpointDef<
   errorType: E;
 }
 
-export type ResponseBody<T extends AbstractEndpointDef> = T['responseOptions']['body'];
+export type ResponseBody<T extends AbstractEndpointDef> =
+  T['responseOptions']['body'];
 
-export type ResponseHeaders<T extends AbstractEndpointDef> = T['responseOptions']['headers'];
+export type ResponseHeaders<T extends AbstractEndpointDef> =
+  T['responseOptions']['headers'];
 
 export type StandardEndpointDef = EndpointDef<any, any, any, ErrorType<any>>;
 
