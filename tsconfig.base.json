@@ -19,7 +19,8 @@
       "@typesafe-api/compiler-test": ["packages/compiler-test/src/index.ts"],
       "@typesafe-api/core": ["packages/core/src/index.ts"],
       "@typesafe-api/express": ["packages/express/src/index.ts"],
-      "@typesafe-api/serverless": ["packages/serverless/src/index.ts"]
+      "@typesafe-api/serverless": ["packages/serverless/src/index.ts"],
+      "@typesafe-api/test-api": ["packages/test-api/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
