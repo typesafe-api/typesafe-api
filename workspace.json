@@ -2,6 +2,7 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
+    "compiler-test": "packages/compiler-test",
     "core": "packages/core",
     "express": "packages/express",
     "serverless": "packages/serverless"
