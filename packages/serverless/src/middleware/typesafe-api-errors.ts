@@ -2,29 +2,12 @@ import { MiddlewareObj } from '@middy/core';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import {
   AbstractErrorType,
+  defaultHttpErrorLogFn,
+  defaultOtherErrorLogFn,
   serialize,
+  TypeSafeApiErrorsParams,
   TypesafeHttpError,
 } from '@typesafe-api/core';
-
-export type HttpErrorLogFn = (httpError: AbstractErrorType) => Promise<void>;
-
-export type OtherErrorLogFn = (err: unknown) => Promise<void>;
-
-export interface TypeSafeApiErrorsParams<T extends AbstractErrorType> {
-  httpErrorLogFn?: HttpErrorLogFn;
-  otherErrorLogFn?: OtherErrorLogFn;
-  internalServerErrorBody: T['body'];
-}
-
-const defaultHttpErrorLogFn: HttpErrorLogFn = async (
-  httpError: AbstractErrorType
-) => {
-  console.log(`TypeSafeHttpError - ${JSON.stringify(httpError)}`);
-};
-
-const defaultOtherErrorLogFn: OtherErrorLogFn = async (err) => {
-  console.log(`Internal server error`, err);
-};
 
 type ServerlessResponseType = { statusCode: number; body: string };
 
