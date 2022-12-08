@@ -10,7 +10,7 @@ import {
   HeaderTestEndpointDef,
   headerTestRoute,
   postDogRoute,
-} from './example-routes';
+} from '../../core/test/example-routes';
 import { createDogController, getDogController, getDogsController, headerTestController } from './example-controller';
 
 const app = express();

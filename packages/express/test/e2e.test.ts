@@ -1,9 +1,14 @@
-import { clearDogDB, scoobyDoo } from './dog';
+import { clearDogDB, scoobyDoo } from '../../core/test/dog';
 import { startApp } from './example-express';
-import { GetDogEndpointDef, GetDogErrorType, HeaderTestEndpointDef, HeaderTestReq } from './example-routes';
+import {
+  GetDogEndpointDef,
+  GetDogErrorType,
+  HeaderTestEndpointDef,
+  HeaderTestReq,
+} from '../../core/test/example-routes';
 import { AxiosError, AxiosRequestConfig } from 'axios';
-import { ErrorHandlers, handleError, ResponseBody } from '../src';
-import { defaultReqOptions, RootApiClient } from './example-api-client';
+import { ErrorHandlers, handleError, ResponseBody } from '@typesafe-api/core';
+import { defaultReqOptions, RootApiClient } from '../../core/test/example-api-client';
 
 export const OBJECT_ID_STRING = /^[a-f\d]{24}$/i;
 
@@ -50,14 +55,18 @@ it('Test Root API (headers and default params)', async () => {
   expect(await hitEndpont({})).toStrictEqual(defaultHeaderTestResp);
 
   // Test headers object but not key-values
-  expect(await hitEndpont({ headers: {} })).toStrictEqual(defaultHeaderTestResp);
+  expect(await hitEndpont({ headers: {} })).toStrictEqual(
+    defaultHeaderTestResp
+  );
 
   // Test with custom value
   const customValue = 'custom-value';
   const expectedCustom: ResponseBody<HeaderTestEndpointDef> = {
     headerValue: customValue,
   };
-  expect(await hitEndpont({ headers: { myheader: customValue } })).toStrictEqual(expectedCustom);
+  expect(
+    await hitEndpont({ headers: { myheader: customValue } })
+  ).toStrictEqual(expectedCustom);
 });
 
 it('Test response headers', async () => {
@@ -124,8 +133,10 @@ it('Dog API', async () => {
     // Check the error is returned as expected
     const e: AxiosError<GetDogErrorType> = err;
     const expectedError: GetDogErrorType = {
-      status: 404,
-      msg: `No dog with _id ${fakeId} could be found`,
+      statusCode: 404,
+      body: {
+        msg: `No dog with _id ${fakeId} could be found`,
+      },
     };
     expect(e.response.data).toStrictEqual(expectedError);
 

@@ -4,8 +4,8 @@ import {
   GetDogEndpointDef,
   GetDogsEndpointDef,
   HeaderTestEndpointDef
-} from './example-routes';
-import { dogDB, DogWithId } from './dog';
+} from '../../core/test/example-routes';
+import { dogDB, DogWithId } from '../../core/test/dog';
 import ObjectID from 'bson-objectid';
 
 export const createDogController: Controller<CreateDogEndpointDef> = (
@@ -30,7 +30,7 @@ export const getDogController: Controller<GetDogEndpointDef> = (
     res.send(dogDB.get(_id));
   } else {
     sendError(res, {
-      status: 404,
+      statusCode: 404,
       msg: `No dog with _id ${_id} could be found`,
     });
   }
