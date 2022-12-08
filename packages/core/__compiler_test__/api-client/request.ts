@@ -1,5 +1,5 @@
-import { createRouteRequest } from '../../../../src/api-client';
-import { CreateDogEndpointDef, GetDogEndpointDef, getDogRoute, postDogRoute } from '../../../example-routes';
+import { createRouteRequest } from '../../src/api-client';
+import { CreateDogEndpointDef, GetDogEndpointDef, getDogRoute, postDogRoute } from '../../test/example-routes';
 
 const createDog = createRouteRequest<CreateDogEndpointDef>(this, postDogRoute);
 createDog({});

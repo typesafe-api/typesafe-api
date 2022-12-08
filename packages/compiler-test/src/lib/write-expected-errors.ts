@@ -3,7 +3,7 @@ import { EXPECTED_ERRORS_START, getCompilerErrors, getTestFiles } from './util';
 import { parseTS } from './parse-ts';
 
 const run = async () => {
-  for (const file of await getTestFiles()) {
+  for (const file of await getTestFiles(__dirname + '/../../../**/')) {
     const { code } = await parseTS(file);
 
     // Remove blank lines form the end of code

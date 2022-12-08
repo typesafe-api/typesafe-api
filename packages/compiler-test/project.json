@@ -10,6 +10,12 @@
         "lintFilePatterns": ["packages/compiler-test/**/*.ts"]
       }
     },
+    "write-expected": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "cd packages/compiler-test && ts-node --project tsconfig.spec.json src/lib/write-expected-errors.ts"
+      }
+    },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/packages/compiler-test"],

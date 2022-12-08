@@ -1,5 +1,5 @@
-import { TypesafeApiHandler } from '../../../../../serverless/src';
-import { CreateDogEndpointDef } from '../../../example-routes';
+import { TypesafeApiHandler } from '@typesafe-api/serverless';
+import { CreateDogEndpointDef } from '../../core/test/example-routes';
 
 export const reqTest: TypesafeApiHandler<CreateDogEndpointDef> = async (
   event,
@@ -14,13 +14,13 @@ export const reqTest: TypesafeApiHandler<CreateDogEndpointDef> = async (
   typesafeApi.headers.notValidHeader;
 
   // Invalid body
-  typesafeApi.body.invalidBody
+  typesafeApi.body.invalidBody;
 
   // Invalid body
-  typesafeApi.query.invalidQuery
+  typesafeApi.query.invalidQuery;
 
   // Invalid params
-  typesafeApi.params.invalidParams
+  typesafeApi.params.invalidParams;
 
   return {
     statusCode: 200,
@@ -34,6 +34,6 @@ export const reqTest: TypesafeApiHandler<CreateDogEndpointDef> = async (
 
 // @expected-compiler-errors-start
 // (14,23): error TS2339: Property 'notValidHeader' does not exist on type '{ myheader: string; }'.
-// (17,20): error TS2339: Property 'invalidBody' does not exist on type 'Dog'.
+// (17,20): error TS2339: Property 'invalidBody' does not exist on type '{ name: string; breed: string; }'.
 // (20,21): error TS2339: Property 'invalidQuery' does not exist on type '{}'.
 // (23,22): error TS2339: Property 'invalidParams' does not exist on type '{}'.

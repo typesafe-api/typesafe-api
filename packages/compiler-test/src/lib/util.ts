@@ -19,9 +19,15 @@ const shell = (cmd: string): Promise<Out> =>
     executeCmd(cmd, resolve);
   });
 
-export const getTestFiles = (): Promise<string[]> => glob(__dirname + '/tests/**/*.ts');
+export const getTestFiles = (prefix = ''): Promise<string[]> => {
+  const path = prefix + '__compiler_test__/**/*.ts';
+  console.log(`Selecting compiler tests using ${path}`);
+  return glob(path);
+};
 
-export const getCompilerErrors = async (fullFilePath: string): Promise<string[]> => {
+export const getCompilerErrors = async (
+  fullFilePath: string
+): Promise<string[]> => {
   const { stderr } = await shell(`npx ts-node ${fullFilePath}`);
   return (
     stderr

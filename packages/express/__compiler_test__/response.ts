@@ -1,5 +1,5 @@
-import { Controller, TRequest, TResponse } from '../../../../../express/src';
-import { GetDogEndpointDef } from '../../../example-routes';
+import { Controller, TRequest, TResponse } from '@typesafe-api/express';
+import { GetDogEndpointDef } from '../../core/test/example-routes';
 
 export const reqTest: Controller<GetDogEndpointDef> = (
   req: TRequest<GetDogEndpointDef>,
@@ -13,5 +13,4 @@ export const reqTest: Controller<GetDogEndpointDef> = (
 };
 
 // @expected-compiler-errors-start
-// (9,14): error TS2345: Argument of type '{ somethingElse: number; }' is not assignable to parameter of type 'BodyOrError<GetDogEndpointDef>'.
 // (12,11): error TS2345: Argument of type 'string' is not assignable to parameter of type 'never'.
