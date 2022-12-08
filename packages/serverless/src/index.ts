@@ -6,6 +6,7 @@ import {
   ReqOptions,
   ResponseBody,
   Route,
+  serialize,
   StandardEndpointDef,
 } from '@typesafe-api/core';
 
@@ -63,10 +64,9 @@ export const createHandler = <T extends AbstractEndpointDef>(
       parseEvent(event),
       context
     );
-    const isString = typeof body === 'string';
     return {
       statusCode,
-      body: isString ? body : JSON.stringify(body),
+      body: serialize(body),
     };
   };
 };
