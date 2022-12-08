@@ -19,6 +19,12 @@
         "passWithNoTests": true
       }
     },
+    "publish": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nx build serverless && cd dist/packages/serverless && npm publish"
+      }
+    },
     "build": {
       "executor": "@nrwl/js:tsc",
       "outputs": ["{options.outputPath}"],
