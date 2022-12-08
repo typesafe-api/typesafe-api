@@ -31,7 +31,9 @@ export const getDogController: Controller<GetDogEndpointDef> = (
   } else {
     sendError(res, {
       statusCode: 404,
-      msg: `No dog with _id ${_id} could be found`,
+      body: {
+        msg: `No dog with _id ${_id} could be found`,
+      }
     });
   }
 };

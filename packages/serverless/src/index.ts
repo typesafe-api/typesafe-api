@@ -7,7 +7,6 @@ import {
   ResponseBody,
   Route,
   serialize,
-  StandardEndpointDef,
 } from '@typesafe-api/core';
 
 type ParsedAPIGatewayProxyEvent<T extends ReqOptions> = APIGatewayProxyEvent & {
@@ -38,7 +37,7 @@ const parseEvent = <T extends ReqOptions>(
 };
 
 export type TypesafeApiHandlerError<T extends AbstractEndpointDef> = {
-  statusCode: T['errorType']['status'];
+  statusCode: T['errorType']['statusCode'];
   body: T['errorType'];
 };
 
@@ -71,10 +70,10 @@ export const createHandler = <T extends AbstractEndpointDef>(
   };
 };
 
-export const createError = <T extends StandardEndpointDef>(
+export const createError = <T extends AbstractEndpointDef>(
   errorType: T['errorType']
 ): TypesafeApiHandlerError<T> => {
-  return { statusCode: errorType.status, body: errorType };
+  return { statusCode: errorType.statusCode, body: errorType };
 };
 
 export const relativeToCWD = (absPath: string) => {

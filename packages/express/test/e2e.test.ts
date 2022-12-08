@@ -8,7 +8,10 @@ import {
 } from '../../core/test/example-routes';
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import { ErrorHandlers, handleError, ResponseBody } from '@typesafe-api/core';
-import { defaultReqOptions, RootApiClient } from '../../core/test/example-api-client';
+import {
+  defaultReqOptions,
+  RootApiClient,
+} from '../../core/test/example-api-client';
 
 export const OBJECT_ID_STRING = /^[a-f\d]{24}$/i;
 

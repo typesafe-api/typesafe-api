@@ -1,5 +1,6 @@
 import { Deepmerge } from './type';
 import { AxiosRequestConfig } from 'axios';
+import { AbstractErrorType } from './error';
 
 /* eslint-disable @typescript-eslint/ban-types */
 // We need to use the {} type here or merging default and endpoint request options doesn't work
@@ -20,16 +21,11 @@ export interface ResOptions {
 }
 /* eslint-enable @typescript-eslint/ban-types */
 
-export interface ErrorType<S extends number = 500> {
-  status: S;
-  msg: string;
-}
-
 export interface EndpointDef<
   DefaultReqOpt extends ReqOptions,
   ReqOpt extends ReqOptions,
   ResOpt extends ResOptions,
-  E = ErrorType
+  E extends AbstractErrorType
 > {
   requestOptions: Deepmerge<DefaultReqOpt, ReqOpt>;
   defaultReqOptions: DefaultReqOpt;
@@ -39,12 +35,10 @@ export interface EndpointDef<
   errorType: E;
 }
 
+export type AbstractEndpointDef = EndpointDef<any, any, any, AbstractErrorType>;
+
 export type ResponseBody<T extends AbstractEndpointDef> =
   T['responseOptions']['body'];
 
 export type ResponseHeaders<T extends AbstractEndpointDef> =
   T['responseOptions']['headers'];
-
-export type StandardEndpointDef = EndpointDef<any, any, any, ErrorType<any>>;
-
-export type AbstractEndpointDef = EndpointDef<any, any, any, any>;

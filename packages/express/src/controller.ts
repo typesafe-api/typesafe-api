@@ -1,5 +1,5 @@
 import { NextFunction } from 'express';
-import { AbstractEndpointDef, ResponseBody, ResponseHeaders, StandardEndpointDef } from '@typesafe-api/core';
+import { AbstractEndpointDef, ResponseBody, ResponseHeaders } from '@typesafe-api/core';
 import { Request, Response } from 'express-serve-static-core';
 
 export interface TRequest<T extends AbstractEndpointDef>
@@ -31,6 +31,6 @@ export type Controller<T extends AbstractEndpointDef> = (
   next: NextFunction
 ) => void;
 
-export const sendError = <T extends StandardEndpointDef>(res: TResponse<T>, errorType: T['errorType']): void => {
-  res.status(errorType.status).send(errorType);
+export const sendError = <T extends AbstractEndpointDef>(res: TResponse<T>, errorType: T['errorType']): void => {
+  res.status(errorType.statusCode).send(errorType);
 };
