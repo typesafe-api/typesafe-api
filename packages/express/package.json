@@ -1,6 +1,6 @@
 {
   "name": "@typesafe-api/express",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "peerDependencies": {
     "@types/express-serve-static-core": "^4.17.30",
     "express": "^4.17.1",
