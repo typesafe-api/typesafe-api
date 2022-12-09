@@ -29,7 +29,7 @@ export type Controller<T extends AbstractEndpointDef> = (
   req: TRequest<T>,
   res: TResponse<T>,
   next: NextFunction
-) => void;
+) => Promise<void>;
 
 export const sendError = <T extends AbstractEndpointDef>(res: TResponse<T>, errorType: T['errorType']): void => {
   res.status(errorType.statusCode).send(errorType);

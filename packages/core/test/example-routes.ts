@@ -75,3 +75,12 @@ export interface HeaderTestResp extends ResOptions {
 }
 
 export type HeaderTestEndpointDef = ApiEndpoint<ReqOptions, HeaderTestResp>;
+
+// Header test endpoint
+export const internalErrorTestRoute: Route = {
+  method: 'get',
+  path: '/internal-error',
+};
+
+export type InternalErrorTestEndpointDef = ApiEndpoint<ReqOptions, ResOptions>;
+

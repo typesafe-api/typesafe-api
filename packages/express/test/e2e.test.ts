@@ -1,11 +1,12 @@
 import { clearDogDB, scoobyDoo } from '../../core/test/dog';
-import { startApp } from './example-express';
+import { internalServerErrorBody, startApp } from './example-express';
 import {
   GetDogEndpointDef,
   GetDogErrorType,
   HeaderTestEndpointDef,
   HeaderTestReq,
 } from '../../core/test/example-routes';
+import { ApiErrorBody } from '../../core/test/example-api';
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import { ErrorHandlers, handleError, ResponseBody } from '@typesafe-api/core';
 import {
@@ -135,17 +136,26 @@ it('Dog API', async () => {
   } catch (err) {
     // Check the error is returned as expected
     const e: AxiosError<GetDogErrorType> = err;
-    const expectedError: GetDogErrorType = {
-      statusCode: 404,
-      body: {
-        msg: `No dog with _id ${fakeId} could be found`,
-      },
+    const expectedError: ApiErrorBody = {
+      msg: `No dog with _id ${fakeId} could be found`,
     };
     expect(e.response.data).toStrictEqual(expectedError);
+    expect(e.response.status).toBe(404);
 
     // Test handle error works correctly
     handleError(e, getDogErrorHandlers);
     expect(getDogErrorHandlers['404']).toBeCalled();
     expect(getDogErrorHandlers['500']).toBeCalledTimes(0);
+  }
+});
+
+it('Test default error handling', async () => {
+  try {
+    await rootApiClient.internalErrorTest({});
+  } catch (err) {
+    // Check the error is returned as expected
+    const e: AxiosError<GetDogErrorType> = err;
+    expect(e.response.data).toStrictEqual(internalServerErrorBody);
+    expect(e.response.status).toBe(500);
   }
 });

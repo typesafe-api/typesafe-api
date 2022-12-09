@@ -1,7 +1,7 @@
 import { Controller, TRequest, TResponse } from '@typesafe-api/express';
 import { GetDogEndpointDef } from '../../core/test/example-routes';
 
-export const reqTest: Controller<GetDogEndpointDef> = (
+export const reqTest: Controller<GetDogEndpointDef> = async (
   req: TRequest<GetDogEndpointDef>,
   res: TResponse<GetDogEndpointDef>
 ) => {

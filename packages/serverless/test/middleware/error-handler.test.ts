@@ -5,13 +5,13 @@ import {
 } from '../../../core/test/example-api';
 import { createHandler, TypesafeApiHandler } from '@typesafe-api/serverless';
 import middy from '@middy/core';
-import { AbstractEndpointDef } from '@typesafe-api/core';
-import { mockRequest } from '../util';
 import {
+  AbstractEndpointDef,
   HttpErrorLogFn,
   OtherErrorLogFn,
-  typesafeApiErrors,
-} from '../../src/middleware/typesafe-api-errors';
+} from '@typesafe-api/core';
+import { mockRequest } from '../util';
+import { typesafeApiErrors } from '../../src/middleware/typesafe-api-errors';
 
 const internalServerErrorBody: ApiErrorBody = {
   msg: 'Default internal server error',

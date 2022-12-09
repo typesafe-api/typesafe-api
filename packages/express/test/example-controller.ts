@@ -1,14 +1,15 @@
-import { Controller, sendError, TRequest, TResponse } from '@typesafe-api/express';
+import { Controller, TRequest, TResponse } from '@typesafe-api/express';
 import {
   CreateDogEndpointDef,
   GetDogEndpointDef,
   GetDogsEndpointDef,
-  HeaderTestEndpointDef
+  HeaderTestEndpointDef,
 } from '../../core/test/example-routes';
+import { throwHttpError } from '../../core/test/example-api';
 import { dogDB, DogWithId } from '../../core/test/dog';
 import ObjectID from 'bson-objectid';
 
-export const createDogController: Controller<CreateDogEndpointDef> = (
+export const createDogController: Controller<CreateDogEndpointDef> = async (
   req: TRequest<CreateDogEndpointDef>,
   res: TResponse<CreateDogEndpointDef>
 ) => {
@@ -21,7 +22,7 @@ export const createDogController: Controller<CreateDogEndpointDef> = (
   res.send(dogWithId);
 };
 
-export const getDogController: Controller<GetDogEndpointDef> = (
+export const getDogController: Controller<GetDogEndpointDef> = async (
   req: TRequest<GetDogEndpointDef>,
   res: TResponse<GetDogEndpointDef>
 ) => {
@@ -29,27 +30,29 @@ export const getDogController: Controller<GetDogEndpointDef> = (
   if (dogDB.has(_id)) {
     res.send(dogDB.get(_id));
   } else {
-    sendError(res, {
-      statusCode: 404,
-      body: {
-        msg: `No dog with _id ${_id} could be found`,
-      }
-    });
+    throwHttpError(404, `No dog with _id ${_id} could be found`);
   }
 };
 
-export const getDogsController: Controller<GetDogsEndpointDef> = (
+export const getDogsController: Controller<GetDogsEndpointDef> = async (
   req: TRequest<GetDogsEndpointDef>,
   res: TResponse<GetDogsEndpointDef>
 ) => {
   res.send(Array.from(dogDB.values()));
 };
 
-export const headerTestController: Controller<HeaderTestEndpointDef> = (
+export const headerTestController: Controller<HeaderTestEndpointDef> = async (
   req: TRequest<HeaderTestEndpointDef>,
   res: TResponse<HeaderTestEndpointDef>
 ) => {
   const value = req.get('myheader');
   res.set('test-header', value);
   res.send({ headerValue: value });
+};
+
+export const internalErrorTestController: Controller<HeaderTestEndpointDef> = async (
+  req: TRequest<HeaderTestEndpointDef>,
+  res: TResponse<HeaderTestEndpointDef>
+) => {
+  throw Error("Example error");
 };

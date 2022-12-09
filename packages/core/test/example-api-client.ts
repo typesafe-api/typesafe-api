@@ -6,6 +6,8 @@ import {
   getDogsRoute,
   HeaderTestEndpointDef,
   headerTestRoute,
+  InternalErrorTestEndpointDef,
+  internalErrorTestRoute,
   postDogRoute,
 } from './example-routes';
 import { DefaultReqOpts } from './example-api';
@@ -46,5 +48,9 @@ export class RootApiClient extends AbstractApiClient<DefaultReqOpts> {
   public headerTest = createRouteRequest<HeaderTestEndpointDef>(
     this,
     headerTestRoute
+  );
+  public internalErrorTest = createRouteRequest<InternalErrorTestEndpointDef>(
+    this,
+    internalErrorTestRoute
   );
 }

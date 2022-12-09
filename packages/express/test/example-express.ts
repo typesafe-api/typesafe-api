@@ -9,9 +9,22 @@ import {
   getDogsRoute,
   HeaderTestEndpointDef,
   headerTestRoute,
+  InternalErrorTestEndpointDef,
+  internalErrorTestRoute,
   postDogRoute,
 } from '../../core/test/example-routes';
-import { createDogController, getDogController, getDogsController, headerTestController } from './example-controller';
+import {
+  createDogController,
+  getDogController,
+  getDogsController,
+  headerTestController,
+  internalErrorTestController,
+} from './example-controller';
+import { typesafeApiErrors } from '../src/middleware';
+import {
+  AbstractApiErrorType,
+  ApiErrorBody,
+} from '../../core/test/example-api';
 
 const app = express();
 
@@ -47,7 +60,24 @@ const eHeaderTestRoute: ExpressRoute<HeaderTestEndpointDef> = {
 };
 routes.push(eHeaderTestRoute);
 
+const eInternalErrorTestRoute: ExpressRoute<InternalErrorTestEndpointDef> = {
+  ...internalErrorTestRoute,
+  middleware: [],
+  controller: internalErrorTestController,
+};
+routes.push(eInternalErrorTestRoute);
+
 addRoutes(app, routes);
+
+export const internalServerErrorBody: ApiErrorBody = {
+  msg: 'Internal server error',
+};
+
+app.use(
+  typesafeApiErrors<AbstractApiErrorType>({
+    internalServerErrorBody,
+  })
+);
 
 export const startApp = async (): Promise<{ server: any; baseUrl: string }> => {
   const [port] = await findFreePorts();

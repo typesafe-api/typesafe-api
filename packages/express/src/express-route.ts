@@ -1,9 +1,9 @@
 import { Controller } from './controller';
-import { RequestHandler, Router } from 'express';
+import { ErrorRequestHandler, RequestHandler, Router } from 'express';
 import { AbstractEndpointDef, Route } from '@typesafe-api/core';
 
 export interface ExpressRoute<T extends AbstractEndpointDef> extends Route {
-  middleware: RequestHandler[];
+  middleware: Array<RequestHandler | ErrorRequestHandler>;
   controller: Controller<T>;
 }
 
@@ -13,7 +13,10 @@ export const addRoutes = (r: Router, routes: ExpressRoute<any>[]): void => {
   }
 };
 
-export const addRoute = <T extends AbstractEndpointDef>(r: Router, route: ExpressRoute<T>): void => {
+export const addRoute = <T extends AbstractEndpointDef>(
+  r: Router,
+  route: ExpressRoute<T>
+): void => {
   const { method, path, middleware, controller } = route;
   r[method](path, middleware, controller);
 };
