@@ -1,5 +1,12 @@
 # typesafe-api 
 
+# N.B
+These docs are for `V0.x.x` of `typesafe-api`. 
+
+`V1.x.x` introduces a few break changes that improve error handling. 
+
+For now either stick with `V0.x.x` or consult the unit tests in this repo to see how errors have changed.
+
 ### Let your compiler tell you if your API is broken.
 
 We have typesafe frontends and typesafe backends, why not typesafe APIs?
