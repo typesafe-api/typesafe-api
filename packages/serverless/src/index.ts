@@ -70,12 +70,6 @@ export const createHandler = <T extends AbstractEndpointDef>(
   };
 };
 
-export const createError = <T extends AbstractEndpointDef>(
-  errorType: T['errorType']
-): TypesafeApiHandlerError<T> => {
-  return { statusCode: errorType.statusCode, body: errorType };
-};
-
 export const relativeToCWD = (absPath: string) => {
   return `${absPath.split(process.cwd())[1].substring(1).replace(/\\/g, '/')}`;
 };
