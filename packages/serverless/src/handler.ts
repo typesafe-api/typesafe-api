@@ -1,6 +1,6 @@
 import { AWS } from '@serverless/typescript';
 import { AbstractEndpointDef, ResponseBody, Route } from '@typesafe-api/core';
-import { TypesafeApiEvent } from './middleware/typesafe-api';
+import { TypesafeApiEvent } from './middleware';
 import { Handler } from 'aws-lambda';
 
 export type TypesafeApiHandlerError<T extends AbstractEndpointDef> = {
