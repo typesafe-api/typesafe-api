@@ -2,8 +2,9 @@ import { MiddlewareObj } from '@middy/core';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { AbstractEndpointDef, serialize } from '@typesafe-api/core';
 
-export interface TypesafeApiEvent<T extends AbstractEndpointDef = AbstractEndpointDef>
-  extends APIGatewayProxyEvent {
+export interface TypesafeApiEvent<
+  T extends AbstractEndpointDef = AbstractEndpointDef
+> extends APIGatewayProxyEvent {
   typesafeApi: {
     query: T['requestOptions']['query'];
     params: T['requestOptions']['params'];
@@ -12,7 +13,7 @@ export interface TypesafeApiEvent<T extends AbstractEndpointDef = AbstractEndpoi
   };
 }
 
-export const typesafeApi = (): MiddlewareObj<APIGatewayProxyEvent> => {
+export const typesafeApi = (): MiddlewareObj<TypesafeApiEvent> => {
   return {
     before: async (request) => {
       const { event } = request;
@@ -21,7 +22,7 @@ export const typesafeApi = (): MiddlewareObj<APIGatewayProxyEvent> => {
         ? Buffer.from(body, 'base64').toString()
         : body;
       const parsedBody = JSON.parse(data);
-      (event as TypesafeApiEvent<AbstractEndpointDef>).typesafeApi = {
+      event.typesafeApi = {
         query: event.queryStringParameters ?? {},
         params: event.pathParameters ?? {},
         body: parsedBody,
