@@ -3,7 +3,10 @@ import {
   ApiErrorBody,
   throwHttpError,
 } from '../../../core/test/example-api';
-import { createHandler, TypesafeApiHandler } from '@typesafe-api/serverless';
+import {
+  typesafeApiErrors,
+  TypesafeApiHandler,
+} from '@typesafe-api/serverless';
 import middy from '@middy/core';
 import {
   AbstractEndpointDef,
@@ -11,7 +14,7 @@ import {
   OtherErrorLogFn,
 } from '@typesafe-api/core';
 import { mockRequest } from '../util';
-import { typesafeApiErrors } from '../../src/middleware/typesafe-api-errors';
+import { Handler } from 'aws-lambda';
 
 const internalServerErrorBody: ApiErrorBody = {
   msg: 'Default internal server error',
@@ -36,7 +39,7 @@ it('Internal server error', async () => {
     otherErrorLogFn,
   });
 
-  const middyfied = middy(createHandler(handler)).use(errHandler);
+  const middyfied = middy(handler as Handler).use(errHandler);
   const { event, context } = mockRequest();
   const resp = await middyfied(event, context);
   expect(resp).toEqual({
@@ -73,7 +76,7 @@ it('TypesafeHttpError', async () => {
     otherErrorLogFn,
   });
 
-  const middyfied = middy(createHandler(handler)).use(errHandler);
+  const middyfied = middy(handler as Handler).use(errHandler);
   const { event, context } = mockRequest();
   const resp = await middyfied(event, context);
   expect(resp).toEqual({

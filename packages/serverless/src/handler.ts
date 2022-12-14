@@ -1,40 +1,7 @@
-import { APIGatewayProxyEvent } from 'aws-lambda';
-import { Context, Handler } from 'aws-lambda/handler';
 import { AWS } from '@serverless/typescript';
-import {
-  AbstractEndpointDef,
-  ReqOptions,
-  ResponseBody,
-  Route,
-  serialize,
-} from '@typesafe-api/core';
-
-type ParsedAPIGatewayProxyEvent<T extends ReqOptions> = APIGatewayProxyEvent & {
-  typesafeApi: {
-    query: T['query'];
-    params: T['params'];
-    body: T['body'];
-    headers: T['headers'];
-  };
-};
-
-const parseEvent = <T extends ReqOptions>(
-  event: APIGatewayProxyEvent
-): ParsedAPIGatewayProxyEvent<T> => {
-  const { body, isBase64Encoded } = event;
-  const data = isBase64Encoded ? Buffer.from(body, 'base64').toString() : body;
-  const parsedBody = JSON.parse(data) as T['body'];
-
-  return {
-    ...event,
-    typesafeApi: {
-      query: (event.queryStringParameters ?? {}) as T['query'],
-      params: (event.pathParameters ?? {}) as T['params'],
-      body: parsedBody,
-      headers: (event.headers ?? {}) as T['headers'],
-    },
-  };
-};
+import { AbstractEndpointDef, ResponseBody, Route } from '@typesafe-api/core';
+import { TypesafeApiEvent } from './middleware/typesafe-api';
+import { Handler } from 'aws-lambda';
 
 export type TypesafeApiHandlerError<T extends AbstractEndpointDef> = {
   statusCode: T['errorType']['statusCode'];
@@ -50,25 +17,10 @@ export type TypesafeApiHandlerResponse<T extends AbstractEndpointDef> =
   | TypesafeApiHandlerSuccess<T>
   | TypesafeApiHandlerError<T>;
 
-export type TypesafeApiHandler<T extends AbstractEndpointDef> = (
-  event: ParsedAPIGatewayProxyEvent<T['requestOptions']>,
-  context: Context
-) => TypesafeApiHandlerResponse<T> | Promise<TypesafeApiHandlerResponse<T>>;
-
-export const createHandler = <T extends AbstractEndpointDef>(
-  typesafeHandler: TypesafeApiHandler<T>
-): Handler => {
-  return async (event: APIGatewayProxyEvent, context: Context) => {
-    const { statusCode, body } = await typesafeHandler(
-      parseEvent(event),
-      context
-    );
-    return {
-      statusCode,
-      body: serialize(body),
-    };
-  };
-};
+export type TypesafeApiHandler<
+  EndpointDef extends AbstractEndpointDef,
+  EventType extends TypesafeApiEvent<EndpointDef> = TypesafeApiEvent<EndpointDef>
+> = Handler<EventType, TypesafeApiHandlerResponse<EndpointDef>>;
 
 export const relativeToCWD = (absPath: string) => {
   return `${absPath.split(process.cwd())[1].substring(1).replace(/\\/g, '/')}`;
