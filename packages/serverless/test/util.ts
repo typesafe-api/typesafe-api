@@ -7,7 +7,7 @@ interface MockRequestParams {
   pathParameters?: Record<string, unknown>;
 }
 
-export const mockRequest = (params: MockRequestParams) => {
+export const mockRequest = (params: MockRequestParams = {}) => {
   const { body = {}, pathParameters = {} } = params;
   const event = createEvent('aws:apiGateway', {
     body: JSON.stringify(body),
