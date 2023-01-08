@@ -23,12 +23,7 @@ export type TypesafeApiHandler<
 > = Handler<EventType, TypesafeApiHandlerResponse<EndpointDef>>;
 
 export const relativeToCWD = (absPath: string) => {
-  return (
-    `${absPath.split(process.cwd())[1].substring(1).replace(/\\/g, '/')}`
-      // Escape square brackets in path
-      .replace(/\[/g, '\\[')
-      .replace(/]/g, '\\]')
-  );
+  return `${absPath.split(process.cwd())[1].substring(1).replace(/\\/g, '/')}`;
 };
 
 export interface SlsCreateFunctionParams {
