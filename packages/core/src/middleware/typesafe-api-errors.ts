@@ -1,4 +1,4 @@
-import {AbstractErrorType} from '@typesafe-api/core';
+import { AbstractErrorType } from '../error';
 
 export type HttpErrorLogFn = (httpError: AbstractErrorType) => Promise<void>;
 
