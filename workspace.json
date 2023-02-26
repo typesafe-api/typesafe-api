@@ -6,6 +6,7 @@
     "core": "packages/core",
     "express": "packages/express",
     "open-api": "packages/open-api",
-    "serverless": "packages/serverless"
+    "serverless": "packages/serverless",
+    "utils": "packages/utils"
   }
 }
