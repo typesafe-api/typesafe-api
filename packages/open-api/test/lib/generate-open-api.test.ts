@@ -17,8 +17,6 @@ it('generateOpenApi(..)', async () => {
     version,
   });
 
-  console.log(JSON.stringify(apiSpec, null, 2));
-
   expect(apiSpec).toEqual({
     info: {
       title: 'Test API',
