@@ -42,6 +42,27 @@ export const getDogsRoute: Route<GetDogsEndpointDef> = {
 };
 
 /**
+ * Search dogs
+ */
+
+export interface GetSearchDogsReq extends ReqOptions {
+  query: {
+    searchQuery: string;
+    breed?: string;
+  };
+}
+
+export type GetSearchDogsEndpointDef = ApiEndpoint<
+  GetSearchDogsReq,
+  DogsWithIdRes
+>;
+
+export const getSearchDogsRoute: Route<GetSearchDogsEndpointDef> = {
+  method: 'get',
+  path: '/dog/search',
+};
+
+/**
  * Get dog
  */
 
@@ -84,7 +105,6 @@ export interface HeaderTestResp extends ResOptions {
 }
 
 export type HeaderTestEndpointDef = ApiEndpoint<ReqOptions, HeaderTestResp>;
-
 
 export const headerTestRoute: Route<HeaderTestEndpointDef> = {
   method: 'get',
