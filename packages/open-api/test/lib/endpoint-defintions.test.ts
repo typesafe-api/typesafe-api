@@ -14,6 +14,7 @@ it('Generate schema', async () => {
   expect(processedTypes).toEqual([
     'CreateDogEndpointDef',
     'GetDogsEndpointDef',
+    'GetSearchDogsEndpointDef',
     'GetDogEndpointDef',
     'HeaderTestEndpointDef',
     'InternalErrorTestEndpointDef',
