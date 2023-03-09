@@ -1,6 +1,7 @@
 import {
   HeadersObject,
   OpenAPIObject,
+  ParameterObject,
   RequestBodyObject,
   ResponsesObject,
 } from 'openapi3-ts';
@@ -22,6 +23,8 @@ interface ParsedJsonSchema {
     requestOptions: {
       properties: {
         body: Schema;
+        query: Schema;
+        params: Schema;
       };
     };
     errorType: {
@@ -105,6 +108,35 @@ const parseErrorResponses = (
   return responses;
 };
 
+const parseParameters = (parsedSchema: ParsedJsonSchema): ParameterObject[] => {
+  const { query, params } = parsedSchema.properties.requestOptions.properties;
+
+  console.log(query);
+
+  const parsedParams: ParameterObject[] = [];
+
+  // If we have only 1 optional query param then it is treated as a union e.g. {name: string} | {}.
+  // The last element of {@code query.anyOf} is all we need to process as the first is just an empty
+  // object
+  const queryParamsObj = query.anyOf
+    ? query.anyOf[query.anyOf.length - 1]
+    : query;
+
+  for (const [name, schema] of Object.entries(queryParamsObj.properties) as [
+    String,
+    Schema
+  ]) {
+    parsedParams.push({
+      in: 'query',
+      name,
+      schema,
+      required: !!queryParamsObj.required?.includes(name),
+    });
+  }
+
+  return parsedParams;
+};
+
 const buildOperationObject = (jsonSchema: Definition): OperationObject => {
   const parsedSchema = jsonSchemaParser.parse(jsonSchema);
 
@@ -114,6 +146,11 @@ const buildOperationObject = (jsonSchema: Definition): OperationObject => {
       ...parseErrorResponses(parsedSchema),
     },
   };
+
+  const parameters = parseParameters(parsedSchema);
+  if (parameters.length) {
+    operation.parameters = parameters;
+  }
 
   const requestBody = parseRequestBody(parsedSchema);
   if (requestBody) {

@@ -17,6 +17,8 @@ it('generateOpenApi(..)', async () => {
     version,
   });
 
+  console.log(JSON.stringify(apiSpec, null, 2));
+
   expect(apiSpec).toEqual({
     info: {
       title: 'Test API',
@@ -25,108 +27,179 @@ it('generateOpenApi(..)', async () => {
     openapi: '3.0.3',
     paths: {
       '/dog': {
+        post: {
+          responses: {
+            '200': {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      _id: {
+                        type: 'string',
+                      },
+                      name: {
+                        type: 'string',
+                      },
+                      breed: {
+                        type: 'string',
+                      },
+                    },
+                    required: ['_id', 'breed', 'name'],
+                  },
+                },
+              },
+              headers: {},
+            },
+            '500': {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      msg: {
+                        type: 'string',
+                      },
+                    },
+                    required: ['msg'],
+                  },
+                },
+              },
+              headers: {},
+            },
+          },
+          requestBody: {
+            type: 'object',
+            properties: {
+              name: {
+                type: 'string',
+              },
+              breed: {
+                type: 'string',
+              },
+            },
+            required: ['breed', 'name'],
+          },
+        },
         get: {
           responses: {
             '200': {
               content: {
                 'application/json': {
                   schema: {
+                    type: 'array',
                     items: {
+                      type: 'object',
                       properties: {
                         _id: {
-                          type: 'string',
-                        },
-                        breed: {
                           type: 'string',
                         },
                         name: {
                           type: 'string',
                         },
+                        breed: {
+                          type: 'string',
+                        },
                       },
                       required: ['_id', 'breed', 'name'],
-                      type: 'object',
                     },
-                    type: 'array',
                   },
                 },
               },
-              description: undefined,
               headers: {},
             },
             '500': {
               content: {
                 'application/json': {
                   schema: {
+                    type: 'object',
                     properties: {
                       msg: {
                         type: 'string',
                       },
                     },
                     required: ['msg'],
-                    type: 'object',
                   },
                 },
               },
-              description: undefined,
               headers: {},
             },
           },
-        },
-        post: {
-          requestBody: {
-            properties: {
-              breed: {
+          parameters: [
+            {
+              in: 'query',
+              name: 'breed',
+              schema: {
                 type: 'string',
               },
-              name: {
-                type: 'string',
-              },
+              required: false,
             },
-            required: ['breed', 'name'],
-            type: 'object',
-          },
+          ],
+        },
+      },
+      '/dog/search': {
+        get: {
           responses: {
             '200': {
               content: {
                 'application/json': {
                   schema: {
-                    properties: {
-                      _id: {
-                        type: 'string',
+                    type: 'array',
+                    items: {
+                      type: 'object',
+                      properties: {
+                        _id: {
+                          type: 'string',
+                        },
+                        name: {
+                          type: 'string',
+                        },
+                        breed: {
+                          type: 'string',
+                        },
                       },
-                      breed: {
-                        type: 'string',
-                      },
-                      name: {
-                        type: 'string',
-                      },
+                      required: ['_id', 'breed', 'name'],
                     },
-                    required: ['_id', 'breed', 'name'],
-                    type: 'object',
                   },
                 },
               },
-              description: undefined,
               headers: {},
             },
             '500': {
               content: {
                 'application/json': {
                   schema: {
+                    type: 'object',
                     properties: {
                       msg: {
                         type: 'string',
                       },
                     },
                     required: ['msg'],
-                    type: 'object',
                   },
                 },
               },
-              description: undefined,
               headers: {},
             },
           },
+          parameters: [
+            {
+              in: 'query',
+              name: 'searchQuery',
+              schema: {
+                type: 'string',
+              },
+              required: true,
+            },
+            {
+              in: 'query',
+              name: 'breed',
+              schema: {
+                type: 'string',
+              },
+              required: false,
+            },
+          ],
         },
       },
       '/dog/:_id': {
@@ -136,40 +209,38 @@ it('generateOpenApi(..)', async () => {
               content: {
                 'application/json': {
                   schema: {
+                    type: 'object',
                     properties: {
                       _id: {
-                        type: 'string',
-                      },
-                      breed: {
                         type: 'string',
                       },
                       name: {
                         type: 'string',
                       },
+                      breed: {
+                        type: 'string',
+                      },
                     },
                     required: ['_id', 'breed', 'name'],
-                    type: 'object',
                   },
                 },
               },
-              description: undefined,
               headers: {},
             },
             '404': {
               content: {
                 'application/json': {
                   schema: {
+                    type: 'object',
                     properties: {
                       msg: {
                         type: 'string',
                       },
                     },
                     required: ['msg'],
-                    type: 'object',
                   },
                 },
               },
-              description: undefined,
               headers: {},
             },
             '500': {
@@ -186,7 +257,6 @@ it('generateOpenApi(..)', async () => {
                   },
                 },
               },
-              description: undefined,
               headers: {},
             },
           },
@@ -199,17 +269,16 @@ it('generateOpenApi(..)', async () => {
               content: {
                 'application/json': {
                   schema: {
+                    type: 'object',
                     properties: {
                       headerValue: {
                         type: 'string',
                       },
                     },
                     required: ['headerValue'],
-                    type: 'object',
                   },
                 },
               },
-              description: undefined,
               headers: {
                 'test-header': {
                   schema: {
@@ -222,17 +291,16 @@ it('generateOpenApi(..)', async () => {
               content: {
                 'application/json': {
                   schema: {
+                    type: 'object',
                     properties: {
                       msg: {
                         type: 'string',
                       },
                     },
                     required: ['msg'],
-                    type: 'object',
                   },
                 },
               },
-              description: undefined,
               headers: {
                 'test-header': {
                   schema: {
@@ -251,29 +319,27 @@ it('generateOpenApi(..)', async () => {
               content: {
                 'application/json': {
                   schema: {
-                    properties: {},
                     type: 'object',
+                    properties: {},
                   },
                 },
               },
-              description: undefined,
               headers: {},
             },
             '500': {
               content: {
                 'application/json': {
                   schema: {
+                    type: 'object',
                     properties: {
                       msg: {
                         type: 'string',
                       },
                     },
                     required: ['msg'],
-                    type: 'object',
                   },
                 },
               },
-              description: undefined,
               headers: {},
             },
           },
