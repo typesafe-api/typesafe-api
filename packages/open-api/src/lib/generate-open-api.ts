@@ -113,13 +113,15 @@ const parseErrorResponses = (
 };
 
 const parseParameters = (parsedSchema: ParsedJsonSchema): ParameterObject[] => {
-  const { query, params, headers } =
-    parsedSchema.properties.requestOptions.properties;
-
   const parsedParams: ParameterObject[] = [];
 
   const addParams = (location: ParameterLocation, obj: Schema) => {
-    for (const [name, schema] of Object.entries(obj.properties) as [
+    // If we have only 1 optional field in the typescript type then it is treated as a union e.g. {name: string} | {}.
+    // The last element of {@code obj.anyOf} is all we need to process as the first is just an empty
+    // object
+    const selectedObj = obj.anyOf ? obj.anyOf[obj.anyOf.length - 1] : obj;
+
+    for (const [name, schema] of Object.entries(selectedObj.properties) as [
       String,
       Schema
     ]) {
@@ -127,19 +129,15 @@ const parseParameters = (parsedSchema: ParsedJsonSchema): ParameterObject[] => {
         in: location,
         name,
         schema,
-        required: !!obj.required?.includes(name),
+        required: !!selectedObj.required?.includes(name),
       });
     }
   };
 
-  // If we have only 1 optional query param then it is treated as a union e.g. {name: string} | {}.
-  // The last element of {@code query.anyOf} is all we need to process as the first is just an empty
-  // object
-  const queryParamsObj = query.anyOf
-    ? query.anyOf[query.anyOf.length - 1]
-    : query;
+  const { query, params, headers } =
+    parsedSchema.properties.requestOptions.properties;
 
-  addParams('query', queryParamsObj);
+  addParams('query', query);
 
   addParams('path', params);
 
