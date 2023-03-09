@@ -28,6 +28,7 @@ interface ParsedJsonSchema {
         body: Schema;
         query: Schema;
         params: Schema;
+        headers: Schema;
       };
     };
     errorType: {
@@ -112,7 +113,8 @@ const parseErrorResponses = (
 };
 
 const parseParameters = (parsedSchema: ParsedJsonSchema): ParameterObject[] => {
-  const { query, params } = parsedSchema.properties.requestOptions.properties;
+  const { query, params, headers } =
+    parsedSchema.properties.requestOptions.properties;
 
   const parsedParams: ParameterObject[] = [];
 
@@ -140,6 +142,8 @@ const parseParameters = (parsedSchema: ParsedJsonSchema): ParameterObject[] => {
   addParams('query', queryParamsObj);
 
   addParams('path', params);
+
+  addParams('header', headers);
 
   return parsedParams;
 };

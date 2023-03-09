@@ -68,6 +68,16 @@ it('generateOpenApi(..)', async () => {
               headers: {},
             },
           },
+          parameters: [
+            {
+              in: 'header',
+              name: 'myheader',
+              schema: {
+                type: 'string',
+              },
+              required: true,
+            },
+          ],
           requestBody: {
             type: 'object',
             properties: {
@@ -134,6 +144,14 @@ it('generateOpenApi(..)', async () => {
               },
               required: false,
             },
+            {
+              in: 'header',
+              name: 'myheader',
+              schema: {
+                type: 'string',
+              },
+              required: true,
+            },
           ],
         },
       },
@@ -198,6 +216,14 @@ it('generateOpenApi(..)', async () => {
                 type: 'string',
               },
               required: false,
+            },
+            {
+              in: 'header',
+              name: 'myheader',
+              schema: {
+                type: 'string',
+              },
+              required: true,
             },
           ],
         },
@@ -269,6 +295,14 @@ it('generateOpenApi(..)', async () => {
               },
               required: true,
             },
+            {
+              in: 'header',
+              name: 'myheader',
+              schema: {
+                type: 'string',
+              },
+              required: true,
+            },
           ],
         },
       },
@@ -320,6 +354,16 @@ it('generateOpenApi(..)', async () => {
               },
             },
           },
+          parameters: [
+            {
+              in: 'header',
+              name: 'myheader',
+              schema: {
+                type: 'string',
+              },
+              required: true,
+            },
+          ],
         },
       },
       '/internal-error': {
@@ -353,6 +397,16 @@ it('generateOpenApi(..)', async () => {
               headers: {},
             },
           },
+          parameters: [
+            {
+              in: 'header',
+              name: 'myheader',
+              schema: {
+                type: 'string',
+              },
+              required: true,
+            },
+          ],
         },
       },
     },
