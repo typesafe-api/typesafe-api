@@ -26,8 +26,8 @@ export const relativeToCWD = (absPath: string) => {
   return `${absPath.split(process.cwd())[1].substring(1).replace(/\\/g, '/')}`;
 };
 
-export interface SlsCreateFunctionParams {
-  route: Route;
+export interface SlsCreateFunctionParams<T extends AbstractEndpointDef> {
+  route: Route<T>;
   // Relative to serverless project root
   handlerDir: string;
   handlerFile?: string;
@@ -37,8 +37,8 @@ export interface SlsCreateFunctionParams {
 
 const dot = '.';
 
-export const slsCreateFunction = (
-  params: SlsCreateFunctionParams
+export const slsCreateFunction = <T extends AbstractEndpointDef>(
+  params: SlsCreateFunctionParams<T>
 ): AWS['functions'][string] => {
   const {
     route,
