@@ -1,15 +1,5 @@
-/* eslint-disable prettier/prettier */
-import fs from 'fs';
-import readline from 'readline';
 import { EXPECTED_ERRORS_START } from './util';
-
-const readLines = (fullFilePath: string) => {
-  const fileStream = fs.createReadStream(fullFilePath);
-  return readline.createInterface({
-    input: fileStream,
-    crlfDelay: Infinity,
-  });
-};
+import { readLines } from '@typesafe-api/utils';
 
 const startPattern = new RegExp(`//\\s*${EXPECTED_ERRORS_START}\\b`);
 
