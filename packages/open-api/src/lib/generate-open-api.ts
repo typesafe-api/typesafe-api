@@ -1,4 +1,9 @@
-import { HeadersObject, OpenAPIObject, ResponsesObject } from 'openapi3-ts';
+import {
+  HeadersObject,
+  OpenAPIObject,
+  RequestBodyObject,
+  ResponsesObject,
+} from 'openapi3-ts';
 import { EndpointDefinition } from '@typesafe-api/open-api';
 import { PathsObject } from 'openapi3-ts/dist/mjs/model/OpenApi';
 import { OperationObject, ResponseObject } from 'openapi3-ts/src/model/OpenApi';
@@ -12,6 +17,11 @@ interface ParsedJsonSchema {
       properties: {
         body: Schema;
         headers: Schema;
+      };
+    };
+    requestOptions: {
+      properties: {
+        body: Schema;
       };
     };
     errorType: {
@@ -40,6 +50,20 @@ const parseHeaders = (headers: Schema): HeadersObject => {
     };
   }
   return headersObj;
+};
+
+const parseRequestBody = (
+  parsedSchema: ParsedJsonSchema
+): RequestBodyObject | undefined => {
+  const { body } = parsedSchema.properties.requestOptions.properties;
+
+  const noBodyRequired =
+    body.type === 'object' && !Object.keys(body.properties).length;
+  if (noBodyRequired) {
+    return undefined;
+  }
+
+  return body;
 };
 
 const parseResponseOptions = (
@@ -83,12 +107,20 @@ const parseErrorResponses = (
 
 const buildOperationObject = (jsonSchema: Definition): OperationObject => {
   const parsedSchema = jsonSchemaParser.parse(jsonSchema);
-  return {
+
+  const operation: OperationObject = {
     responses: {
       '200': parseResponseOptions(parsedSchema),
       ...parseErrorResponses(parsedSchema),
     },
   };
+
+  const requestBody = parseRequestBody(parsedSchema);
+  if (requestBody) {
+    operation.requestBody = requestBody;
+  }
+
+  return operation;
 };
 
 const parseEndpointDefs = async (

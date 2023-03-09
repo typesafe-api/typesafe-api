@@ -19,95 +19,111 @@ it('generateOpenApi(..)', async () => {
 
   expect(apiSpec).toEqual({
     info: {
-      title,
-      version,
+      title: 'Test API',
+      version: '1',
     },
     openapi: '3.0.3',
     paths: {
       '/dog': {
-        post: {
-          responses: {
-            '200': {
-              content: {
-                'application/json': {
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      _id: {
-                        type: 'string',
-                      },
-                      name: {
-                        type: 'string',
-                      },
-                      breed: {
-                        type: 'string',
-                      },
-                    },
-                    required: ['_id', 'breed', 'name'],
-                  },
-                },
-              },
-              headers: {},
-            },
-            '500': {
-              content: {
-                'application/json': {
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      msg: {
-                        type: 'string',
-                      },
-                    },
-                    required: ['msg'],
-                  },
-                },
-              },
-              headers: {},
-            },
-          },
-        },
         get: {
           responses: {
             '200': {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'array',
                     items: {
-                      type: 'object',
                       properties: {
                         _id: {
-                          type: 'string',
-                        },
-                        name: {
                           type: 'string',
                         },
                         breed: {
                           type: 'string',
                         },
+                        name: {
+                          type: 'string',
+                        },
                       },
                       required: ['_id', 'breed', 'name'],
+                      type: 'object',
                     },
+                    type: 'array',
                   },
                 },
               },
+              description: undefined,
               headers: {},
             },
             '500': {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'object',
                     properties: {
                       msg: {
                         type: 'string',
                       },
                     },
                     required: ['msg'],
+                    type: 'object',
                   },
                 },
               },
+              description: undefined,
+              headers: {},
+            },
+          },
+        },
+        post: {
+          requestBody: {
+            properties: {
+              breed: {
+                type: 'string',
+              },
+              name: {
+                type: 'string',
+              },
+            },
+            required: ['breed', 'name'],
+            type: 'object',
+          },
+          responses: {
+            '200': {
+              content: {
+                'application/json': {
+                  schema: {
+                    properties: {
+                      _id: {
+                        type: 'string',
+                      },
+                      breed: {
+                        type: 'string',
+                      },
+                      name: {
+                        type: 'string',
+                      },
+                    },
+                    required: ['_id', 'breed', 'name'],
+                    type: 'object',
+                  },
+                },
+              },
+              description: undefined,
+              headers: {},
+            },
+            '500': {
+              content: {
+                'application/json': {
+                  schema: {
+                    properties: {
+                      msg: {
+                        type: 'string',
+                      },
+                    },
+                    required: ['msg'],
+                    type: 'object',
+                  },
+                },
+              },
+              description: undefined,
               headers: {},
             },
           },
@@ -120,38 +136,40 @@ it('generateOpenApi(..)', async () => {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'object',
                     properties: {
                       _id: {
-                        type: 'string',
-                      },
-                      name: {
                         type: 'string',
                       },
                       breed: {
                         type: 'string',
                       },
+                      name: {
+                        type: 'string',
+                      },
                     },
                     required: ['_id', 'breed', 'name'],
+                    type: 'object',
                   },
                 },
               },
+              description: undefined,
               headers: {},
             },
             '404': {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'object',
                     properties: {
                       msg: {
                         type: 'string',
                       },
                     },
                     required: ['msg'],
+                    type: 'object',
                   },
                 },
               },
+              description: undefined,
               headers: {},
             },
             '500': {
@@ -168,6 +186,7 @@ it('generateOpenApi(..)', async () => {
                   },
                 },
               },
+              description: undefined,
               headers: {},
             },
           },
@@ -180,16 +199,17 @@ it('generateOpenApi(..)', async () => {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'object',
                     properties: {
                       headerValue: {
                         type: 'string',
                       },
                     },
                     required: ['headerValue'],
+                    type: 'object',
                   },
                 },
               },
+              description: undefined,
               headers: {
                 'test-header': {
                   schema: {
@@ -202,16 +222,17 @@ it('generateOpenApi(..)', async () => {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'object',
                     properties: {
                       msg: {
                         type: 'string',
                       },
                     },
                     required: ['msg'],
+                    type: 'object',
                   },
                 },
               },
+              description: undefined,
               headers: {
                 'test-header': {
                   schema: {
@@ -230,27 +251,29 @@ it('generateOpenApi(..)', async () => {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'object',
                     properties: {},
+                    type: 'object',
                   },
                 },
               },
+              description: undefined,
               headers: {},
             },
             '500': {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'object',
                     properties: {
                       msg: {
                         type: 'string',
                       },
                     },
                     required: ['msg'],
+                    type: 'object',
                   },
                 },
               },
+              description: undefined,
               headers: {},
             },
           },
