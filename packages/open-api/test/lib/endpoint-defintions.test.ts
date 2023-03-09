@@ -1,13 +1,17 @@
 import path from 'node:path';
-import { generateJsonSchema } from '@typesafe-api/open-api';
+import { endpointDefinitions } from '@typesafe-api/open-api';
 
 it('Generate schema', async () => {
-  const schemas = generateJsonSchema({
+  const endpointDefs = await endpointDefinitions({
     tsConfigFile: path.join(__dirname, '../../../core/tsconfig.spec.json'),
     files: [path.join(__dirname, '../../../core/test/example-routes.ts')],
   });
 
-  expect(Object.keys(schemas)).toEqual([
+  const processedTypes = endpointDefs.map(
+    (endpointDef) => endpointDef.typeName
+  );
+
+  expect(processedTypes).toEqual([
     'CreateDogEndpointDef',
     'GetDogsEndpointDef',
     'GetDogEndpointDef',

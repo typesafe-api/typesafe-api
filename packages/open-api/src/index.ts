@@ -1,1 +1,1 @@
-export * from './lib/generate-json-schema';
+export * from './lib/endpoint-definitions';
