@@ -28,7 +28,13 @@ export const postDogRoute: Route<CreateDogEndpointDef> = {
  * Get dogs
  */
 
-export type GetDogsEndpointDef = ApiEndpoint<ReqOptions, DogsWithIdRes>;
+export interface GetDogsReq extends ReqOptions {
+  query: {
+    breed?: string;
+  };
+}
+
+export type GetDogsEndpointDef = ApiEndpoint<GetDogsReq, DogsWithIdRes>;
 
 export const getDogsRoute: Route<GetDogsEndpointDef> = {
   method: 'get',
