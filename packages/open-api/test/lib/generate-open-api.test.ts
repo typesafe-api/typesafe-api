@@ -260,6 +260,16 @@ it('generateOpenApi(..)', async () => {
               headers: {},
             },
           },
+          parameters: [
+            {
+              in: 'path',
+              name: '_id',
+              schema: {
+                type: 'string',
+              },
+              required: true,
+            },
+          ],
         },
       },
       '/header-tst': {

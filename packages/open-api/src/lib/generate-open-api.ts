@@ -6,7 +6,10 @@ import {
   ResponsesObject,
 } from 'openapi3-ts';
 import { EndpointDefinition } from '@typesafe-api/open-api';
-import { PathsObject } from 'openapi3-ts/dist/mjs/model/OpenApi';
+import {
+  ParameterLocation,
+  PathsObject,
+} from 'openapi3-ts/dist/mjs/model/OpenApi';
 import { OperationObject, ResponseObject } from 'openapi3-ts/src/model/OpenApi';
 import { Definition } from 'typescript-json-schema';
 import jsonSchemaParser, { Schema } from 'json-schema-parser';
@@ -111,9 +114,21 @@ const parseErrorResponses = (
 const parseParameters = (parsedSchema: ParsedJsonSchema): ParameterObject[] => {
   const { query, params } = parsedSchema.properties.requestOptions.properties;
 
-  console.log(query);
-
   const parsedParams: ParameterObject[] = [];
+
+  const addParams = (location: ParameterLocation, obj: Schema) => {
+    for (const [name, schema] of Object.entries(obj.properties) as [
+      String,
+      Schema
+    ]) {
+      parsedParams.push({
+        in: location,
+        name,
+        schema,
+        required: !!obj.required?.includes(name),
+      });
+    }
+  };
 
   // If we have only 1 optional query param then it is treated as a union e.g. {name: string} | {}.
   // The last element of {@code query.anyOf} is all we need to process as the first is just an empty
@@ -122,17 +137,9 @@ const parseParameters = (parsedSchema: ParsedJsonSchema): ParameterObject[] => {
     ? query.anyOf[query.anyOf.length - 1]
     : query;
 
-  for (const [name, schema] of Object.entries(queryParamsObj.properties) as [
-    String,
-    Schema
-  ]) {
-    parsedParams.push({
-      in: 'query',
-      name,
-      schema,
-      required: !!queryParamsObj.required?.includes(name),
-    });
-  }
+  addParams('query', queryParamsObj);
+
+  addParams('path', params);
 
   return parsedParams;
 };
