@@ -47,8 +47,11 @@
     "deepmerge": "^4.2.2",
     "express-async-errors": "^3.1.1",
     "find-free-ports": "^3.0.0",
+    "json-schema-parser": "^0.1.0",
+    "openapi3-ts": "^3.2.0",
     "tslib": "^2.3.0",
     "typescript-json-schema": "^0.55.0",
+    "typescript-parser": "^2.6.1",
     "url-join-ts": "^1.0.5"
   }
 }
