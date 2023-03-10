@@ -28,6 +28,12 @@
         "main": "packages/open-api/src/index.ts",
         "assets": ["packages/open-api/*.md"]
       }
+    },
+    "publish": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nx build open-api && cd dist/packages/open-api && npm publish"
+      }
     }
   },
   "tags": []
