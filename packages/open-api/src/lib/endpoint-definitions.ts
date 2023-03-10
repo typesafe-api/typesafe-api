@@ -15,7 +15,6 @@ import {
   VariableDeclaration,
 } from 'typescript-parser';
 import { AbstractEndpointDef, Route } from '@typesafe-api/core';
-import * as fs from 'fs';
 
 export interface GenerateJsonSchemaParams {
   files: string[];
@@ -89,7 +88,7 @@ export const endpointDefinitions = async (
   for (const file of files) {
     console.log(`Parsing ${file} ...`);
     const parsed = await parser.parseSource(
-      fs.readFileSync(file).toString('utf-8')
+      readFileSync(file).toString('utf-8')
     );
 
     const endpointDefTypeNames: string[] = parsed.declarations
