@@ -5,7 +5,7 @@ import {
   RequestBodyObject,
   ResponsesObject,
 } from 'openapi3-ts';
-import { EndpointDefinition } from '@typesafe-api/open-api';
+import { EndpointDefinition } from '../lib/endpoint-definitions';
 import {
   ParameterLocation,
   PathsObject,
