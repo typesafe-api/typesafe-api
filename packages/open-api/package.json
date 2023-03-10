@@ -1,4 +1,7 @@
 {
   "name": "@typesafe-api/open-api",
-  "version": "0.0.1"
+  "version": "2.0.0",
+  "peerDependencies": {
+    "@typesafe-api/core": "^2.0.0"
+  }
 }
