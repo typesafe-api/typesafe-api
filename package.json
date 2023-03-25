@@ -54,6 +54,7 @@
     "tslib": "^2.3.0",
     "typescript-json-schema": "^0.55.0",
     "typescript-parser": "^2.6.1",
-    "url-join-ts": "^1.0.5"
+    "url-join-ts": "^1.0.5",
+    "write-yaml-file": "^4.2.0"
   }
 }
