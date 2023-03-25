@@ -32,6 +32,7 @@ interface ParsedJsonSchema {
       };
     };
     errorType: {
+      description?: string;
       properties: {
         statusCode: {
           enum: number[];
@@ -70,13 +71,20 @@ const parseRequestBody = (
     return undefined;
   }
 
-  return body;
+  return {
+    content: {
+      'application/json': {
+        schema: body,
+      },
+    },
+  };
 };
 
 const parseResponseOptions = (
   parsedSchema: ParsedJsonSchema
 ): ResponseObject => {
-  const { properties, description } = parsedSchema.properties.responseOptions;
+  const { properties, description = '' } =
+    parsedSchema.properties.responseOptions;
   const { body, headers } = properties;
   return {
     description,
@@ -94,12 +102,14 @@ const parseErrorResponses = (
 ): ResponsesObject => {
   const { headers } = parsedSchema.properties.responseOptions.properties;
   const errorTypeProps = parsedSchema.properties.errorType.properties;
+  const description = parsedSchema.properties.errorType.description ?? '';
   const statusCodes = errorTypeProps.statusCode.enum;
   const body = errorTypeProps.body;
 
   const responses: ResponsesObject = {};
   for (const statusCode of statusCodes) {
     responses[statusCode.toString(10)] = {
+      description,
       content: {
         'application/json': {
           schema: body,
