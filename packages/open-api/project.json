@@ -21,6 +21,7 @@
     "build": {
       "executor": "@nrwl/js:tsc",
       "outputs": ["{options.outputPath}"],
+      "dependsOn": ["^build"],
       "options": {
         "outputPath": "dist/packages/open-api",
         "tsConfig": "packages/open-api/tsconfig.lib.json",

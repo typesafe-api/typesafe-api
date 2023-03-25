@@ -27,6 +27,7 @@
     },
     "build": {
       "executor": "@nrwl/js:tsc",
+      "dependsOn": ["^build"],
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/express",
