@@ -102,8 +102,10 @@ export const endpointDefinitions = async (
       .map((dec) => dec.name);
 
     for (const typeName of endpointDefTypeNames.values()) {
+      const route = await getRoute(file, parsed, typeName);
+      console.log(`found route: ${route.method.toUpperCase()} ${route.path}`)
       definitions.push({
-        route: await getRoute(file, parsed, typeName),
+        route,
         typeName,
         srcFile: file,
         jsonSchema: generateSchema(program, typeName, { required: true }),
