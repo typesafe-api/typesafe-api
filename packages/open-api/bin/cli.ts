@@ -1,7 +1,7 @@
 import glob from 'glob-promise';
 import { Command } from 'commander';
-import { generateOpenApi } from './lib/generate-open-api';
-import { endpointDefinitions } from './lib/endpoint-definitions';
+import { generateOpenApi } from '../src/lib/generate-open-api';
+import { endpointDefinitions } from '../src/lib/endpoint-definitions';
 import writeYamlFile from 'write-yaml-file';
 
 const program = new Command();
