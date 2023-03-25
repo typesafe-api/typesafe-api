@@ -1,11 +1,8 @@
-# open-api
+# Open API
 
-This library was generated with [Nx](https://nx.dev).
+### Development
 
-## Running unit tests
-
-Run `nx test open-api` to execute the unit tests via [Jest](https://jestjs.io).
-
-## Running lint
-
-Run `nx lint open-api` to execute the lint via [ESLint](https://eslint.org/).
+Run this command from the root of the project in order to test the cli
+```typescript
+npx tsx ./packages/open-api/src/cli.ts --title my-api --tsConfigFile packages/core/tsconfig.spec.json --routes "packages/core/test/**/*.ts"
+```
