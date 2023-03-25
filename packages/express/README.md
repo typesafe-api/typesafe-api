@@ -1,6 +1,6 @@
 # @typesafe-api/express
 
-For context make sure to read the [main documentation](../../README.md) before this file
+For context make sure to read the [main documentation](https://github.com/typesafe-api/typesafe-api/blob/main/README.md) before this file
 
 #### Controller
 
