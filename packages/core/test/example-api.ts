@@ -1,5 +1,4 @@
 import {
-  AbstractErrorType,
   EndpointDef,
   ErrorType,
   ReqOptions,
@@ -27,7 +26,7 @@ export const throwHttpError = (statusCode: number, msg: string) => {
   throw new ApiHttpError({
     statusCode: statusCode,
     body: {
-      msg
+      msg,
     },
   });
 };
@@ -37,5 +36,5 @@ export type DefaultErrorCodes = 500;
 export type ApiEndpoint<
   ReqOpt extends ReqOptions,
   RespOpt extends ResOptions,
-  E extends AbstractErrorType = ApiErrorType<DefaultErrorCodes>
+  E extends AbstractApiErrorType = ApiErrorType<DefaultErrorCodes>
 > = EndpointDef<DefaultReqOpts, ReqOpt, RespOpt, E>;
