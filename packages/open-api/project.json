@@ -32,7 +32,7 @@
     "publish": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "nx build open-api && cd dist/packages/open-api && npm publish"
+        "command": "nx build open-api && cd dist/packages/open-api && npm publish --access public"
       }
     }
   },

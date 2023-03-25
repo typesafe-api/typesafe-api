@@ -27,7 +27,7 @@
     "publish": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "nx build core && cd dist/packages/core && npm publish"
+        "command": "nx build core && cd dist/packages/core && npm publish --access public"
       }
     },
     "build": {
