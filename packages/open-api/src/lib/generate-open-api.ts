@@ -122,7 +122,7 @@ const parseParameters = (parsedSchema: ParsedJsonSchema): ParameterObject[] => {
     const selectedObj = obj.anyOf ? obj.anyOf[obj.anyOf.length - 1] : obj;
 
     for (const [name, schema] of Object.entries(selectedObj.properties) as [
-      String,
+      string,
       Schema
     ]) {
       parsedParams.push({
