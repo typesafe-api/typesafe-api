@@ -1,4 +1,4 @@
-import { dirname, join } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { readFileSync } from 'node:fs';
 
 import {
@@ -73,7 +73,8 @@ const getRoute = async (
     );
   }
 
-  const module = await import(fileName);
+  const resolvedPath = resolve(fileName);
+  const module = await import(resolvedPath);
   return module[routeVar.name];
 };
 
