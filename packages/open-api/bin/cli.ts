@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import glob from 'glob-promise';
 import { Command } from 'commander';
 import { generateOpenApi } from '../src/lib/generate-open-api';
