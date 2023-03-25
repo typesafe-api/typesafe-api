@@ -3,8 +3,5 @@
   "version": "3.0.0-2",
   "bin": {
     "typesafe-open-api": "./bin/cli.js"
-  },
-  "peerDependencies": {
-    "@typesafe-api/core": "^3.0.0"
   }
 }
