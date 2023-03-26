@@ -1,8 +1,5 @@
 {
   "name": "@typesafe-api/open-api",
   "version": "3.0.0-14",
-  "type": "module",
-  "bin": {
-    "typesafe-open-api": "./bin/cli.js"
-  }
+  "type": "module"
 }

@@ -1,2 +1,2 @@
-export * from '../bin/endpoint-definitions';
-export * from '../bin/generate-open-api';
+export * from './endpoint-definitions';
+export * from './generate-open-api';
