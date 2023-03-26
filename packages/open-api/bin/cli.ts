@@ -2,8 +2,7 @@
 
 import glob from 'glob-promise';
 import { Command } from 'commander';
-import { generateOpenApi } from '../src/lib/generate-open-api';
-import { endpointDefinitions } from '../src/lib/endpoint-definitions';
+import { endpointDefinitions, generateOpenApi } from '@typesafe-api/open-api';
 import writeYamlFile from 'write-yaml-file';
 
 const program = new Command();
@@ -14,10 +13,21 @@ program
     'The path to the tsconfig file to use.',
     'tsconfig.json'
   )
-  .option('--version <version>', 'The version number to your for your api spec', '1.0.0')
-  .option('--output <filepath>', 'The path to the yaml file where you want to output your API spec', 'openapi.yml')
+  .option(
+    '--version <version>',
+    'The version number to your for your api spec',
+    '1.0.0'
+  )
+  .option(
+    '--output <filepath>',
+    'The path to the yaml file where you want to output your API spec',
+    'openapi.yml'
+  )
   .requiredOption('--title <api title>', 'The title of your api')
-  .requiredOption('--routes <glob path(s)>', 'The glob path or comma separated paths to your routes files, make sure you wrap it in quotes!')
+  .requiredOption(
+    '--routes <glob path(s)>',
+    'The glob path or comma separated paths to your routes files, make sure you wrap it in quotes!'
+  )
   .parse(process.argv);
 
 const { version, title, tsConfigFile, routes, output } = program.opts();
@@ -41,8 +51,8 @@ const main = async () => {
     version,
   });
 
-  await writeYamlFile(output, spec)
-  console.log(`Api spec written to: ${output}`)
+  await writeYamlFile(output, spec);
+  console.log(`Api spec written to: ${output}`);
 };
 
 main()
