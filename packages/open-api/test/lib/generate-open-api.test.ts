@@ -1,4 +1,4 @@
-import { generateOpenApi } from '../../src/lib/generate-open-api';
+import { generateOpenApi } from '../../bin/generate-open-api';
 import { endpointDefinitions } from '@typesafe-api/open-api';
 import path from 'node:path';
 

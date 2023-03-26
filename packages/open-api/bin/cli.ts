@@ -2,8 +2,10 @@
 
 import glob from 'glob-promise';
 import { Command } from 'commander';
-import { endpointDefinitions, generateOpenApi } from '@typesafe-api/open-api';
+
 import writeYamlFile from 'write-yaml-file';
+import { endpointDefinitions } from './endpoint-definitions';
+import { generateOpenApi } from './generate-open-api';
 
 const program = new Command();
 
