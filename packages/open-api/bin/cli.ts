@@ -4,8 +4,8 @@ import glob from 'glob-promise';
 import { Command } from 'commander';
 
 import writeYamlFile from 'write-yaml-file';
-import { endpointDefinitions } from './endpoint-definitions';
-import { generateOpenApi } from './generate-open-api';
+import { endpointDefinitions } from './endpoint-definitions.js';
+import { generateOpenApi } from './generate-open-api.js';
 
 const program = new Command();
 
