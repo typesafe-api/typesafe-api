@@ -69,9 +69,16 @@ When defining an API endpoint there are two main concepts we need to think about
 First let's define some useful interfaces for our API
 
 ```ts
-// ../nx-typesafe-api-example/libs/api-spec/src/api.ts
+// ../../../nx-typesafe-api-example/libs/api-spec/src/api.ts
 
-import {EndpointDef, ErrorType, ReqOptions, ResOptions} from '@typesafe-api/core';
+import {
+  AbstractEndpointDef,
+  EndpointDef,
+  ErrorType,
+  ReqOptions,
+  ResOptions,
+  TypesafeHttpError,
+} from '@typesafe-api/core';
 
 // These are the options that will be sent with every request to our API. In this example
 // we are going to implement some dummy authentication for our API using the
@@ -81,7 +88,7 @@ export interface DefaultReqOpts extends ReqOptions {
   headers: {
     // If using express these headers keys must always be lowercase
     authorization: string;
-  }
+  };
 }
 
 // Here we define the standard error codes we expect to see. All API should expect a 500
@@ -89,36 +96,49 @@ export interface DefaultReqOpts extends ReqOptions {
 // You can add error codes to specific endpoints later
 export type DefaultErrorCodes = 500 | 403;
 
+export interface ApiErrorBody {
+  msg: string;
+}
+
+export type ApiErrorType<S extends number> = ErrorType<S, ApiErrorBody>;
+
+export type AbstractApiErrorType = ApiErrorType<number>;
+
+export class ApiHttpError extends TypesafeHttpError<AbstractApiErrorType> {}
+
+// Writing a helper function like this can make it easier to throw errors and keep them typesafe
+export const throwHttpError = <T extends AbstractEndpointDef>(statusCode: T["errorType"]["statusCode"], msg: string) => {
+  throw new ApiHttpError({
+    statusCode: statusCode,
+    body: {
+      msg,
+    },
+  });
+};
+
 // Create an interface to help us build our endpoints, this just saves adding {@code DefaultReqOpts}
 // and {@code DefaultErrorType} to every endpoint we create
 export type ExampleApiEndpoint<
   ReqOpt extends ReqOptions,
   RespOpt extends ResOptions,
-  E = ErrorType<DefaultErrorCodes>,
-  > = EndpointDef<DefaultReqOpts, ReqOpt, RespOpt, E>
+  E extends AbstractApiErrorType = ApiErrorType<DefaultErrorCodes>
+> = EndpointDef<DefaultReqOpts, ReqOpt, RespOpt, E>;
 
 ```
 
 Now let's define an endpoint...
  
 ```ts
-// ../nx-typesafe-api-example/libs/api-spec/src/routes/hello-world.ts
+// ../../../nx-typesafe-api-example/libs/api-spec/src/routes/hello-world.ts
 
-import {ErrorType, ReqOptions, ResOptions, Route} from '@typesafe-api/core';
-import {DefaultErrorCodes, ExampleApiEndpoint} from '../api';
-
-
-// Define the route at which the endpoint belongs
-export const helloWoldRoute: Route = {
-  method: 'get',
-  path: '/hello-world'
-};
+import { ReqOptions, ResOptions, Route } from '@typesafe-api/core';
+import { ApiErrorType, DefaultErrorCodes, ExampleApiEndpoint } from '../api';
 
 // Define the all parameters that are required to make the request
 export interface HelloWorldReq extends ReqOptions {
   query: {
     yourName: string;
-  }
+  };
 }
 
 // Define the response type we wil receive for the request
@@ -126,24 +146,34 @@ export interface HelloWorldResp extends ResOptions {
   body: {
     msg: string;
     date: Date;
-  }
+  };
   headers: {
     example: string;
-  }
+  };
 }
 
 // Define any error that may be thrown by the endpoint, the default is just `500`
-export type HelloWorldErrors = ErrorType<DefaultErrorCodes|400>
+export type HelloWorldErrors = ApiErrorType<DefaultErrorCodes | 400>;
 
 // Create the endpoint definition this type encapsulates the full endpoint spec
-export type HelloWorldEndpointDef = ExampleApiEndpoint<HelloWorldReq, HelloWorldResp, HelloWorldErrors>
+export type HelloWorldEndpointDef = ExampleApiEndpoint<
+  HelloWorldReq,
+  HelloWorldResp,
+  HelloWorldErrors
+>;
+
+// Define the route at which the endpoint belongs
+export const helloWoldRoute: Route<HelloWorldEndpointDef> = {
+  method: 'get',
+  path: '/hello-world',
+};
 
 ```
 
 Now we have our route and endpoint defined we can very easily create an `ApiClient` for it.
 
 ```ts
-// ../nx-typesafe-api-example/libs/api-spec/src/api-client.ts
+// ../../../nx-typesafe-api-example/libs/api-spec/src/api-client.ts
 
 import {AbstractApiClient, createRouteRequest} from '@typesafe-api/core';
 import {helloWoldRoute, HelloWorldEndpointDef} from './routes';
@@ -193,7 +223,7 @@ Great that's our API spec all sorted. Now all that remains make sure __everythin
 your entry point for your module e.g.
 
 ```ts
-// ../nx-typesafe-api-example/libs/api-spec/src/index.ts
+// ../../../nx-typesafe-api-example/libs/api-spec/src/index.ts
 
 export * from './routes';
 export * from './api-client';
@@ -222,7 +252,7 @@ react app. However, the steps are very similar for any backend systems you want 
 One you have your API spec installed you can define a component similar to this
 
 ```tsx
-// ../nx-typesafe-api-example/apps/frontend/src/app/app.tsx
+// ../../../nx-typesafe-api-example/apps/frontend/src/app/app.tsx
 
 import React, { useState } from 'react';
 import { ErrorHandlers, handleError } from '@typesafe-api/core';
@@ -275,7 +305,7 @@ export function App() {
       if (!response) {
         throw err;
       }
-      setResponseText(response.data.msg);
+      setResponseText(response.data.body.msg);
     },
   };
 
