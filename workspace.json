@@ -5,6 +5,8 @@
     "compiler-test": "packages/compiler-test",
     "core": "packages/core",
     "express": "packages/express",
-    "serverless": "packages/serverless"
+    "open-api": "packages/open-api",
+    "serverless": "packages/serverless",
+    "utils": "packages/utils"
   }
 }

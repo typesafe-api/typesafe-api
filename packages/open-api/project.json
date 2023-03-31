@@ -1,0 +1,41 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/open-api/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/open-api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/open-api"],
+      "options": {
+        "jestConfig": "packages/open-api/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "dependsOn": ["^build"],
+      "options": {
+        "outputPath": "dist/packages/open-api",
+        "tsConfig": "packages/open-api/tsconfig.lib.json",
+        "packageJson": "packages/open-api/package.json",
+        "main": "packages/open-api/src/index.ts",
+        "assets": ["packages/open-api/*.md"]
+      }
+    },
+    "publish": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nx build open-api && cd dist/packages/open-api && npm publish --access public"
+      }
+    }
+  },
+  "tags": []
+}

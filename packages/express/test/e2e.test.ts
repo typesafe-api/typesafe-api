@@ -122,7 +122,9 @@ it('Dog API', async () => {
   expect(getOneResp.data).toStrictEqual(dogWithId);
 
   // Get all the dogs
-  const getAllResp = await dogClient.getDogs({});
+  const getAllResp = await dogClient.getDogs({
+    query: {},
+  });
   expect(getAllResp.data).toStrictEqual([dogWithId]);
 
   // Try to get a dog that doesn't exist

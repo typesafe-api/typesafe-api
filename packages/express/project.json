@@ -22,11 +22,12 @@
     "publish": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "nx build express && cd dist/packages/express && npm publish"
+        "command": "nx build express && cd dist/packages/express && npm publish --access public"
       }
     },
     "build": {
       "executor": "@nrwl/js:tsc",
+      "dependsOn": ["^build"],
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/express",

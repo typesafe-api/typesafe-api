@@ -42,7 +42,7 @@ const getRequestOpts = async <E extends AbstractEndpointDef, DefaultReqOpt exten
 
 const callRoute = async <E extends AbstractEndpointDef>(
   apiClient: AbstractApiClient<E['defaultReqOptions']>,
-  route: Route,
+  route: Route<E>,
   reqOptions: ReqOptions
 ): Promise<TAxiosResponse<E>> => {
   const defaultReqOpt = await apiClient.getDefaultReqOptions();
@@ -77,7 +77,7 @@ type RouteRequestCallable<T extends AbstractEndpointDef> = (
 
 export const createRouteRequest = <T extends AbstractEndpointDef>(
   apiClient: AbstractApiClient<T['defaultReqOptions']>,
-  route: Route
+  route: Route<T>
 ): RouteRequestCallable<T> => {
   return async (options: T['clientReqOptions']): Promise<TAxiosResponse<T>> => {
     return callRoute<T>(apiClient, route, options);

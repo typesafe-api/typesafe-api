@@ -1,7 +1,4 @@
 {
   "name": "@typesafe-api/serverless",
-  "version": "1.3.0",
-  "peerDependencies": {
-    "@middy/core": "^3.6.2"
-  }
+  "version": "3.0.1"
 }

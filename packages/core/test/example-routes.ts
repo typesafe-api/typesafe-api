@@ -10,34 +10,62 @@ export interface DogsWithIdRes extends ResOptions {
   body: DogWithId[];
 }
 
-// Post dog route
-export const postDogRoute: Route = {
-  method: 'post',
-  path: '/dog',
-};
+/**
+ * Create dog
+ */
 
-// Create dog endpoint
 export interface CreateDogReq extends ReqOptions {
   body: Dog;
 }
 export type CreateDogEndpointDef = ApiEndpoint<CreateDogReq, DogWithIdRes>;
 
-// Get dogs route
-export const getDogsRoute: Route = {
+export const postDogRoute: Route<CreateDogEndpointDef> = {
+  method: 'post',
+  path: '/dog',
+};
+
+/**
+ * Get dogs
+ */
+
+export interface GetDogsReq extends ReqOptions {
+  query: {
+    breed?: string;
+  };
+}
+
+export type GetDogsEndpointDef = ApiEndpoint<GetDogsReq, DogsWithIdRes>;
+
+export const getDogsRoute: Route<GetDogsEndpointDef> = {
   method: 'get',
   path: '/dog',
 };
 
-// Get dogs endpoint
-export type GetDogsEndpointDef = ApiEndpoint<ReqOptions, DogsWithIdRes>;
+/**
+ * Search dogs
+ */
 
-// Get dog route
-export const getDogRoute: Route = {
+export interface GetSearchDogsReq extends ReqOptions {
+  query: {
+    searchQuery: string;
+    breed?: string;
+  };
+}
+
+export type GetSearchDogsEndpointDef = ApiEndpoint<
+  GetSearchDogsReq,
+  DogsWithIdRes
+>;
+
+export const getSearchDogsRoute: Route<GetSearchDogsEndpointDef> = {
   method: 'get',
-  path: '/dog/:_id',
+  path: '/dog/search',
 };
 
-// Get dogs endpoint
+/**
+ * Get dog
+ */
+
 export interface GetDogReq extends ReqOptions {
   params: {
     _id: string;
@@ -52,13 +80,15 @@ export type GetDogEndpointDef = ApiEndpoint<
   GetDogErrorType
 >;
 
-// Header test endpoint
-export const headerTestRoute: Route = {
+export const getDogRoute: Route<GetDogEndpointDef> = {
   method: 'get',
-  path: '/header-tst',
+  path: '/dog/:_id',
 };
 
-// Header test endpoint
+/**
+ * Header test
+ */
+
 export interface HeaderTestReq extends ReqOptions {
   headers?: {
     myheader?: string;
@@ -76,11 +106,18 @@ export interface HeaderTestResp extends ResOptions {
 
 export type HeaderTestEndpointDef = ApiEndpoint<ReqOptions, HeaderTestResp>;
 
-// Header test endpoint
-export const internalErrorTestRoute: Route = {
+export const headerTestRoute: Route<HeaderTestEndpointDef> = {
   method: 'get',
-  path: '/internal-error',
+  path: '/header-tst',
 };
+
+/**
+ * Internal error test
+ */
 
 export type InternalErrorTestEndpointDef = ApiEndpoint<ReqOptions, ResOptions>;
 
+export const internalErrorTestRoute: Route<InternalErrorTestEndpointDef> = {
+  method: 'get',
+  path: '/internal-error',
+};

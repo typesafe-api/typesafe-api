@@ -2,7 +2,7 @@ import { Controller } from './controller';
 import { ErrorRequestHandler, RequestHandler, Router } from 'express';
 import { AbstractEndpointDef, Route } from '@typesafe-api/core';
 
-export interface ExpressRoute<T extends AbstractEndpointDef> extends Route {
+export interface ExpressRoute<T extends AbstractEndpointDef> extends Route<T> {
   middleware: Array<RequestHandler | ErrorRequestHandler>;
   controller: Controller<T>;
 }
