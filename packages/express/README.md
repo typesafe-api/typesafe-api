@@ -7,12 +7,12 @@ For context make sure to read the [main documentation](https://github.com/typesa
 Let start out by creating a `Controller` to handle our requests...
 
 ```ts
-// ../nx-typesafe-api-example/apps/express/src/app/hello-world.ts
+// ../../../nx-typesafe-api-example/apps/express/src/app/hello-world.ts
 
 import { Controller, sendError, TRequest, TResponse } from '@typesafe-api/express';
 import { HelloWorldEndpointDef } from '@nx-typesafe-api-example/api-spec';
 
-export const helloWorldController: Controller<HelloWorldEndpointDef> = (
+export const helloWorldController: Controller<HelloWorldEndpointDef> = async (
   req: TRequest<HelloWorldEndpointDef>,
   res: TResponse<HelloWorldEndpointDef>
 ) => {
@@ -25,8 +25,10 @@ export const helloWorldController: Controller<HelloWorldEndpointDef> = (
     // This error object is typesafe, including the status so you can only select from the
     // statuses given in the endpoint definition
     return sendError(res, {
-      status: 400,
-      msg: "Surely your name isn't a number?? 😵",
+      statusCode: 400,
+      body: {
+        msg: "Surely your name isn't a number?? 😵",
+      }
     });
   }
 
@@ -45,7 +47,7 @@ Creating middleware for our app is easy too as long as it relies on our default 
 Here's a simple example...
 
 ```ts
-// ../nx-typesafe-api-example/apps/express/src/app/authorize.ts
+// ../../../nx-typesafe-api-example/apps/express/src/app/authorize.ts
 
 import { NextFunction, RequestHandler } from 'express';
 import { ExampleApiEndpoint } from '@nx-typesafe-api-example/api-spec';
@@ -70,8 +72,10 @@ const handler = (
   // This error object is typesafe, including the status so you can only select from the
   // statuses given in {@link DefaultErrorCodes} (defined in the app spec)
   sendError(res, {
-    status: 403,
-    msg: 'Unauthorized',
+    statusCode: 403,
+    body: {
+      msg: 'Unauthorized',
+    },
   });
 };
 
@@ -89,7 +93,7 @@ routes are correct.
 Here is a very simple express app using our newly created `Controller`
 
 ```ts
-// ../nx-typesafe-api-example/apps/express/src/main.ts
+// ../../../nx-typesafe-api-example/apps/express/src/main.ts
 
 import express, { RequestHandler } from 'express';
 import { addRoute, ExpressRoute } from '@typesafe-api/express';
