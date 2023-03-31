@@ -21,7 +21,7 @@ This makes for speedy integration and oh so easy maintenance, you'll never miss 
 The following dependency diagram show the suggested project architecture you should use to 
 define your API. 
 
-![alt text](docs/images/repo-archetecture.png "Repo architecture diagram")
+![alt text](../../docs/images/repo-archetecture.png "Repo architecture diagram")
 
 This can be implemented using either:
 
@@ -208,7 +208,7 @@ so the spec is imported from `@nx-typesafe-api-example/api-spec`.
 
 The following backends currently have full support (follow the link to view docs):
 
-* [Express](packages/express/README.md)
+* [Express](../express/README.md)
 
 If you don't use any of these you should still get a lot out of importing the `EndpointDef`s and `Routes` into your project.
 
