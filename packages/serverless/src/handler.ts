@@ -26,7 +26,7 @@ export const relativeToCWD = (absPath: string) => {
   return `${absPath.split(process.cwd())[1].substring(1).replace(/\\/g, '/')}`;
 };
 
-export interface SlsCreateFunctionParams<T extends AbstractEndpointDef> {
+export interface TypesafeApiSeverlessFnc<T extends AbstractEndpointDef> {
   route: Route<T>;
   // Relative to serverless project root
   handlerDir: string;
@@ -35,42 +35,3 @@ export interface SlsCreateFunctionParams<T extends AbstractEndpointDef> {
   imageName?: string;
 }
 
-const dot = '.';
-
-export const slsCreateFunction = <T extends AbstractEndpointDef>(
-  params: SlsCreateFunctionParams<T>
-): AWS['functions'][string] => {
-  const {
-    route,
-    handlerDir,
-    handlerFile = 'handler.ts',
-    handlerExportName = 'handler',
-    imageName,
-  } = params;
-  const { path, method } = route;
-  const fileNameArray = handlerFile.split(dot);
-  // Remove the extension
-  fileNameArray.pop();
-  const moduleName = fileNameArray.join(dot);
-  const handlerPath = `${handlerDir}/${moduleName}.${handlerExportName}`;
-
-  // Defined either handler or image depending on if a docker image
-  // has been specified
-  const handler = imageName ? undefined : handlerPath;
-  const image = imageName
-    ? { name: imageName, command: [handlerPath] }
-    : undefined;
-
-  return {
-    handler,
-    image,
-    events: [
-      {
-        http: {
-          method: method,
-          path: path,
-        },
-      },
-    ],
-  };
-};
