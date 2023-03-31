@@ -3,7 +3,7 @@
   "version": "0.0.0-0",
   "license": "MIT",
   "scripts": {
-    "docs": "embedme packages/core/README.md"
+    "docs": "embedme packages/core/README.md packages/express/README.md"
   },
   "private": true,
   "devDependencies": {
