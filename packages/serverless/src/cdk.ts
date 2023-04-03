@@ -1,17 +1,25 @@
 import { IResource, RestApi } from 'aws-cdk-lib/aws-apigateway';
 import { AbstractEndpointDef } from '@typesafe-api/core';
 import { TypesafeApiSeverlessFnc } from './handler';
+import * as lambdaNode from 'aws-cdk-lib/aws-lambda-nodejs';
 
 export class CdkLambdaFunctionBuilder {
   protected resourceMap: Record<string, IResource> = {};
 
-  constructor(private api: RestApi) {
-  }
+  constructor(private stack Stack, private api: RestApi) {}
 
   addFunction(functionDef: TypesafeApiSeverlessFnc<AbstractEndpointDef>): this {
     const { route } = functionDef;
+    const { method, path } = route;
 
-    this.resourceForPath(route.path);
+  const id = path + '-' + method;
+  const functionName = id.replace(/[/{}]/g, '');
+
+    this.resourceForPath(path).addMethod(method, new lambdaNode.NodejsFunction(
+      this.stack,
+      id,
+      this.functionProps(handlerDef, functionName)
+    ));
 
     return this;
   }
@@ -35,10 +43,11 @@ export class CdkLambdaFunctionBuilder {
           ? `{${part.substring(1)}}`
           : part;
 
-        this.resourceMap[resourceMapKey] = lastResource.addResource(resourceName);
+        this.resourceMap[resourceMapKey] =
+          lastResource.addResource(resourceName);
       }
 
-      lastResource = this.resourceMap[resourceMapKey]
+      lastResource = this.resourceMap[resourceMapKey];
     }
 
     return lastResource;
