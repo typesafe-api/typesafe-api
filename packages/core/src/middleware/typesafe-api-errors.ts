@@ -13,9 +13,9 @@ export interface TypeSafeApiErrorsParams<T extends AbstractErrorType> {
 export const defaultHttpErrorLogFn: HttpErrorLogFn = async (
   httpError: AbstractErrorType
 ) => {
-  console.log(`TypeSafeHttpError - ${JSON.stringify(httpError)}`);
+  console.error(`TypeSafeHttpError - ${JSON.stringify(httpError)}`);
 };
 
 export const defaultOtherErrorLogFn: OtherErrorLogFn = async (err) => {
-  console.log(`Internal server error`, err);
+  console.error(`Internal server error`, err);
 };
