@@ -33,6 +33,7 @@ export interface SlsCreateFunctionParams<T extends AbstractEndpointDef> {
   handlerFile?: string;
   handlerExportName?: string;
   imageName?: string;
+  authorizer?: string;
 }
 
 const dot = '.';
@@ -46,6 +47,7 @@ export const slsCreateFunction = <T extends AbstractEndpointDef>(
     handlerFile = 'handler.ts',
     handlerExportName = 'handler',
     imageName,
+    authorizer,
   } = params;
   const { path, method } = route;
   const fileNameArray = handlerFile.split(dot);
@@ -69,6 +71,7 @@ export const slsCreateFunction = <T extends AbstractEndpointDef>(
         http: {
           method: method,
           path: path,
+          authorizer,
         },
       },
     ],
