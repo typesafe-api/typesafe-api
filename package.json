@@ -43,7 +43,7 @@
     "@middy/core": "^3.6.2",
     "@serverless/typescript": "^3.21.0",
     "aws-lambda": "^1.0.7",
-    "axios": "^0.21.1",
+    "axios": "^1.7.1",
     "commander": "^10.0.0",
     "deepmerge": "^4.2.2",
     "express-async-errors": "^3.1.1",
