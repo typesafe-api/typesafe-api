@@ -1,4 +1,4 @@
-import { AWS } from '@serverless/typescript';
+import { AWS, AwsArn, AwsCfInstruction } from '@serverless/typescript';
 import { AbstractEndpointDef, ResponseBody, Route } from '@typesafe-api/core';
 import { TypesafeApiEvent } from './middleware';
 import { Handler } from 'aws-lambda';
@@ -22,6 +22,20 @@ export type TypesafeApiHandler<
   EventType extends TypesafeApiEvent<EndpointDef> = TypesafeApiEvent<EndpointDef>
 > = Handler<EventType, TypesafeApiHandlerResponse<EndpointDef>>;
 
+export type AwsAuthorizer = | string
+| {
+    arn?: AwsArn;
+    authorizerId?: AwsCfInstruction;
+    claims?: string[];
+    identitySource?: string;
+    identityValidationExpression?: string;
+    managedExternally?: boolean;
+    name?: string;
+    resultTtlInSeconds?: number;
+    scopes?: string[];
+    type?: string | string | string | string | string;
+  }
+
 export const relativeToCWD = (absPath: string) => {
   return `${absPath.split(process.cwd())[1].substring(1).replace(/\\/g, '/')}`;
 };
@@ -33,7 +47,7 @@ export interface SlsCreateFunctionParams<T extends AbstractEndpointDef> {
   handlerFile?: string;
   handlerExportName?: string;
   imageName?: string;
-  authorizer?: string;
+  authorizer?: AwsAuthorizer;
 }
 
 const dot = '.';
@@ -71,7 +85,7 @@ export const slsCreateFunction = <T extends AbstractEndpointDef>(
         http: {
           method: method,
           path: path,
-          authorizer,
+          authorizer
         },
       },
     ],
