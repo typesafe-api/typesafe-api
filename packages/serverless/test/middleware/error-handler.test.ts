@@ -5,7 +5,6 @@ import {
 } from '../../../core/test/example-api';
 import {
   typesafeApiErrors,
-  TypesafeApiHandler,
 } from '@typesafe-api/serverless';
 import middy from '@middy/core';
 import {
@@ -24,7 +23,7 @@ it('Internal server error', async () => {
   const statusCode = 500;
   const errMsg = 'A unexpected error';
 
-  const handler: TypesafeApiHandler<AbstractEndpointDef> = async () => {
+  const handler = async () => {
     throw Error(errMsg);
   };
 
@@ -58,7 +57,7 @@ it('TypesafeHttpError', async () => {
     msg,
   };
 
-  const handler: TypesafeApiHandler<AbstractEndpointDef> = async () => {
+  const handler: = async () => {
     throw throwHttpError(statusCode, msg);
   };
 
