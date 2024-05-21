@@ -1,25 +1,10 @@
 import { AWS, AwsArn, AwsCfInstruction } from '@serverless/typescript';
 import { AbstractEndpointDef, ResponseBody, Route } from '@typesafe-api/core';
-import { TypesafeApiEvent } from './middleware';
-import { Handler } from 'aws-lambda';
 
-export type TypesafeApiHandlerError<T extends AbstractEndpointDef> = {
-  statusCode: T['errorType']['statusCode'];
-  body: T['errorType'];
-};
-
-export type TypesafeApiHandlerSuccess<T extends AbstractEndpointDef> = {
+export type TypesafeApiHandlerResponse<T extends AbstractEndpointDef> = {
   statusCode: number;
   body: ResponseBody<T>;
 };
-
-export type TypesafeApiHandlerResponse<T extends AbstractEndpointDef> =
-  | TypesafeApiHandlerSuccess<T>
-  | TypesafeApiHandlerError<T>;
-
-export type TypesafeApiHandler<
-  EndpointDef extends AbstractEndpointDef,
-> = Handler<TypesafeApiEvent<EndpointDef>, TypesafeApiHandlerResponse<EndpointDef>>;
 
 export type AwsAuthorizer =
   | string

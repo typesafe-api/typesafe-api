@@ -22,6 +22,6 @@ getDog({
 
 // @expected-compiler-errors-start
 // (5,11): error TS2345: Argument of type '{}' is not assignable to parameter of type 'CreateDogReq'.
-// (10,5): error TS2322: Type '{ name: string; breed: string; notAValidKey: string; }' is not assignable to type 'Dog'.
+// (10,5): error TS2353: Object literal may only specify known properties, and 'notAValidKey' does not exist in type 'Dog'.
 // (15,8): error TS2345: Argument of type '{}' is not assignable to parameter of type 'GetDogReq'.
-// (19,5): error TS2322: Type '{ _id: string; notAValidParam: string; }' is not assignable to type '{ _id: string; }'.
+// (19,5): error TS2353: Object literal may only specify known properties, and 'notAValidParam' does not exist in type '{ _id: string; }'.

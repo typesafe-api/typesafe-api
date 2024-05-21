@@ -13,5 +13,5 @@ export const reqTest: Controller<GetDogEndpointDef> = async (
 };
 
 // @expected-compiler-errors-start
-// (9,14): error TS2345: Argument of type '{ somethingElse: number; }' is not assignable to parameter of type 'BodyOrError<GetDogEndpointDef>'.
+// (9,14): error TS2353: Object literal may only specify known properties, and 'somethingElse' does not exist in type 'BodyOrError<GetDogEndpointDef>'.
 // (12,11): error TS2345: Argument of type 'string' is not assignable to parameter of type 'never'.
