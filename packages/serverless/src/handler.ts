@@ -19,8 +19,7 @@ export type TypesafeApiHandlerResponse<T extends AbstractEndpointDef> =
 
 export type TypesafeApiHandler<
   EndpointDef extends AbstractEndpointDef,
-  EventType extends TypesafeApiEvent<EndpointDef> = TypesafeApiEvent<EndpointDef>
-> = Handler<EventType, TypesafeApiHandlerResponse<EndpointDef>>;
+> = Handler<TypesafeApiEvent<EndpointDef>, TypesafeApiHandlerResponse<EndpointDef>>;
 
 export type AwsAuthorizer =
   | string
