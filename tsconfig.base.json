@@ -24,5 +24,11 @@
       "@typesafe-api/utils": ["packages/utils/src/index.ts"]
     }
   },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    },
+    "require": ["tsconfig-paths/register"]
+  },
   "exclude": ["node_modules", "tmp"]
 }
