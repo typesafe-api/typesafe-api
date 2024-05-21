@@ -57,7 +57,7 @@ it('TypesafeHttpError', async () => {
     msg,
   };
 
-  const handler: = async () => {
+  const handler = async () => {
     throw throwHttpError(statusCode, msg);
   };
 

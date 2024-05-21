@@ -1,4 +1,8 @@
-import { typesafeApi, TypesafeApiHandler } from '@typesafe-api/serverless';
+import {
+  TypesafeApiEvent,
+  TypesafeApiHandlerResponse,
+  typesafeApi,
+} from '@typesafe-api/serverless';
 import middy from '@middy/core';
 import { mockRequest } from '../util';
 import { GetDogEndpointDef } from '../../../core/test/example-routes';
@@ -8,7 +12,9 @@ it('Successful request', async () => {
   const statusCode = 200;
   const name = 'name';
   const breed = 'the breed';
-  const handler: TypesafeApiHandler<GetDogEndpointDef> = async (event) => {
+  const handler = async (
+    event: TypesafeApiEvent<GetDogEndpointDef>
+  ): Promise<TypesafeApiHandlerResponse<GetDogEndpointDef>> => {
     const _id = event.typesafeApi.params._id;
     return {
       statusCode,
