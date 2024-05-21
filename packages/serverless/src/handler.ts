@@ -22,19 +22,20 @@ export type TypesafeApiHandler<
   EventType extends TypesafeApiEvent<EndpointDef> = TypesafeApiEvent<EndpointDef>
 > = Handler<EventType, TypesafeApiHandlerResponse<EndpointDef>>;
 
-export type AwsAuthorizer = | string
-| {
-    arn?: AwsArn;
-    authorizerId?: AwsCfInstruction;
-    claims?: string[];
-    identitySource?: string;
-    identityValidationExpression?: string;
-    managedExternally?: boolean;
-    name?: string;
-    resultTtlInSeconds?: number;
-    scopes?: string[];
-    type?: string | string | string | string | string;
-  }
+export type AwsAuthorizer =
+  | string
+  | {
+      arn?: AwsArn;
+      authorizerId?: AwsCfInstruction;
+      claims?: string[];
+      identitySource?: string;
+      identityValidationExpression?: string;
+      managedExternally?: boolean;
+      name?: string;
+      resultTtlInSeconds?: number;
+      scopes?: string[];
+      type?: string | string | string | string | string;
+    };
 
 export const relativeToCWD = (absPath: string) => {
   return `${absPath.split(process.cwd())[1].substring(1).replace(/\\/g, '/')}`;
@@ -77,17 +78,21 @@ export const slsCreateFunction = <T extends AbstractEndpointDef>(
     ? { name: imageName, command: [handlerPath] }
     : undefined;
 
+  // Create the events array
+  const events = [];
+  if (path && method) {
+    events.push({
+      http: {
+        method: method,
+        path: path,
+        authorizer,
+      },
+    });
+  }
+
   return {
     handler,
     image,
-    events: [
-      {
-        http: {
-          method: method,
-          path: path,
-          authorizer
-        },
-      },
-    ],
+    events,
   };
 };
