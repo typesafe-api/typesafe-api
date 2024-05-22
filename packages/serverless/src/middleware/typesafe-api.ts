@@ -21,7 +21,7 @@ export const typesafeApi = (): MiddlewareObj<TypesafeApiEvent> => {
       const data = isBase64Encoded
         ? Buffer.from(body, 'base64').toString()
         : body;
-      const parsedBody = JSON.parse(data);
+      const parsedBody = JSON.parse(data ?? '{}');
       event.typesafeApi = {
         query: event.queryStringParameters ?? {},
         params: event.pathParameters ?? {},
