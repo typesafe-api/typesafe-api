@@ -21,6 +21,18 @@ export type AwsAuthorizer =
       type?: string | string | string | string | string;
     };
 
+export type AwsCors =
+  | boolean
+  | {
+      allowCredentials?: boolean;
+      cacheControl?: string;
+      headers?: string[];
+      maxAge?: number;
+      methods?: ("GET" | "POST" | "PUT" | "PATCH" | "OPTIONS" | "HEAD" | "DELETE" | "ANY")[];
+      origin?: string;
+      origins?: string[];
+    };
+
 export const relativeToCWD = (absPath: string) => {
   return `${absPath.split(process.cwd())[1].substring(1).replace(/\\/g, '/')}`;
 };
@@ -33,6 +45,7 @@ export interface SlsCreateFunctionParams<T extends AbstractEndpointDef> {
   handlerExportName?: string;
   imageName?: string;
   authorizer?: AwsAuthorizer;
+  cors?: AwsCors;
 }
 
 const dot = '.';
@@ -47,6 +60,7 @@ export const slsCreateFunction = <T extends AbstractEndpointDef>(
     handlerExportName = 'handler',
     imageName,
     authorizer,
+    cors,
   } = params;
   const { path, method } = route;
   const fileNameArray = handlerFile.split(dot);
@@ -70,6 +84,7 @@ export const slsCreateFunction = <T extends AbstractEndpointDef>(
         method: method,
         path: path,
         authorizer,
+        cors,
       },
     });
   }
