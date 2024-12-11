@@ -80,7 +80,7 @@ export const slsCreateFunction = <T extends AbstractEndpointDef>(
   const events = [];
   if (path && method) {
     events.push({
-      http: {
+      httpApi: {
         method: method,
         path: path,
         authorizer,
