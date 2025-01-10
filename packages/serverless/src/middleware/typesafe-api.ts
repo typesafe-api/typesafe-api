@@ -6,10 +6,10 @@ export interface TypesafeApiEvent<
   T extends AbstractEndpointDef = AbstractEndpointDef
 > extends APIGatewayProxyEvent {
   typesafeApi: {
-    query: NonNullable<T['requestOptions']['query']>;
-    params: NonNullable<T['requestOptions']['params']>;
-    body: NonNullable<T['requestOptions']['body']>;
-    headers: NonNullable<T['requestOptions']['headers']>;
+    query: Exclude<T['requestOptions']['query'], Record<string, never>>;
+    params: Exclude<T['requestOptions']['params'], Record<string, never>>;
+    body: Exclude<T['requestOptions']['body'], Record<string, never>>;
+    headers: Exclude<T['requestOptions']['headers'], Record<string, never>>;
   };
 }
 
