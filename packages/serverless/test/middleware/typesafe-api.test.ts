@@ -5,10 +5,13 @@ import {
 } from '@typesafe-api/serverless';
 import middy from '@middy/core';
 import { mockRequest } from '../util';
-import { GetDogEndpointDef } from '../../../core/test/example-routes';
+import {
+  GetDogEndpointDef,
+  GetSearchDogsEndpointDef,
+} from '../../../core/test/example-routes';
 import { Handler } from 'aws-lambda';
 
-it('Successful request', async () => {
+it('Successful request using params', async () => {
   const statusCode = 200;
   const name = 'name';
   const breed = 'the breed';
@@ -40,5 +43,44 @@ it('Successful request', async () => {
       name,
       breed,
     }),
+  });
+});
+
+it('Successful request using query', async () => {
+  const statusCode = 200;
+  const name = 'Fido';
+  const breed = 'the breed';
+
+  const handler = async (
+    event: TypesafeApiEvent<GetSearchDogsEndpointDef>
+  ): Promise<TypesafeApiHandlerResponse<GetSearchDogsEndpointDef>> => {
+    const { searchQuery, breed } = event.typesafeApi.query;
+    return {
+      statusCode,
+      body: [
+        {
+          _id: '1',
+          name: searchQuery,
+          breed,
+        },
+      ],
+    };
+  };
+
+  const middyfied = middy(handler as Handler).use(typesafeApi());
+
+  const { event, context } = mockRequest({
+    queryStringParameters: { searchQuery: name, breed },
+  });
+  const resp = await middyfied(event, context);
+  expect(resp).toEqual({
+    statusCode,
+    body: JSON.stringify([
+      {
+        _id: '1',
+        name,
+        breed,
+      },
+    ]),
   });
 });
