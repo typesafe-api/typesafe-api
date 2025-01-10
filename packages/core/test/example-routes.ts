@@ -47,7 +47,7 @@ export const getDogsRoute: Route<GetDogsEndpointDef> = {
 
 export interface GetSearchDogsReq extends ReqOptions {
   query: {
-    searchQuery: string;
+    searchQuery?: string;
     breed?: string;
   };
 }
