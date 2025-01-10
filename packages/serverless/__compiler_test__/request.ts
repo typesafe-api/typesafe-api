@@ -38,6 +38,6 @@ export const reqTest = async (
 // @expected-compiler-errors-start
 // (16,23): error TS2339: Property 'notValidHeader' does not exist on type '{ myheader: string; }'.
 // (19,20): error TS2339: Property 'invalidBody' does not exist on type '{ name: string; breed: string; }'.
-// (22,21): error TS2339: Property 'invalidQuery' does not exist on type '{}'.
-// (25,22): error TS2339: Property 'invalidParams' does not exist on type '{}'.
+// (22,21): error TS2339: Property 'invalidQuery' does not exist on type 'never'.
+// (25,22): error TS2339: Property 'invalidParams' does not exist on type 'never'.
 // (32,7): error TS2353: Object literal may only specify known properties, and 'notAValidKey' does not exist in type 'DogWithId'.
