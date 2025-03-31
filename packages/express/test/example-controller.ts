@@ -4,6 +4,7 @@ import {
   GetDogEndpointDef,
   GetDogsEndpointDef,
   HeaderTestEndpointDef,
+  InternalErrorTestEndpointDef,
 } from '../../core/test/example-routes';
 import { throwHttpError } from '../../core/test/example-api';
 import { dogDB, DogWithId } from '../../core/test/dog';
@@ -46,13 +47,19 @@ export const headerTestController: Controller<HeaderTestEndpointDef> = async (
   res: TResponse<HeaderTestEndpointDef>
 ) => {
   const value = req.get('myheader');
+
+  if (!value) {
+    throw new Error('No value provided');
+  }
+
   res.set('test-header', value);
+
   res.send({ headerValue: value });
 };
 
-export const internalErrorTestController: Controller<HeaderTestEndpointDef> = async (
-  req: TRequest<HeaderTestEndpointDef>,
-  res: TResponse<HeaderTestEndpointDef>
+export const internalErrorTestController: Controller<InternalErrorTestEndpointDef> = async (
+  req: TRequest<InternalErrorTestEndpointDef>,
+  res: TResponse<InternalErrorTestEndpointDef>
 ) => {
   throw Error("Example error");
 };

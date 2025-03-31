@@ -4,10 +4,10 @@ import { Request, Response } from 'express-serve-static-core';
 
 export interface TRequest<T extends AbstractEndpointDef>
   extends Request<
-    T['requestOptions']['params'],
+    Exclude<T['requestOptions']['params'], undefined>,
     ResponseBody<T>,
-    T['requestOptions']['body'],
-    T['requestOptions']['query']
+    Exclude<T['requestOptions']['body'], undefined>,
+    Exclude<T['requestOptions']['query'], undefined>
   > {
   get(name: keyof T['requestOptions']['headers']): string | undefined;
   get(name: keyof T['requestOptions']['headers']): string[] | undefined;

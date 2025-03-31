@@ -14,7 +14,7 @@ const sendError = (res: Response, err: AbstractErrorType) =>
 
 const handleError = async <T extends AbstractErrorType>(
   params: TypeSafeApiErrorsParams<T>,
-  err,
+  err: unknown,
   res: Response
 ) => {
   const {
@@ -38,7 +38,7 @@ const handleError = async <T extends AbstractErrorType>(
 export const typesafeApiErrors = <T extends AbstractErrorType>(
   params: TypeSafeApiErrorsParams<T>
 ) => {
-  return (err, req: Request, res: Response, _: NextFunction) => {
+  return (err: unknown, req: Request, res: Response, _: NextFunction) => {
     handleError(params, err, res).catch((handleErr) => {
       console.log('typesafe-api error handling failed', handleErr);
       console.log('The original error was', err);

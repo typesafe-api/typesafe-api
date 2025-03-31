@@ -1,7 +1,7 @@
-import { Controller } from './controller';
+import { Controller, TRequest, TResponse } from './controller';
 import { ErrorRequestHandler, RequestHandler, Router } from 'express';
 import { AbstractEndpointDef, Route } from '@typesafe-api/core';
-
+import { Request, Response, NextFunction } from 'express';
 export interface ExpressRoute<T extends AbstractEndpointDef> extends Route<T> {
   middleware: Array<RequestHandler | ErrorRequestHandler>;
   controller: Controller<T>;
@@ -18,5 +18,15 @@ export const addRoute = <T extends AbstractEndpointDef>(
   route: ExpressRoute<T>
 ): void => {
   const { method, path, middleware, controller } = route;
-  r[method](path, middleware, controller);
+  if (!method) {
+    throw new Error('Method is required');
+  }
+  if (!path) {
+    throw new Error('Path is required');
+  }
+  if (!controller) {
+    throw new Error('Controller is required');
+  }
+
+  r[method](path, ...middleware, (req: Request, res: Response, next: NextFunction) => controller(req as TRequest<T>, res as TResponse<T>, next));
 };
