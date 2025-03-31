@@ -26,8 +26,9 @@ const handleError = async <T extends AbstractErrorType>(
   } = params;
 
   const { error } = request;
-  if (error instanceof TypesafeHttpError) {
-    const { httpError } = error;
+  // Duck typing to check if the error is a TypesafeHttpError, seems to work better than instanceof
+  if ((error as any).isTypesafeHttpError) {
+    const { httpError } = error as TypesafeHttpError<T>;
     await httpErrorLogFn(httpError);
     request.response = {
       statusCode: httpError.statusCode,
