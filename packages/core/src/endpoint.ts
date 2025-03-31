@@ -1,4 +1,3 @@
-import { Deepmerge } from './type';
 import { AxiosRequestConfig } from 'axios';
 import { AbstractErrorType } from './error';
 
@@ -27,7 +26,12 @@ export interface EndpointDef<
   ResOpt extends ResOptions,
   E extends AbstractErrorType
 > {
-  requestOptions: Deepmerge<DefaultReqOpt, ReqOpt>;
+  requestOptions: {
+    query: DefaultReqOpt['query'] & ReqOpt['query'];
+    params: DefaultReqOpt['params'] & ReqOpt['params'];
+    body: DefaultReqOpt['body'] & ReqOpt['body'];
+    headers: DefaultReqOpt['headers'] & ReqOpt['headers'];
+  };
   defaultReqOptions: DefaultReqOpt;
   // These are the parameters that will be required by the API client
   clientReqOptions: ReqOpt;

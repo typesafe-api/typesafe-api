@@ -137,12 +137,12 @@ it('Dog API', async () => {
     });
   } catch (err) {
     // Check the error is returned as expected
-    const e: AxiosError<GetDogErrorType> = err;
+    const e = err as AxiosError<GetDogErrorType>;
     const expectedError: ApiErrorBody = {
       msg: `No dog with _id ${fakeId} could be found`,
     };
-    expect(e.response.data).toStrictEqual(expectedError);
-    expect(e.response.status).toBe(404);
+    expect(e.response?.data).toStrictEqual(expectedError);
+    expect(e.response?.status).toBe(404);
 
     // Test handle error works correctly
     handleError(e, getDogErrorHandlers);
@@ -156,8 +156,8 @@ it('Test default error handling', async () => {
     await rootApiClient.internalErrorTest({});
   } catch (err) {
     // Check the error is returned as expected
-    const e: AxiosError<GetDogErrorType> = err;
-    expect(e.response.data).toStrictEqual(internalServerErrorBody);
-    expect(e.response.status).toBe(500);
+    const e = err as AxiosError<GetDogErrorType>;
+    expect(e.response?.data).toStrictEqual(internalServerErrorBody);
+    expect(e.response?.status).toBe(500);
   }
 });

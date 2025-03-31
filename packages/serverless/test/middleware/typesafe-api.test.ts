@@ -55,6 +55,15 @@ it('Successful request using query', async () => {
     event: TypesafeApiEvent<GetSearchDogsEndpointDef>
   ): Promise<TypesafeApiHandlerResponse<GetSearchDogsEndpointDef>> => {
     const { searchQuery, breed } = event.typesafeApi.query;
+
+    if (!searchQuery) {
+      throw new Error('searchQuery is required');
+    }
+
+    if (!breed) {
+      throw new Error('breed is required');
+    }
+
     return {
       statusCode,
       body: [

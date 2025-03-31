@@ -103,12 +103,16 @@ export const endpointDefinitions = async (
 
     for (const typeName of endpointDefTypeNames.values()) {
       const route = await getRoute(file, parsed, typeName);
-      console.log(`found route: ${route.method.toUpperCase()} ${route.path}`)
+      const method = route.method?.toUpperCase();
+      if (!method) {
+        throw new Error(`Route ${typeName} has no method`);
+      }
+      console.log(`found route: ${method} ${route.path}`);
       definitions.push({
         route,
         typeName,
         srcFile: file,
-        jsonSchema: generateSchema(program, typeName, { required: true }),
+        jsonSchema: generateSchema(program, typeName, { required: true }) ?? {},
       });
     }
   }

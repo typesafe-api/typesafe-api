@@ -12,7 +12,7 @@ import {
 type ServerlessResponseType = { statusCode: number; body: string };
 
 type Request = Parameters<
-  MiddlewareObj<APIGatewayProxyEvent, ServerlessResponseType>['onError']
+  NonNullable<MiddlewareObj<APIGatewayProxyEvent, ServerlessResponseType>['onError']>
 >[0];
 
 const handleError = async <T extends AbstractErrorType>(

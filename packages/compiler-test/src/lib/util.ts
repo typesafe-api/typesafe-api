@@ -38,9 +38,9 @@ export const getCompilerErrors = async (
       // Find the lines with errors on them and select the error message from the match results
       .map((s) => {
         const matchResult = s.match(/\(\d+,\d+\): error TS\d+: .+/);
-        return matchResult && matchResult[0];
+        return matchResult ? matchResult[0] : null;
       })
       // Filter out undefined elements
-      .filter((s) => s)
+      .filter((s): s is string => s !== null)
   );
 };

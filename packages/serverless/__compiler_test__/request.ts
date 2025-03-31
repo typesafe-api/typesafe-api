@@ -15,6 +15,9 @@ export const reqTest = async (
   // Invalid header
   typesafeApi.headers.notValidHeader;
 
+  // Valid body
+  typesafeApi.body.name;
+
   // Invalid body
   typesafeApi.body.invalidBody;
 
@@ -37,7 +40,7 @@ export const reqTest = async (
 
 // @expected-compiler-errors-start
 // (16,23): error TS2339: Property 'notValidHeader' does not exist on type '{ myheader: string; }'.
-// (19,20): error TS2339: Property 'invalidBody' does not exist on type '{ name: string; breed: string; }'.
-// (22,21): error TS2339: Property 'invalidQuery' does not exist on type 'never'.
-// (25,22): error TS2339: Property 'invalidParams' does not exist on type 'never'.
-// (32,7): error TS2353: Object literal may only specify known properties, and 'notAValidKey' does not exist in type 'DogWithId'.
+// (22,20): error TS2339: Property 'invalidBody' does not exist on type 'Dog'.
+// (25,21): error TS2339: Property 'invalidQuery' does not exist on type '{}'.
+// (28,22): error TS2339: Property 'invalidParams' does not exist on type '{}'.
+// (35,7): error TS2353: Object literal may only specify known properties, and 'notAValidKey' does not exist in type 'DogWithId'.

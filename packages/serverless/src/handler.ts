@@ -6,6 +6,19 @@ export type TypesafeApiHandlerResponse<T extends AbstractEndpointDef> = {
   body: ResponseBody<T>;
 };
 
+export type AwsFunction = {
+  handler?: string;
+  image?: { name: string; command: string[] };
+  events?: Array<{
+    httpApi: {
+      method: string;
+      path: string;
+      authorizer?: AwsAuthorizer;
+      cors?: AwsCors;
+    };
+  }>;
+};
+
 export type AwsAuthorizer =
   | string
   | {
@@ -52,7 +65,7 @@ const dot = '.';
 
 export const slsCreateFunction = <T extends AbstractEndpointDef>(
   params: SlsCreateFunctionParams<T>
-): AWS['functions'][string] => {
+): AwsFunction => {
   const {
     route,
     handlerDir,

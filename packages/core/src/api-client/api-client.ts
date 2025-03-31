@@ -10,7 +10,11 @@ export abstract class AbstractApiClient<T extends ReqOptions> {
 
   public getBaseUrl(): string {
     const { parent, baseUrl } = this.params;
-    return parent?.getBaseUrl() || baseUrl;
+    const derivedBaseUrl = parent?.getBaseUrl() || baseUrl;
+    if (!derivedBaseUrl) {
+      throw new Error('baseUrl could not be derived from parent or baseUrl');
+    }
+    return derivedBaseUrl;
   }
 
   public async getDefaultReqOptions(): Promise<T> {

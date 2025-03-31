@@ -49,6 +49,10 @@ const callRoute = async <E extends AbstractEndpointDef>(
   const { params, query, body, headers } = await getRequestOpts(defaultReqOpt, reqOptions);
   const { method } = route;
 
+  if (!route.path) {
+    throw new Error(`You cannot call a route without a path`);
+  }
+
   // Build the url
   const routePath = replaceUrlParams(route.path, params);
   const url = urlJoin(apiClient.getBaseUrl(), routePath);
