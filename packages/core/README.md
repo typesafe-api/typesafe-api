@@ -4,61 +4,64 @@
 
 We have typesafe frontends and typesafe backends, why not typesafe APIs?
 
-This library will enable you to define your API spec in pure TS, easily create an API client to 
+This library will enable you to define your API spec in pure TS, easily create an API client to
 consume it, and implement routes, handlers and middleware on the server side.
 
 This makes for speedy integration and oh so easy maintenance, you'll never miss a parameter in a request again!
 
+#### tsconfig.json
+
+Make sure to have `compilerOptions.strict` set to `true` in you config file(s)
+
 #### Recommended Repo Architecture
 
-The following dependency diagram show the suggested project architecture you should use to 
-define your API. 
+The following dependency diagram show the suggested project architecture you should use to
+define your API.
 
-![alt text](../../docs/images/repo-archetecture.png "Repo architecture diagram")
+![alt text](../../docs/images/repo-archetecture.png 'Repo architecture diagram')
 
 This can be implemented using either:
 
 Polyrepo
 
-* Publish your API spec as a npm module then import it into backend and consuming services. Use 
-[npm link](https://docs.npmjs.com/cli/v7/commands/npm-link) during development it will save you tones of time!
-
+- Publish your API spec as a npm module then import it into backend and consuming services. Use
+  [npm link](https://docs.npmjs.com/cli/v7/commands/npm-link) during development it will save you tones of time!
 
 Monorepo
 
-* [NX](https://nx.dev/) is a great way to implement this and solves a lot of the issues
-  associated with monorepo. This works really well with `typesafe-api` as it saves quite a bit of dependency wrangling but obviously 
-it's not for everyone. 
+- [NX](https://nx.dev/) is a great way to implement this and solves a lot of the issues
+  associated with monorepo. This works really well with `typesafe-api` as it saves quite a bit of dependency wrangling but obviously
+  it's not for everyone.
 
 ## Getting started
 
 Here is a minimal example to get you started...
 
-* N.B. this example implements some dummy authentication. Just in case... please don't
-implement authentication like this in a production app you will have a bad time!  
+- N.B. this example implements some dummy authentication. Just in case... please don't
+  implement authentication like this in a production app you will have a bad time!
 
-### API Spec 
+### API Spec
 
 We are going to define an basic API with just one endpoint.
 
 When defining an API endpoint there are two main concepts we need to think about.
 
-1)  `EndpointDef`
-    
+1.  `EndpointDef`
+
     You need to create an custom `EndpointDef` for each endpoint in your API. This type represents
     the interface for the API endpoint e.g.
-     * URL params
-     * Query params, 
-     * The request body 
-     * Any headers that must be set
-     * The expected response type
-     * What error codes can be expected to be returned by the endpoint
- 
-2) `Route`
-    
-    This is an object that represents the API path and method that should be used when calling the 
+
+    - URL params
+    - Query params,
+    - The request body
+    - Any headers that must be set
+    - The expected response type
+    - What error codes can be expected to be returned by the endpoint
+
+2.  `Route`
+    This is an object that represents the API path and method that should be used when calling the
     endpoint
-    
+
 First let's define some useful interfaces for our API
 
 ```ts
@@ -100,7 +103,10 @@ export type AbstractApiErrorType = ApiErrorType<number>;
 export class ApiHttpError extends TypesafeHttpError<AbstractApiErrorType> {}
 
 // Writing a helper function like this can make it easier to throw errors and keep them typesafe
-export const throwHttpError = <T extends AbstractEndpointDef>(statusCode: T["errorType"]["statusCode"], msg: string) => {
+export const throwHttpError = <T extends AbstractEndpointDef>(
+  statusCode: T['errorType']['statusCode'],
+  msg: string
+) => {
   throw new ApiHttpError({
     statusCode: statusCode,
     body: {
@@ -116,11 +122,10 @@ export type ExampleApiEndpoint<
   RespOpt extends ResOptions,
   E extends AbstractApiErrorType = ApiErrorType<DefaultErrorCodes>
 > = EndpointDef<DefaultReqOpts, ReqOpt, RespOpt, E>;
-
 ```
 
 Now let's define an endpoint...
- 
+
 ```ts
 // ../../../nx-typesafe-api-example/libs/api-spec/src/routes/hello-world.ts
 
@@ -160,7 +165,6 @@ export const helloWoldRoute: Route<HelloWorldEndpointDef> = {
   method: 'get',
   path: '/hello-world',
 };
-
 ```
 
 Now we have our route and endpoint defined we can very easily create an `ApiClient` for it.
@@ -168,9 +172,9 @@ Now we have our route and endpoint defined we can very easily create an `ApiClie
 ```ts
 // ../../../nx-typesafe-api-example/libs/api-spec/src/api-client.ts
 
-import {AbstractApiClient, createRouteRequest} from '@typesafe-api/core';
-import {helloWoldRoute, HelloWorldEndpointDef} from './routes';
-import {DefaultReqOpts} from './api';
+import { AbstractApiClient, createRouteRequest } from '@typesafe-api/core';
+import { helloWoldRoute, HelloWorldEndpointDef } from './routes';
+import { DefaultReqOpts } from './api';
 
 // Create custom class that we will use as the super class for all our client classes
 // that support {@link DefaultReqOpts}
@@ -178,18 +182,20 @@ class CustomApiClient extends AbstractApiClient<DefaultReqOpts> {}
 
 // Create a client for our endpoint
 class HelloApiClient extends CustomApiClient {
-
   // Use createRouteRequest(..) to create a method to execute your request
-  private _helloWorld = createRouteRequest<HelloWorldEndpointDef>(this, helloWoldRoute);
+  private _helloWorld = createRouteRequest<HelloWorldEndpointDef>(
+    this,
+    helloWoldRoute
+  );
 
   // Abstract away the details of the request, devs writing calling code shouldn't need
   // to think about them
-  public helloWorld = (yourName: string) => this._helloWorld({query: {yourName}});
+  public helloWorld = (yourName: string) =>
+    this._helloWorld({ query: { yourName } });
 }
 
 // Depending how many endpoints you have you may want to start nesting your API clients like this
 export class RootApiClient extends CustomApiClient {
-
   // You can also add a custom constructor to abstract away the details of your
   // default request options
   constructor(baseUrl: string, private apiKey: string) {
@@ -201,18 +207,18 @@ export class RootApiClient extends CustomApiClient {
   public async getDefaultReqOptions(): Promise<DefaultReqOpts> {
     return {
       headers: {
-        authorization: this.apiKey
-      }
+        authorization: this.apiKey,
+      },
     };
   }
 
-// Here we add the {@link HelloApiClient} as a child of {@link RootApiClient}
-  public helloApi = (): HelloApiClient => new HelloApiClient(this.getChildParams());
+  // Here we add the {@link HelloApiClient} as a child of {@link RootApiClient}
+  public helloApi = (): HelloApiClient =>
+    new HelloApiClient(this.getChildParams());
 }
-
 ```
 
-Great that's our API spec all sorted. Now all that remains make sure __everything is exported__ in 
+Great that's our API spec all sorted. Now all that remains make sure **everything is exported** in
 your entry point for your module e.g.
 
 ```ts
@@ -221,9 +227,8 @@ your entry point for your module e.g.
 export * from './routes';
 export * from './api-client';
 export * from './api';
-
 ```
- 
+
 Now publish your spec as an npm module. In this example we are using an [NX](https://nx.dev/) monorepo
 so the spec is imported from `@nx-typesafe-api-example/api-spec`.
 
@@ -231,7 +236,7 @@ so the spec is imported from `@nx-typesafe-api-example/api-spec`.
 
 The following backends currently have full support (follow the link to view docs):
 
-* [Express](../express/README.md)
+- [Express](../express/README.md)
 
 If you don't use any of these you should still get a lot out of importing the `EndpointDef`s and `Routes` into your project.
 
@@ -239,7 +244,7 @@ Contributions very welcome if you find a way to fully integrate with any other s
 
 ### Frontend
 
-Great so now we have a working endpoint we want to use it. In this example we will use  a simple 
+Great so now we have a working endpoint we want to use it. In this example we will use a simple
 react app. However, the steps are very similar for any backend systems you want to consume your API.
 
 One you have your API spec installed you can define a component similar to this
@@ -366,17 +371,15 @@ export function App() {
 }
 
 export default App;
-
 ```
 
 And that's it you now have a typesafe API. The full source code for this example can be found
- [here](https://github.com/stuart-clark-45/nx-typesafe-api-example) if you want to try it for yourself.
- 
+[here](https://github.com/stuart-clark-45/nx-typesafe-api-example) if you want to try it for yourself.
+
 ## Feature Ideas / Improvements / TODOs
-* Support for serverless middleware
-* Documentation for serverless integrations
-* Create reference docs for `typesafe-api`
-* Allow for clients in out languages to created (convert to json schema first?)
-* Generate api docs from `Route`s and `EndpointDef`s
- 
- 
+
+- Support for serverless middleware
+- Documentation for serverless integrations
+- Create reference docs for `typesafe-api`
+- Allow for clients in out languages to created (convert to json schema first?)
+- Generate api docs from `Route`s and `EndpointDef`s
