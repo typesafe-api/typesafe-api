@@ -1,10 +1,11 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+
 import { clearDogDB, scoobyDoo } from '../../core/test/dog';
 import { internalServerErrorBody, startApp } from './example-express';
 import {
   GetDogEndpointDef,
   GetDogErrorType,
   HeaderTestEndpointDef,
-  HeaderTestReq,
 } from '../../core/test/example-routes';
 import { ApiErrorBody } from '../../core/test/example-api';
 import { AxiosError, AxiosRequestConfig } from 'axios';
@@ -50,7 +51,7 @@ afterAll(async () => {
 });
 
 it('Test Root API (headers and default params)', async () => {
-  const hitEndpont = async (options: HeaderTestReq) => {
+  const hitEndpont = async (options: HeaderTestEndpointDef['req']) => {
     const resp = await rootApiClient.headerTest(options);
     return resp.data;
   };
@@ -80,12 +81,10 @@ it('Test response headers', async () => {
 });
 
 it('Test default axios config', async () => {
-  const axiosTestClient = new RootApiClient(
-    {
-      baseUrl,
-    },
-    zeroContent
-  );
+  const axiosTestClient = new RootApiClient({
+    baseUrl,
+    axiosConfig: zeroContent,
+  });
   await expectMaxContentSizeError(axiosTestClient.headerTest({}));
 });
 
@@ -93,7 +92,7 @@ it('Test request axios config', async () => {
   const axiosTestClient = new RootApiClient({
     baseUrl,
   });
-  const resp = axiosTestClient.headerTest({ axiosConfig: zeroContent });
+  const resp = axiosTestClient.headerTest({}, zeroContent);
   await expectMaxContentSizeError(resp);
 });
 
