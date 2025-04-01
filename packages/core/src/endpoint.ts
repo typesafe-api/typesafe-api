@@ -1,18 +1,6 @@
-import { AxiosRequestConfig } from 'axios';
 import { AbstractErrorType } from './error';
+import { AbstractRequest } from './types/request-schema';
 
-/* eslint-disable @typescript-eslint/ban-types */
-// We need to use the {} type here or merging default and endpoint request options doesn't work
-export interface ReqOptions {
-  query?: {};
-  params?: {};
-  body?: {};
-  /**
-   * keys should be lowercase
-   */
-  headers?: {};
-  axiosConfig?: AxiosRequestConfig;
-}
 
 export interface ResOptions {
   body: {};
@@ -21,8 +9,8 @@ export interface ResOptions {
 /* eslint-enable @typescript-eslint/ban-types */
 
 export interface EndpointDef<
-  DefaultReqOpt extends ReqOptions,
-  ReqOpt extends ReqOptions,
+  DefaultReqOpt extends AbstractRequest,
+  ReqOpt extends AbstractRequest,
   ResOpt extends ResOptions,
   E extends AbstractErrorType
 > {
