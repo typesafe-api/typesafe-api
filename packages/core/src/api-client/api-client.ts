@@ -1,11 +1,12 @@
-import { ReqOptions } from '../endpoint';
+import { AxiosRequestConfig } from 'axios';
+import { AbstractRequest } from '../types/request-schema';
 
-export type ApiClientParams<DefaultReqOpt extends ReqOptions> = {
+export type ApiClientParams<DefaultReqOpt extends AbstractRequest> = {
   baseUrl?: string;
   parent?: AbstractApiClient<DefaultReqOpt>;
 };
 
-export abstract class AbstractApiClient<T extends ReqOptions> {
+export abstract class AbstractApiClient<T extends AbstractRequest> {
   constructor(private params: ApiClientParams<T>) {}
 
   public getBaseUrl(): string {
@@ -23,6 +24,14 @@ export abstract class AbstractApiClient<T extends ReqOptions> {
       throw Error('getDefaultReqOptions(..) must be overridden if client has no parent');
     }
     return parent.getDefaultReqOptions();
+  }
+
+  public async getDefaultAxiosConfig(): Promise<AxiosRequestConfig> {
+    const parent = this.params.parent;
+    if (!parent) {
+      return {}
+    }
+    return parent.getDefaultAxiosConfig();
   }
 
   public getChildParams(): ApiClientParams<T> {
