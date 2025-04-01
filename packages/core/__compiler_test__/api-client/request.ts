@@ -1,5 +1,5 @@
 import { AbstractApiClient, createRouteRequest } from '../../src/api-client';
-import { DefaultReqOpts } from '../../test/example-api';
+import { MyApiDefaultRequest } from '../../test/example-api';
 import {
   CreateDogEndpointDef,
   GetDogEndpointDef,
@@ -7,7 +7,7 @@ import {
   postDogRoute,
 } from '../../test/example-routes';
 
-class TestClient extends AbstractApiClient<DefaultReqOpts> {
+class TestClient extends AbstractApiClient<MyApiDefaultRequest> {
   constructor(baseUrl: string) {
     super({ baseUrl });
   }
@@ -40,7 +40,7 @@ testClient
   .catch((err) => console.log(err));
 
 // @expected-compiler-errors-start
-// (23,22): error TS2345: Argument of type '{}' is not assignable to parameter of type '{ params: Record<string, never>; query: Record<string, never>; body: { name: string; breed: string; }; headers: Record<string, never>; }'.
+// (23,22): error TS2345: Argument of type '{}' is not assignable to parameter of type '{ body: { name: string; breed: string; }; }'.
 // (28,5): error TS2353: Object literal may only specify known properties, and 'notAValidKey' does not exist in type '{ name: string; breed: string; }'.
-// (32,19): error TS2345: Argument of type '{}' is not assignable to parameter of type '{ params: { _id: string; }; query: Record<string, never>; body: Record<string, never>; headers: Record<string, never>; }'.
+// (32,19): error TS2345: Argument of type '{}' is not assignable to parameter of type '{ params: { _id: string; }; }'.
 // (37,7): error TS2353: Object literal may only specify known properties, and 'notAValidParam' does not exist in type '{ _id: string; }'.

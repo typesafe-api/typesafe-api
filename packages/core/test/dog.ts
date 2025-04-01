@@ -7,7 +7,7 @@ export const DogSchema = z.object({
 
 export type Dog = z.infer<typeof DogSchema>;
 
-const DogWithIdSchema = DogSchema.extend({
+export const DogWithIdSchema = DogSchema.extend({
   _id: z.string(),
 });
 

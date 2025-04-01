@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { urlJoin } from 'url-join-ts';
-import { AbstractEndpointDef, ResponseBody, ResponseHeaders } from '../endpoint';
+import { ResponseBody, ResponseHeaders, AbstractEndpointDef } from '../endpoint';
 import { Route } from '../route';
 import deepMerge from 'deepmerge';
 import { AbstractApiClient } from './api-client';
@@ -33,23 +33,28 @@ export const replaceUrlParams = (path: string, params: Record<string, unknown>):
 
 const getRequestOpts = async <E extends AbstractEndpointDef, DefaultReqOpt extends AbstractRequest>(
   defaultReqOpt: DefaultReqOpt,
-  reqOptions: E['clientReqOptions']
+  req: E['req']
 ) => {
   const mergeOptions: deepMerge.Options = {
     arrayMerge: (destinationArray: any[], sourceArray: any[]) => sourceArray,
   };
-  return deepMerge(defaultReqOpt, reqOptions, mergeOptions);
+  return {
+    params: deepMerge(defaultReqOpt.params, req.params, mergeOptions),
+    query: deepMerge(defaultReqOpt.query, req.query, mergeOptions),
+    body: deepMerge(defaultReqOpt.body, req.body, mergeOptions),
+    headers: deepMerge(defaultReqOpt.headers, req.headers, mergeOptions),
+  };
 };
 
 const callRoute = async <E extends AbstractEndpointDef>(
-  apiClient: AbstractApiClient<E['defaultReqOptions']>,
+  apiClient: AbstractApiClient<E['defaultReq']>,
   route: Route<E>,
-  reqOptions: AbstractRequest,
+  req: E['req'],
   axiosConfig: AxiosRequestConfig = {}
 ): Promise<TAxiosResponse<E>> => {
   const defaultReqOpt = await apiClient.getDefaultReqOptions();
   const defaultAxiosConfig = await apiClient.getDefaultAxiosConfig();
-  const { params, query, body, headers } = await getRequestOpts(defaultReqOpt, reqOptions);
+  const { params, query, body, headers } = await getRequestOpts(defaultReqOpt, req);
   const { method } = route;
 
   if (!method) {
@@ -82,14 +87,14 @@ const callRoute = async <E extends AbstractEndpointDef>(
 };
 
 type RouteRequestCallable<T extends AbstractEndpointDef> = (
-  options: T['clientReqOptions']
+  options: T['req']
 ) => Promise<TAxiosResponse<T>>;
 
 export const createRouteRequest = <T extends AbstractEndpointDef>(
-  apiClient: AbstractApiClient<T['defaultReqOptions']>,
+  apiClient: AbstractApiClient<T['defaultReq']>,
   route: Route<T>
 ): RouteRequestCallable<T> => {
-  return async (options: T['clientReqOptions']): Promise<TAxiosResponse<T>> => {
+  return async (options: T['req']): Promise<TAxiosResponse<T>> => {
     return callRoute<T>(apiClient, route, options);
   };
 };

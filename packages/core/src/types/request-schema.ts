@@ -6,11 +6,14 @@ export type ReqParams = Record<string, ZopOptionalPrimitive>;
 export type ReqBody = Record<string, z.ZodTypeAny>;
 export type ReqHeaders = Record<string, ZopOptionalPrimitive>;
 
-export type ZodRequestSchema = z.ZodObject<{
+export type AbstractRequestSchemaShape = {
   query: z.ZodObject<ReqQuery> | ZodEmptyObject;
   params: z.ZodObject<ReqParams> | ZodEmptyObject;
   body: z.ZodObject<ReqBody> | ZodEmptyObject;
   headers: z.ZodObject<ReqHeaders> | ZodEmptyObject;
-}>;
+}
+export type PartialAbstractRequestSchemaShape = Partial<AbstractRequestSchemaShape>
 
-export type AbstractRequest = z.infer<ZodRequestSchema>;
+export type AbstractRequestSchema = z.ZodObject<AbstractRequestSchemaShape>;
+
+export type AbstractRequest = z.infer<AbstractRequestSchema>;
