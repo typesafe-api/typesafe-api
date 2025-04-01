@@ -1,3 +1,4 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Controller, TRequest, TResponse } from '../src/controller';
 import { CreateDogEndpointDef } from '../../core/test/example-routes';
 
@@ -14,7 +15,10 @@ export const reqTest: Controller<CreateDogEndpointDef> = async (
   // Invalid query param
   req.query.badQuery;
 
-  // Invalid body param
+  // Valid body
+  req.body.name;
+
+  // Invalid body
   req.body.badBody;
 
   // Invalid param
@@ -22,7 +26,7 @@ export const reqTest: Controller<CreateDogEndpointDef> = async (
 };
 
 // @expected-compiler-errors-start
-// (12,11): error TS2769: No overload matches this call.
-// (15,13): error TS2339: Property 'badQuery' does not exist on type '{}'.
-// (18,12): error TS2339: Property 'badBody' does not exist on type 'Dog'.
-// (21,14): error TS2339: Property 'badParam' does not exist on type '{}'.
+// (13,11): error TS2769: No overload matches this call.
+// (16,13): error TS2339: Property 'badQuery' does not exist on type 'never'.
+// (22,12): error TS2339: Property 'badBody' does not exist on type '{ name: string; breed: string; }'.
+// (25,14): error TS2339: Property 'badParam' does not exist on type 'never'.
