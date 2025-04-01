@@ -8,7 +8,6 @@ import {
 } from '@typesafe-api/serverless';
 import middy from '@middy/core';
 import {
-  AbstractEndpointDef,
   HttpErrorLogFn,
   OtherErrorLogFn,
 } from '@typesafe-api/core';
