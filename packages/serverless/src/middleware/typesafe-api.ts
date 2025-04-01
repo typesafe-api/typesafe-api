@@ -2,13 +2,15 @@ import { MiddlewareObj } from '@middy/core';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { AbstractEndpointDef, serialize } from '@typesafe-api/core';
 
+type ToExclude = Record<string, never>;
+
 export interface TypesafeApiEvent<T extends AbstractEndpointDef>
   extends APIGatewayProxyEvent {
   typesafeApi: {
-    query: T['mergedReq']['query'];
-    params: T['mergedReq']['params'];
-    body: T['mergedReq']['body'];
-    headers: T['mergedReq']['headers'];
+    query: Exclude<T['mergedReq']['query'], ToExclude>;
+    params: Exclude<T['mergedReq']['params'], ToExclude>;
+    body: Exclude<T['mergedReq']['body'], ToExclude>;
+    headers: Exclude<T['mergedReq']['headers'], ToExclude>;
   };
 }
 
