@@ -1,3 +1,4 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import express from 'express';
 import findFreePorts from 'find-free-ports';
 import { addRoutes, ExpressRoute } from '@typesafe-api/express';
