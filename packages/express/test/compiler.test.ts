@@ -1,3 +1,5 @@
+
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { runCompilerTests } from '@typesafe-api/compiler-test';
 
 it('Compiler tests', async () => {
