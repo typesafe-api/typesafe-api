@@ -54,7 +54,7 @@ const callRoute = async <E extends AbstractEndpointDef>(
 ): Promise<TAxiosResponse<E>> => {
   const defaultReqOpt = await apiClient.getDefaultReqOptions();
   const defaultAxiosConfig = await apiClient.getDefaultAxiosConfig();
-  const { params, query, body, headers } = await getRequestOpts(defaultReqOpt, req);
+  const { params, query, body, headers } = await getRequestOpts(defaultReqOpt["model"], req);
   const { method } = route;
 
   if (!method) {

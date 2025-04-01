@@ -1,41 +1,36 @@
 import { z } from 'zod';
 import {
-  DefaultReqModelSchema,
-  EndpointDef,
+  DefaultReqAndSchema,
   ErrorType,
   TypesafeHttpError,
-EndpointReqModelsAndSchemas,
+  AbstractProcessedSchemas,
+  RouteHelper,
+  ApiEndpointHelper,
 } from '../src';
 import {
   AbstractRequestSchema,
-  PartialAbstractRequestSchema,
+  PartialAbstractRequestSchemaShape,
 } from '../src/types/request-schema';
-import { AbstractResponseSchema } from '../src/types/response-schema';
-import { schemaHelpers } from '../src/util/schema';
+import { RequestSchemaProcessor, schemaHelpers } from '../src/util/schema';
 
-export const myApiDefaultRequestSchema = z.object({
+export const myApiDefaultRequestSchemaShape = {
   query: schemaHelpers.emptyObject(),
   params: schemaHelpers.emptyObject(),
   body: schemaHelpers.emptyObject(),
   headers: z.object({
     myheader: z.string(),
   }),
-}) satisfies AbstractRequestSchema;
+} satisfies PartialAbstractRequestSchemaShape;
 
-export type MyApiDefaultRequestSchema = typeof myApiDefaultRequestSchema;
+export const reqSchemaProcessor = new RequestSchemaProcessor(
+  myApiDefaultRequestSchemaShape
+);
 
-export type MyApiDefaultRequest = z.infer<typeof myApiDefaultRequestSchema>;
+export const myApiDefaultRequestSchema = z.object(
+  myApiDefaultRequestSchemaShape
+) satisfies AbstractRequestSchema;
 
-export type MyApiRequest = Partial<MyApiDefaultRequest>;
-
-export const MyApiDefaultResponseSchema = z.object({
-  body: schemaHelpers.emptyObject(),
-  headers: z.object({
-    respheader: z.string(),
-  }),
-}) satisfies AbstractResponseSchema;
-
-export type MyApiResponse = z.infer<typeof MyApiDefaultResponseSchema>;
+export const routeHelper = new RouteHelper(myApiDefaultRequestSchema);
 
 export interface ApiErrorBody {
   msg: string;
@@ -58,13 +53,12 @@ export const throwHttpError = (statusCode: number, msg: string) => {
 
 export type DefaultErrorCodes = 500;
 
-export type MyReqModelSchema = DefaultReqModelSchema<MyApiDefaultRequestSchema>;
+export type MyDefaultReqAndSchema = DefaultReqAndSchema<
+  typeof myApiDefaultRequestSchema
+>;
 
 export type ApiEndpoint<
-  TEndpointReqModelsAndSchemas extends EndpointReqModelsAndSchemas<
-    PartialAbstractRequestSchema,
-    AbstractRequestSchema
-  >,
+  TProcessedReqSchemas extends AbstractProcessedSchemas,
   TResp,
   E extends AbstractApiErrorType = ApiErrorType<DefaultErrorCodes>
-> = EndpointDef<MyReqModelSchema, TEndpointReqModelsAndSchemas, TResp, E>;
+> = ApiEndpointHelper<MyDefaultReqAndSchema, TProcessedReqSchemas, TResp, E>;

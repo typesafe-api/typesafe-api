@@ -9,6 +9,8 @@ import {
   ApiEndpoint,
   ApiErrorType,
   myApiDefaultRequestSchema,
+  reqSchemaProcessor,
+  routeHelper,
 } from './example-api';
 
 import { schemaHelpers } from '../src/util/schema';
@@ -30,27 +32,20 @@ export const createDogReqSchemaShape = {
   body: DogSchema,
 } satisfies PartialAbstractRequestSchemaShape;
 
-const createDogReqSchema = z.object(createDogReqSchemaShape);
-const createDogMergedReqSchema = myApiDefaultRequestSchema.extend(
+const createDogProcessedSchemas = reqSchemaProcessor.processReqShape(
   createDogReqSchemaShape
 );
 
-type MsCreateDogReq = EndpointReqModelsAndSchemas<
-  typeof createDogReqSchema,
-  typeof createDogMergedReqSchema
+export type CreateDogEndpointDef = ApiEndpoint<
+  typeof createDogProcessedSchemas,
+  DogWithIdRes
 >;
 
-export type CreateDogEndpointDef = ApiEndpoint<MsCreateDogReq, DogWithIdRes>;
-
-export const postDogRoute: Route<CreateDogEndpointDef> = {
-  method: 'post',
+export const postDogRoute: Route<CreateDogEndpointDef> = routeHelper.create({
   path: '/dog',
-  schemas: {
-    defaultReqSchema: myApiDefaultRequestSchema,
-    reqSchema: createDogReqSchema,
-    mergedReqSchema: createDogMergedReqSchema,
-  },
-};
+  method: 'post',
+  processedSchemas: createDogProcessedSchemas,
+});
 
 /**
  * Get dogs
@@ -62,27 +57,19 @@ export const getDogsReqSchemaShape = {
   }),
 } satisfies PartialAbstractRequestSchemaShape;
 
-const getDogsReqSchema = z.object(getDogsReqSchemaShape);
-const getDogsMergedReqSchema = myApiDefaultRequestSchema.extend(
+const getDogsProcessedSchemas = reqSchemaProcessor.processReqShape(
   getDogsReqSchemaShape
 );
-
-type MsGetDogsReq = EndpointReqModelsAndSchemas<
-  typeof getDogsReqSchema,
-  typeof getDogsMergedReqSchema
+export type GetDogsEndpointDef = ApiEndpoint<
+  typeof getDogsProcessedSchemas,
+  DogsWithIdRes
 >;
 
-export type GetDogsEndpointDef = ApiEndpoint<MsGetDogsReq, DogsWithIdRes>;
-
-export const getDogsRoute: Route<GetDogsEndpointDef> = {
+export const getDogsRoute: Route<GetDogsEndpointDef> = routeHelper.create({
   method: 'get',
   path: '/dog',
-  schemas: {
-    defaultReqSchema: myApiDefaultRequestSchema,
-    reqSchema: getDogsReqSchema,
-    mergedReqSchema: getDogsMergedReqSchema,
-  },
-};
+  processedSchemas: getDogsProcessedSchemas,
+});
 
 /**
  * Search dogs
@@ -98,30 +85,20 @@ export const getSearchDogsReqSchemaShape = {
   body: schemaHelpers.emptyObject(),
 } satisfies PartialAbstractRequestSchemaShape;
 
-const getSearchDogsReqSchema = z.object(getSearchDogsReqSchemaShape);
-const getSearchDogsMergedReqSchema = myApiDefaultRequestSchema.extend(
+const getSearchDogsProcessedSchemas = reqSchemaProcessor.processReqShape(
   getSearchDogsReqSchemaShape
 );
 
-type MsGetSearchDogsReq = EndpointReqModelsAndSchemas<
-  typeof getSearchDogsReqSchema,
-  typeof getSearchDogsMergedReqSchema
->;
-
 export type GetSearchDogsEndpointDef = ApiEndpoint<
-  MsGetSearchDogsReq,
+  typeof getSearchDogsProcessedSchemas,
   DogsWithIdRes
 >;
 
-export const getSearchDogsRoute: Route<GetSearchDogsEndpointDef> = {
+export const getSearchDogsRoute: Route<GetSearchDogsEndpointDef> = routeHelper.create({
   method: 'get',
   path: '/dog/search',
-  schemas: {
-    defaultReqSchema: myApiDefaultRequestSchema,
-    reqSchema: getSearchDogsReqSchema,
-    mergedReqSchema: getSearchDogsMergedReqSchema,
-  },
-};
+  processedSchemas: getSearchDogsProcessedSchemas,
+});
 
 /**
  * Get dog
@@ -133,32 +110,23 @@ const getDogReqSchemaShape = {
   }),
 } satisfies PartialAbstractRequestSchemaShape;
 
-const getDogReqSchema = z.object(getDogReqSchemaShape);
-const getDogMergedReqSchema =
-  myApiDefaultRequestSchema.extend(getDogReqSchemaShape);
-
-type MsGetDogReq = EndpointReqModelsAndSchemas<
-  typeof getDogReqSchema,
-  typeof getDogMergedReqSchema
->;
+const getDogProcessedSchemas = reqSchemaProcessor.processReqShape(
+  getDogReqSchemaShape
+);
 
 export type GetDogErrorType = ApiErrorType<500 | 404>;
 
 export type GetDogEndpointDef = ApiEndpoint<
-  MsGetDogReq,
+  typeof getDogProcessedSchemas,
   DogWithIdRes,
   GetDogErrorType
 >;
 
-export const getDogRoute: Route<GetDogEndpointDef> = {
+export const getDogRoute: Route<GetDogEndpointDef> = routeHelper.create({
   method: 'get',
   path: '/dog/:_id',
-  schemas: {
-    defaultReqSchema: myApiDefaultRequestSchema,
-    reqSchema: getDogReqSchema,
-    mergedReqSchema: getDogMergedReqSchema,
-  },
-};
+  processedSchemas: getDogProcessedSchemas,
+});
 
 /**
  * Header test
@@ -166,15 +134,9 @@ export const getDogRoute: Route<GetDogEndpointDef> = {
 
 const headerTestReqSchemaShape = {} satisfies PartialAbstractRequestSchemaShape;
 
-const headerTestReqSchema = z.object(headerTestReqSchemaShape);
-const mergedHeaderTestReqSchema = myApiDefaultRequestSchema.extend(
+const headerTestProcessedSchemas = reqSchemaProcessor.processReqShape(
   headerTestReqSchemaShape
 );
-
-type MsHeaderTestReq = EndpointReqModelsAndSchemas<
-  typeof headerTestReqSchema,
-  typeof mergedHeaderTestReqSchema
->;
 
 export interface HeaderTestResp extends AbstractResponse {
   body: {
@@ -186,19 +148,15 @@ export interface HeaderTestResp extends AbstractResponse {
 }
 
 export type HeaderTestEndpointDef = ApiEndpoint<
-  MsHeaderTestReq,
+  typeof headerTestProcessedSchemas,
   HeaderTestResp
 >;
 
-export const headerTestRoute: Route<HeaderTestEndpointDef> = {
+export const headerTestRoute: Route<HeaderTestEndpointDef> = routeHelper.create({
   method: 'get',
   path: '/header-tst',
-  schemas: {
-    defaultReqSchema: myApiDefaultRequestSchema,
-    reqSchema: headerTestReqSchema,
-    mergedReqSchema: mergedHeaderTestReqSchema,
-  },
-};
+  processedSchemas: headerTestProcessedSchemas,
+});
 
 /**
  * Internal error test
@@ -207,26 +165,17 @@ export const headerTestRoute: Route<HeaderTestEndpointDef> = {
 const internalErrorTestReqSchemaShape =
   {} satisfies PartialAbstractRequestSchemaShape;
 
-const internalErrorTestReqSchema = z.object(internalErrorTestReqSchemaShape);
-const internalErrorTestMergedReqSchema = myApiDefaultRequestSchema.extend(
+const internalErrorTestProcessedSchemas = reqSchemaProcessor.processReqShape(
   internalErrorTestReqSchemaShape
 );
-type MsInternalErrorTestReq = EndpointReqModelsAndSchemas<
-  typeof internalErrorTestReqSchema,
-  typeof internalErrorTestMergedReqSchema
->;
 
 export type InternalErrorTestEndpointDef = ApiEndpoint<
-  MsInternalErrorTestReq,
+  typeof internalErrorTestProcessedSchemas,
   AbstractResponse
 >;
 
-export const internalErrorTestRoute: Route<InternalErrorTestEndpointDef> = {
+export const internalErrorTestRoute: Route<InternalErrorTestEndpointDef> = routeHelper.create({
   method: 'get',
   path: '/internal-error',
-  schemas: {
-    defaultReqSchema: myApiDefaultRequestSchema,
-    reqSchema: internalErrorTestReqSchema,
-    mergedReqSchema: internalErrorTestMergedReqSchema,
-  },
-};
+  processedSchemas: internalErrorTestProcessedSchemas,
+});

@@ -1,47 +1,56 @@
 import { z } from 'zod';
 import { AbstractErrorType } from './error';
-import {
-  AbstractRequestSchema,
-  PartialAbstractRequestSchema,
-} from './types/request-schema';
+import { AbstractRequestSchema } from './types/request-schema';
+import { AbstractProcessedSchemas } from './util/schema';
 
-export type DefaultReqModelSchema<T extends AbstractRequestSchema> = {
-  model: z.infer<T>;
+export type DefaultReqAndSchema<T extends AbstractRequestSchema> = {
+  req: z.infer<T>;
   schema: T;
 };
 
+export type AbstractDefaultReqAndSchema = DefaultReqAndSchema<AbstractRequestSchema>
+
 export type EndpointReqModelsAndSchemas<
-  TReqSchema extends PartialAbstractRequestSchema,
-  TMergedReqSchema extends AbstractRequestSchema
+  TProcessedReqSchemas extends AbstractProcessedSchemas
 > = {
   req: {
-    model: z.infer<TReqSchema>;
-    schema: TReqSchema;
+    req: z.infer<TProcessedReqSchemas['reqSchema']>;
+    schema: TProcessedReqSchemas['reqSchema'];
   };
   mergedReq: {
-    model: z.infer<TMergedReqSchema>;
-    schema: TMergedReqSchema;
+    req: z.infer<TProcessedReqSchemas['mergedReqSchema']>;
+    schema: TProcessedReqSchemas['mergedReqSchema'];
   };
 };
 
 export interface EndpointDef<
-  TDefaultReq extends DefaultReqModelSchema<AbstractRequestSchema>,
-  TEndpointReqModelsAndSchemas extends EndpointReqModelsAndSchemas<
-    PartialAbstractRequestSchema,
-    AbstractRequestSchema
-  >,
+  TDefaultReq extends DefaultReqAndSchema<AbstractRequestSchema>,
+  TEndpointReqModelsAndSchemas extends EndpointReqModelsAndSchemas<AbstractProcessedSchemas>,
   TResp,
   E extends AbstractErrorType
 > {
-  defaultReq: TDefaultReq['model'];
+  defaultReq: TDefaultReq['req'];
   defaultReqSchema: TDefaultReq['schema'];
-  req: TEndpointReqModelsAndSchemas['req']['model'];
+  req: TEndpointReqModelsAndSchemas['req']['req'];
   reqSchema: TEndpointReqModelsAndSchemas['req']['schema'];
-  mergedReq: TEndpointReqModelsAndSchemas['mergedReq']['model'];
+  mergedReq: TEndpointReqModelsAndSchemas['mergedReq']['req'];
   mergedReqSchema: TEndpointReqModelsAndSchemas['mergedReq']['schema'];
   resp: TResp;
   errorType: E;
 }
+
+// This is just a little wrapper around EndpointDef that makes it easier to call when setting up your API
+export type ApiEndpointHelper<
+  TDefaultReq extends DefaultReqAndSchema<AbstractRequestSchema>,
+  TProcessedReqSchemas extends AbstractProcessedSchemas,
+  TResp,
+  E extends AbstractErrorType
+> = EndpointDef<
+  TDefaultReq,
+  EndpointReqModelsAndSchemas<TProcessedReqSchemas>,
+  TResp,
+  E
+>;
 
 export type AbstractEndpointDef = EndpointDef<any, any, any, AbstractErrorType>;
 
