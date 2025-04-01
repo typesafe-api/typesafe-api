@@ -7,4 +7,5 @@ export interface Route<T extends AbstractEndpointDef> {
   // Setting patch or method to null can be used to deploy a route without exposing it through the API
   path: string | null;
   method: 'get' | 'post' | 'patch' | 'put' | 'delete' | null;
+  reqSchema: T['reqSchema'];
 }
