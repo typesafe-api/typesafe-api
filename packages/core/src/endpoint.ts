@@ -3,10 +3,11 @@ import { AbstractRequest, AbstractRequestSchema, PartialAbstractRequestSchema } 
 
 export interface EndpointDef<
   TDefaultReq extends AbstractRequest,
-  TDefaultReqSchema extends PartialAbstractRequestSchema,
+  TDefaultReqSchema extends AbstractRequestSchema,
   TReq extends Partial<AbstractRequest>,
-  TReqSchema extends AbstractRequestSchema,
+  TReqSchema extends PartialAbstractRequestSchema,
   TMergedReq extends AbstractRequest,
+  TMergedReqSchema extends AbstractRequestSchema,
   TResp,
   E extends AbstractErrorType
 > {
@@ -15,11 +16,12 @@ export interface EndpointDef<
   req: TReq;
   reqSchema: TReqSchema;
   mergedReq: TMergedReq;
+  mergedReqSchema: TMergedReqSchema;
   resp: TResp;
   errorType: E;
 }
 
-export type AbstractEndpointDef = EndpointDef<any, any, any, any, any, any, AbstractErrorType>;
+export type AbstractEndpointDef = EndpointDef<any, any, any, any, any, any, any, AbstractErrorType>;
 
 export type ResponseBody<T extends AbstractEndpointDef> =
   T['resp']['body'];

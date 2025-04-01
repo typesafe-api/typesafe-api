@@ -52,7 +52,8 @@ export type DefaultErrorCodes = 500;
 export type ApiEndpoint<
   TReq extends Partial<AbstractRequest>,
   TReqSchema extends PartialAbstractRequestSchema,
-  TMergedReq extends AbstractRequest,
+  TMergedReq extends AbstractRequest, 
+  TMergedReqSchema extends AbstractRequestSchema,
   TResp,
   E extends AbstractApiErrorType = ApiErrorType<DefaultErrorCodes>
-> = EndpointDef<MyApiDefaultRequest, MyApiDefaultRequestSchema, TReq, TReqSchema, TMergedReq, TResp, E>;
+> = EndpointDef<MyApiDefaultRequest, MyApiDefaultRequestSchema, TReq, TReqSchema, TMergedReq, TMergedReqSchema, TResp, E>;

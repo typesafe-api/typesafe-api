@@ -1,13 +1,10 @@
 import { z } from 'zod';
-import {
-  PartialAbstractRequestSchemaShape,
-  Route,
-} from '../src';
+import { PartialAbstractRequestSchemaShape, Route } from '../src';
 import { DogSchema, DogWithId } from './dog';
 import {
   ApiEndpoint,
   ApiErrorType,
-  MyApiDefaultRequestSchema,
+  myApiDefaultRequestSchema,
 } from './example-api';
 
 import { schemaHelpers } from '../src/util/schema';
@@ -25,65 +22,83 @@ export interface DogsWithIdRes extends AbstractResponse {
  * Create dog
  */
 
-export const CreateDogReqSchemaShape = {
+export const createDogReqSchemaShape = {
   body: DogSchema,
 } satisfies PartialAbstractRequestSchemaShape;
 
-const CreateDogReqSchema = z.object(CreateDogReqSchemaShape);
+const createDogReqSchema = z.object(createDogReqSchemaShape);
+type CreateDogReqSchema = typeof createDogReqSchema;
+export type CreateDogReq = z.infer<typeof createDogReqSchema>;
 
-export type CreateDogReq = z.infer<typeof CreateDogReqSchema>;
-
-const CreateDogMergedReqSchema = MyApiDefaultRequestSchema.extend({
+const createDogMergedReqSchema = myApiDefaultRequestSchema.extend({
   body: DogSchema,
 });
+type CreateDogMergedReqSchema = typeof createDogMergedReqSchema;
 
-export type CreateDogMergedReq = z.infer<typeof CreateDogMergedReqSchema>;
+export type CreateDogMergedReq = z.infer<typeof createDogMergedReqSchema>;
 
 export type CreateDogEndpointDef = ApiEndpoint<
   CreateDogReq,
+  CreateDogReqSchema,
   CreateDogMergedReq,
+  CreateDogMergedReqSchema,
   DogWithIdRes
 >;
 
 export const postDogRoute: Route<CreateDogEndpointDef> = {
   method: 'post',
   path: '/dog',
+  schemas: {
+    defaultReqSchema: myApiDefaultRequestSchema,
+    reqSchema: createDogReqSchema,
+    mergedReqSchema: createDogMergedReqSchema,
+  },
 };
 
 /**
  * Get dogs
  */
 
-export const GetDogsReqSchemaShape = {
+export const getDogsReqSchemaShape = {
   query: z.object({
     breed: z.string().optional(),
   }),
 } satisfies PartialAbstractRequestSchemaShape;
 
-const GetDogsReqSchema = z.object(GetDogsReqSchemaShape);
-export type GetDogsReq = z.infer<typeof GetDogsReqSchema>;
+const getDogsReqSchema = z.object(getDogsReqSchemaShape);
+type GetDogsReqSchema = typeof getDogsReqSchema;
+export type GetDogsReq = z.infer<typeof getDogsReqSchema>;
 
-const GetDogsMergedReqSchema = MyApiDefaultRequestSchema.extend(
-  GetDogsReqSchemaShape
+const getDogsMergedReqSchema = myApiDefaultRequestSchema.extend(
+  getDogsReqSchemaShape
 );
-export type GetDogsMergedReq = z.infer<typeof GetDogsMergedReqSchema>;
+type GetDogsMergedReqSchema = typeof getDogsMergedReqSchema;
+
+export type GetDogsMergedReq = z.infer<typeof getDogsMergedReqSchema>;
 
 export type GetDogsEndpointDef = ApiEndpoint<
   GetDogsReq,
+  GetDogsReqSchema,
   GetDogsMergedReq,
+  GetDogsMergedReqSchema,
   DogsWithIdRes
 >;
 
 export const getDogsRoute: Route<GetDogsEndpointDef> = {
   method: 'get',
   path: '/dog',
+  schemas: {
+    defaultReqSchema: myApiDefaultRequestSchema,
+    reqSchema: getDogsReqSchema,
+    mergedReqSchema: getDogsMergedReqSchema,
+  },
 };
 
 /**
  * Search dogs
  */
 
-export const GetSearchDogsReqSchemaShape = {
+export const getSearchDogsReqSchemaShape = {
   query: z.object({
     searchQuery: z.string().optional(),
     breed: z.string().optional(),
@@ -93,50 +108,61 @@ export const GetSearchDogsReqSchemaShape = {
   body: schemaHelpers.emptyObject(),
 } satisfies PartialAbstractRequestSchemaShape;
 
-const GetSearchDogsReqSchema = z.object(GetSearchDogsReqSchemaShape);
+const getSearchDogsReqSchema = z.object(getSearchDogsReqSchemaShape);
+type GetSearchDogsReqSchema = typeof getSearchDogsReqSchema;
+export type GetSearchDogsReq = z.infer<typeof getSearchDogsReqSchema>;
 
-export type GetSearchDogsReq = z.infer<typeof GetSearchDogsReqSchema>;
-
-const GetSearchDogsMergedReqSchema = MyApiDefaultRequestSchema.extend(
-  GetSearchDogsReqSchemaShape
+const getSearchDogsMergedReqSchema = myApiDefaultRequestSchema.extend(
+  getSearchDogsReqSchemaShape
 );
-export type GetSearchDogsMergedReq = z.infer<typeof GetSearchDogsMergedReqSchema>;
+type GetSearchDogsMergedReqSchema = typeof getSearchDogsMergedReqSchema;
+
+export type GetSearchDogsMergedReq = z.infer<typeof getSearchDogsMergedReqSchema>;
 
 export type GetSearchDogsEndpointDef = ApiEndpoint<
   GetSearchDogsReq,
+  GetSearchDogsReqSchema,
   GetSearchDogsMergedReq,
+  GetSearchDogsMergedReqSchema,
   DogsWithIdRes
 >;
 
 export const getSearchDogsRoute: Route<GetSearchDogsEndpointDef> = {
   method: 'get',
   path: '/dog/search',
+  schemas: {
+    defaultReqSchema: myApiDefaultRequestSchema,
+    reqSchema: getSearchDogsReqSchema,
+    mergedReqSchema: getSearchDogsMergedReqSchema,
+  },
 };
 
 /**
  * Get dog
  */
 
-const GetDogReqSchemaShape = {
+const getDogReqSchemaShape = {
   params: z.object({
     _id: z.string(),
   }),
 } satisfies PartialAbstractRequestSchemaShape;
 
-const GetDogReqSchema = z.object(GetDogReqSchemaShape);
+const getDogReqSchema = z.object(getDogReqSchemaShape);
+type GetDogReqSchema = typeof getDogReqSchema;
+export type GetDogReq = z.infer<typeof getDogReqSchema>;
 
-export type GetDogReq = z.infer<typeof GetDogReqSchema>;
+const getDogMergedReqSchema = myApiDefaultRequestSchema.extend(getDogReqSchemaShape);
+type GetDogMergedReqSchema = typeof getDogMergedReqSchema;
 
-const GetDogMergedReqSchema = MyApiDefaultRequestSchema.extend(
-  GetDogReqSchemaShape
-);
-export type GetDogMergedReq = z.infer<typeof GetDogMergedReqSchema>;
+export type GetDogMergedReq = z.infer<typeof getDogMergedReqSchema>;
 
 export type GetDogErrorType = ApiErrorType<500 | 404>;
 
 export type GetDogEndpointDef = ApiEndpoint<
   GetDogReq,
+  GetDogReqSchema,
   GetDogMergedReq,
+  GetDogMergedReqSchema,
   DogWithIdRes,
   GetDogErrorType
 >;
@@ -144,23 +170,29 @@ export type GetDogEndpointDef = ApiEndpoint<
 export const getDogRoute: Route<GetDogEndpointDef> = {
   method: 'get',
   path: '/dog/:_id',
+  schemas: {
+    defaultReqSchema: myApiDefaultRequestSchema,
+    reqSchema: getDogReqSchema,
+    mergedReqSchema: getDogMergedReqSchema,
+  },
 };
 
 /**
  * Header test
  */
 
-const HeaderTestReqSchemaShape = {} satisfies PartialAbstractRequestSchemaShape
+const headerTestReqSchemaShape = {} satisfies PartialAbstractRequestSchemaShape;
 
-const HeaderTestReqSchema = z.object(
-  HeaderTestReqSchemaShape
-)
-export type HeaderTestReq = z.infer<typeof HeaderTestReqSchema>;
+const headerTestReqSchema = z.object(headerTestReqSchemaShape);
+type HeaderTestReqSchema = typeof headerTestReqSchema;
+export type HeaderTestReq = z.infer<typeof headerTestReqSchema>;
 
-const MergedHeaderTestReqSchema = MyApiDefaultRequestSchema.extend(
-  HeaderTestReqSchemaShape
-)
-export type HeaderTestMergedReq = z.infer<typeof MergedHeaderTestReqSchema>;
+const mergedHeaderTestReqSchema = myApiDefaultRequestSchema.extend(
+  headerTestReqSchemaShape
+);
+type HeaderTestMergedReqSchema = typeof mergedHeaderTestReqSchema;
+
+export type HeaderTestMergedReq = z.infer<typeof mergedHeaderTestReqSchema>;
 
 export interface HeaderTestResp extends AbstractResponse {
   body: {
@@ -173,37 +205,53 @@ export interface HeaderTestResp extends AbstractResponse {
 
 export type HeaderTestEndpointDef = ApiEndpoint<
   HeaderTestReq,
+  HeaderTestReqSchema,
   HeaderTestMergedReq,
+  HeaderTestMergedReqSchema,
   HeaderTestResp
 >;
 
 export const headerTestRoute: Route<HeaderTestEndpointDef> = {
   method: 'get',
   path: '/header-tst',
+  schemas: {
+    defaultReqSchema: myApiDefaultRequestSchema,
+    reqSchema: headerTestReqSchema,
+    mergedReqSchema: mergedHeaderTestReqSchema,
+  },
 };
 
 /**
  * Internal error test
  */
 
-const InternalErrorTestReqSchemaShape = {} satisfies PartialAbstractRequestSchemaShape;
+const internalErrorTestReqSchemaShape = {} satisfies PartialAbstractRequestSchemaShape;
 
-const InternalErrorTestReqSchema = z.object(InternalErrorTestReqSchemaShape);
+const internalErrorTestReqSchema = z.object(internalErrorTestReqSchemaShape);
+type InternalErrorTestReqSchema = typeof internalErrorTestReqSchema;
+export type InternalErrorTestReq = z.infer<typeof internalErrorTestReqSchema>;
 
-export type InternalErrorTestReq = z.infer<typeof InternalErrorTestReqSchema>;
-
-const InternalErrorTestMergedReqSchema = MyApiDefaultRequestSchema.extend(
-  InternalErrorTestReqSchemaShape
+const internalErrorTestMergedReqSchema = myApiDefaultRequestSchema.extend(
+  internalErrorTestReqSchemaShape
 );
-export type InternalErrorTestMergedReq = z.infer<typeof InternalErrorTestMergedReqSchema>;
+type InternalErrorTestMergedReqSchema = typeof internalErrorTestMergedReqSchema;
+
+export type InternalErrorTestMergedReq = z.infer<typeof internalErrorTestMergedReqSchema>;
 
 export type InternalErrorTestEndpointDef = ApiEndpoint<
   InternalErrorTestReq,
+  InternalErrorTestReqSchema,
   InternalErrorTestMergedReq,
+  InternalErrorTestMergedReqSchema,
   AbstractResponse
 >;
 
 export const internalErrorTestRoute: Route<InternalErrorTestEndpointDef> = {
   method: 'get',
   path: '/internal-error',
+  schemas: {
+    defaultReqSchema: myApiDefaultRequestSchema,
+    reqSchema: internalErrorTestReqSchema,
+    mergedReqSchema: internalErrorTestMergedReqSchema,
+  },
 };
