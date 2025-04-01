@@ -1,28 +1,31 @@
 import { NextFunction } from 'express';
-import { AbstractEndpointDef, ResponseBody, ResponseHeaders } from '@typesafe-api/core';
+import {
+  AbstractEndpointDef,
+  ResponseBody,
+} from '@typesafe-api/core';
 import { Request, Response } from 'express-serve-static-core';
+
+type ToExclude = Record<string, never>;
 
 export interface TRequest<T extends AbstractEndpointDef>
   extends Request<
-    Exclude<T['requestOptions']['params'], undefined>,
+    Exclude<T['mergedReq']['params'], ToExclude>,
     ResponseBody<T>,
-    Exclude<T['requestOptions']['body'], undefined>,
-    Exclude<T['requestOptions']['query'], undefined>
+    Exclude<T['mergedReq']['body'], ToExclude>,
+    Exclude<T['mergedReq']['query'], ToExclude>
   > {
-  get(name: keyof T['requestOptions']['headers']): string | undefined;
-  get(name: keyof T['requestOptions']['headers']): string[] | undefined;
+  get(name: keyof T['mergedReq']['headers']): string | undefined;
+  get(name: keyof T['mergedReq']['headers']): string[] | undefined;
 }
 
-type BodyOrError<T extends AbstractEndpointDef> = ResponseBody<T> | T['errorType'];
+type BodyOrError<T extends AbstractEndpointDef> =
+  | ResponseBody<T>
+  | T['errorType'];
 
-type SetFnc<T extends AbstractEndpointDef, R> = {
-  <K extends keyof ResponseHeaders<T>>(field: K): R;
-  <K extends keyof ResponseHeaders<T>>(field: K, value: ResponseHeaders<T>[K]): R;
-  (headers: Partial<ResponseHeaders<T>>): R;
-};
-
-export interface TResponse<T extends AbstractEndpointDef> extends Response<BodyOrError<T>> {
-  set: SetFnc<T, this>;
+export interface TResponse<T extends AbstractEndpointDef>
+  extends Response<BodyOrError<T>> {
+  set(field: keyof T['resp']['headers']): this;
+  set(field: keyof T['resp']['headers'], value?: string | string[]): this;
 }
 
 export type Controller<T extends AbstractEndpointDef> = (
@@ -31,6 +34,9 @@ export type Controller<T extends AbstractEndpointDef> = (
   next: NextFunction
 ) => Promise<void>;
 
-export const sendError = <T extends AbstractEndpointDef>(res: TResponse<T>, errorType: T['errorType']): void => {
+export const sendError = <T extends AbstractEndpointDef>(
+  res: TResponse<T>,
+  errorType: T['errorType']
+): void => {
   res.status(errorType.statusCode).send(errorType);
 };
