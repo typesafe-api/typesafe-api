@@ -12,3 +12,5 @@ export type ZodRequestSchema = z.ZodObject<{
   body: z.ZodObject<ReqBody> | ZodEmptyObject;
   headers: z.ZodObject<ReqHeaders> | ZodEmptyObject;
 }>;
+
+export type AbstractRequest = z.infer<ZodRequestSchema>;
