@@ -1,6 +1,15 @@
 import { z } from 'zod';
-import { EndpointDef, ErrorType, TypesafeHttpError } from '../src';
-import { AbstractRequest, AbstractRequestSchema, PartialAbstractRequestSchema } from '../src/types/request-schema';
+import {
+  ReqModelSchema,
+  EndpointDef,
+  ErrorType,
+  TypesafeHttpError,
+  PartialReqModelSchema,
+} from '../src';
+import {
+  AbstractRequestSchema,
+  PartialAbstractRequestSchema,
+} from '../src/types/request-schema';
 import { AbstractResponseSchema } from '../src/types/response-schema';
 import { schemaHelpers } from '../src/util/schema';
 
@@ -49,11 +58,11 @@ export const throwHttpError = (statusCode: number, msg: string) => {
 
 export type DefaultErrorCodes = 500;
 
+export type MyReqModelSchema = ReqModelSchema<MyApiDefaultRequestSchema>;
+
 export type ApiEndpoint<
-  TReq extends Partial<AbstractRequest>,
-  TReqSchema extends PartialAbstractRequestSchema,
-  TMergedReq extends AbstractRequest, 
-  TMergedReqSchema extends AbstractRequestSchema,
+  TReq extends PartialReqModelSchema<PartialAbstractRequestSchema>,
+  TMergedReq extends ReqModelSchema<AbstractRequestSchema>,
   TResp,
   E extends AbstractApiErrorType = ApiErrorType<DefaultErrorCodes>
-> = EndpointDef<MyApiDefaultRequest, MyApiDefaultRequestSchema, TReq, TReqSchema, TMergedReq, TMergedReqSchema, TResp, E>;
+> = EndpointDef<MyReqModelSchema, TReq, TMergedReq, TResp, E>;
