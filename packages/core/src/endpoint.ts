@@ -5,40 +5,45 @@ import {
   PartialAbstractRequestSchema,
 } from './types/request-schema';
 
-export type PartialReqModelSchema<T extends PartialAbstractRequestSchema> = {
+export type DefaultReqModelSchema<T extends AbstractRequestSchema> = {
   model: z.infer<T>;
   schema: T;
 };
 
-export type ReqModelSchema<T extends AbstractRequestSchema> = {
-  model: z.infer<T>;
-  schema: T;
+export type EndpointReqModelsAndSchemas<
+  TReqSchema extends PartialAbstractRequestSchema,
+  TMergedReqSchema extends AbstractRequestSchema
+> = {
+  req: {
+    model: z.infer<TReqSchema>;
+    schema: TReqSchema;
+  };
+  mergedReq: {
+    model: z.infer<TMergedReqSchema>;
+    schema: TMergedReqSchema;
+  };
 };
 
 export interface EndpointDef<
-  TDefaultReq extends ReqModelSchema<AbstractRequestSchema>,
-  TReq extends PartialReqModelSchema<PartialAbstractRequestSchema>,
-  TMergedReq extends ReqModelSchema<AbstractRequestSchema>,
+  TDefaultReq extends DefaultReqModelSchema<AbstractRequestSchema>,
+  TEndpointReqModelsAndSchemas extends EndpointReqModelsAndSchemas<
+    PartialAbstractRequestSchema,
+    AbstractRequestSchema
+  >,
   TResp,
   E extends AbstractErrorType
 > {
   defaultReq: TDefaultReq['model'];
   defaultReqSchema: TDefaultReq['schema'];
-  req: TReq['model'];
-  reqSchema: TReq['schema'];
-  mergedReq: TMergedReq['model'];
-  mergedReqSchema: TMergedReq['schema'];
+  req: TEndpointReqModelsAndSchemas['req']['model'];
+  reqSchema: TEndpointReqModelsAndSchemas['req']['schema'];
+  mergedReq: TEndpointReqModelsAndSchemas['mergedReq']['model'];
+  mergedReqSchema: TEndpointReqModelsAndSchemas['mergedReq']['schema'];
   resp: TResp;
   errorType: E;
 }
 
-export type AbstractEndpointDef = EndpointDef<
-  any,
-  any,
-  any,
-  any,
-  AbstractErrorType
->;
+export type AbstractEndpointDef = EndpointDef<any, any, any, AbstractErrorType>;
 
 export type ResponseBody<T extends AbstractEndpointDef> = T['resp']['body'];
 

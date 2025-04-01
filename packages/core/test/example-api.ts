@@ -1,10 +1,10 @@
 import { z } from 'zod';
 import {
-  ReqModelSchema,
+  DefaultReqModelSchema,
   EndpointDef,
   ErrorType,
   TypesafeHttpError,
-  PartialReqModelSchema,
+EndpointReqModelsAndSchemas,
 } from '../src';
 import {
   AbstractRequestSchema,
@@ -58,11 +58,13 @@ export const throwHttpError = (statusCode: number, msg: string) => {
 
 export type DefaultErrorCodes = 500;
 
-export type MyReqModelSchema = ReqModelSchema<MyApiDefaultRequestSchema>;
+export type MyReqModelSchema = DefaultReqModelSchema<MyApiDefaultRequestSchema>;
 
 export type ApiEndpoint<
-  TReq extends PartialReqModelSchema<PartialAbstractRequestSchema>,
-  TMergedReq extends ReqModelSchema<AbstractRequestSchema>,
+  TEndpointReqModelsAndSchemas extends EndpointReqModelsAndSchemas<
+    PartialAbstractRequestSchema,
+    AbstractRequestSchema
+  >,
   TResp,
   E extends AbstractApiErrorType = ApiErrorType<DefaultErrorCodes>
-> = EndpointDef<MyReqModelSchema, TReq, TMergedReq, TResp, E>;
+> = EndpointDef<MyReqModelSchema, TEndpointReqModelsAndSchemas, TResp, E>;

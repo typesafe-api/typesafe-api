@@ -1,9 +1,8 @@
 import { z } from 'zod';
 import {
-  PartialReqModelSchema,
-  ReqModelSchema,
   PartialAbstractRequestSchemaShape,
   Route,
+  EndpointReqModelsAndSchemas,
 } from '../src';
 import { DogSchema, DogWithId } from './dog';
 import {
@@ -32,18 +31,16 @@ export const createDogReqSchemaShape = {
 } satisfies PartialAbstractRequestSchemaShape;
 
 const createDogReqSchema = z.object(createDogReqSchemaShape);
-type MsCreateDogReq = PartialReqModelSchema<typeof createDogReqSchema>;
-
 const createDogMergedReqSchema = myApiDefaultRequestSchema.extend(
   createDogReqSchemaShape
 );
-type MsCreateDogMergedReq = ReqModelSchema<typeof createDogMergedReqSchema>;
 
-export type CreateDogEndpointDef = ApiEndpoint<
-  MsCreateDogReq,
-  MsCreateDogMergedReq,
-  DogWithIdRes
+type MsCreateDogReq = EndpointReqModelsAndSchemas<
+  typeof createDogReqSchema,
+  typeof createDogMergedReqSchema
 >;
+
+export type CreateDogEndpointDef = ApiEndpoint<MsCreateDogReq, DogWithIdRes>;
 
 export const postDogRoute: Route<CreateDogEndpointDef> = {
   method: 'post',
@@ -66,18 +63,16 @@ export const getDogsReqSchemaShape = {
 } satisfies PartialAbstractRequestSchemaShape;
 
 const getDogsReqSchema = z.object(getDogsReqSchemaShape);
-type MsGetDogsReq = PartialReqModelSchema<typeof getDogsReqSchema>;
-
 const getDogsMergedReqSchema = myApiDefaultRequestSchema.extend(
   getDogsReqSchemaShape
 );
-type MsGetDogsMergedReq = ReqModelSchema<typeof getDogsMergedReqSchema>;
 
-export type GetDogsEndpointDef = ApiEndpoint<
-  MsGetDogsReq,
-  MsGetDogsMergedReq,
-  DogsWithIdRes
+type MsGetDogsReq = EndpointReqModelsAndSchemas<
+  typeof getDogsReqSchema,
+  typeof getDogsMergedReqSchema
 >;
+
+export type GetDogsEndpointDef = ApiEndpoint<MsGetDogsReq, DogsWithIdRes>;
 
 export const getDogsRoute: Route<GetDogsEndpointDef> = {
   method: 'get',
@@ -104,18 +99,17 @@ export const getSearchDogsReqSchemaShape = {
 } satisfies PartialAbstractRequestSchemaShape;
 
 const getSearchDogsReqSchema = z.object(getSearchDogsReqSchemaShape);
-type MsGetSearchDogsReq = PartialReqModelSchema<typeof getSearchDogsReqSchema>;
-
 const getSearchDogsMergedReqSchema = myApiDefaultRequestSchema.extend(
   getSearchDogsReqSchemaShape
 );
-type MsGetSearchDogsMergedReq = ReqModelSchema<
+
+type MsGetSearchDogsReq = EndpointReqModelsAndSchemas<
+  typeof getSearchDogsReqSchema,
   typeof getSearchDogsMergedReqSchema
 >;
 
 export type GetSearchDogsEndpointDef = ApiEndpoint<
   MsGetSearchDogsReq,
-  MsGetSearchDogsMergedReq,
   DogsWithIdRes
 >;
 
@@ -140,17 +134,18 @@ const getDogReqSchemaShape = {
 } satisfies PartialAbstractRequestSchemaShape;
 
 const getDogReqSchema = z.object(getDogReqSchemaShape);
-type MsGetDogReq = PartialReqModelSchema<typeof getDogReqSchema>;
-
 const getDogMergedReqSchema =
   myApiDefaultRequestSchema.extend(getDogReqSchemaShape);
-type MsGetDogMergedReq = ReqModelSchema<typeof getDogMergedReqSchema>;
+
+type MsGetDogReq = EndpointReqModelsAndSchemas<
+  typeof getDogReqSchema,
+  typeof getDogMergedReqSchema
+>;
 
 export type GetDogErrorType = ApiErrorType<500 | 404>;
 
 export type GetDogEndpointDef = ApiEndpoint<
   MsGetDogReq,
-  MsGetDogMergedReq,
   DogWithIdRes,
   GetDogErrorType
 >;
@@ -172,12 +167,14 @@ export const getDogRoute: Route<GetDogEndpointDef> = {
 const headerTestReqSchemaShape = {} satisfies PartialAbstractRequestSchemaShape;
 
 const headerTestReqSchema = z.object(headerTestReqSchemaShape);
-type MsHeaderTestReq = PartialReqModelSchema<typeof headerTestReqSchema>;
-
 const mergedHeaderTestReqSchema = myApiDefaultRequestSchema.extend(
   headerTestReqSchemaShape
 );
-type MsHeaderTestMergedReq = ReqModelSchema<typeof mergedHeaderTestReqSchema>;
+
+type MsHeaderTestReq = EndpointReqModelsAndSchemas<
+  typeof headerTestReqSchema,
+  typeof mergedHeaderTestReqSchema
+>;
 
 export interface HeaderTestResp extends AbstractResponse {
   body: {
@@ -190,7 +187,6 @@ export interface HeaderTestResp extends AbstractResponse {
 
 export type HeaderTestEndpointDef = ApiEndpoint<
   MsHeaderTestReq,
-  MsHeaderTestMergedReq,
   HeaderTestResp
 >;
 
@@ -212,20 +208,16 @@ const internalErrorTestReqSchemaShape =
   {} satisfies PartialAbstractRequestSchemaShape;
 
 const internalErrorTestReqSchema = z.object(internalErrorTestReqSchemaShape);
-type MsInternalErrorTestReq = PartialReqModelSchema<
-  typeof internalErrorTestReqSchema
->;
-
 const internalErrorTestMergedReqSchema = myApiDefaultRequestSchema.extend(
   internalErrorTestReqSchemaShape
 );
-type MsInternalErrorTestMergedReq = ReqModelSchema<
+type MsInternalErrorTestReq = EndpointReqModelsAndSchemas<
+  typeof internalErrorTestReqSchema,
   typeof internalErrorTestMergedReqSchema
 >;
 
 export type InternalErrorTestEndpointDef = ApiEndpoint<
   MsInternalErrorTestReq,
-  MsInternalErrorTestMergedReq,
   AbstractResponse
 >;
 
