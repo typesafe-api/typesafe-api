@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { ZodEmptyObject, ZopOptionalPrimitive } from './zod';
-import { ProcessedReqSchemas } from '../util/schema';
 
 export type ReqQuery = Record<string, ZopOptionalPrimitive>;
 export type ReqParams = Record<string, ZopOptionalPrimitive>;
