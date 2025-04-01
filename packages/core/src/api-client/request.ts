@@ -1,9 +1,10 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { urlJoin } from 'url-join-ts';
-import { AbstractEndpointDef, ReqOptions, ResponseBody, ResponseHeaders } from '../endpoint';
+import { AbstractEndpointDef, ResponseBody, ResponseHeaders } from '../endpoint';
 import { Route } from '../route';
 import deepMerge from 'deepmerge';
 import { AbstractApiClient } from './api-client';
+import { AbstractRequest } from '../types/request-schema';
 
 export interface TAxiosResponse<T extends AbstractEndpointDef> extends AxiosResponse<ResponseBody<T>> {
   headers: ResponseHeaders<T>;
@@ -30,7 +31,7 @@ export const replaceUrlParams = (path: string, params: Record<string, unknown>):
   return path;
 };
 
-const getRequestOpts = async <E extends AbstractEndpointDef, DefaultReqOpt extends ReqOptions>(
+const getRequestOpts = async <E extends AbstractEndpointDef, DefaultReqOpt extends AbstractRequest>(
   defaultReqOpt: DefaultReqOpt,
   reqOptions: E['clientReqOptions']
 ) => {
@@ -43,11 +44,17 @@ const getRequestOpts = async <E extends AbstractEndpointDef, DefaultReqOpt exten
 const callRoute = async <E extends AbstractEndpointDef>(
   apiClient: AbstractApiClient<E['defaultReqOptions']>,
   route: Route<E>,
-  reqOptions: ReqOptions
+  reqOptions: AbstractRequest,
+  axiosConfig: AxiosRequestConfig = {}
 ): Promise<TAxiosResponse<E>> => {
   const defaultReqOpt = await apiClient.getDefaultReqOptions();
+  const defaultAxiosConfig = await apiClient.getDefaultAxiosConfig();
   const { params, query, body, headers } = await getRequestOpts(defaultReqOpt, reqOptions);
   const { method } = route;
+
+  if (!method) {
+    throw new Error(`You cannot call a route without a method`);
+  }
 
   if (!route.path) {
     throw new Error(`You cannot call a route without a path`);
@@ -58,7 +65,6 @@ const callRoute = async <E extends AbstractEndpointDef>(
   const url = urlJoin(apiClient.getBaseUrl(), routePath);
 
   // Make the request
-  const defaultAxiosConfig = defaultReqOpt.axiosConfig ?? {};
   const config: AxiosRequestConfig = {
     validateStatus: (status) => status >= 200 && status < 300,
     ...defaultAxiosConfig,
@@ -69,7 +75,7 @@ const callRoute = async <E extends AbstractEndpointDef>(
     params: query,
     data: body,
     headers,
-    ...(reqOptions.axiosConfig || {}),
+    ...(axiosConfig),
   };
 
   return axios.request(config);
