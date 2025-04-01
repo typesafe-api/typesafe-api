@@ -12,7 +12,6 @@ import {
 } from './example-routes';
 import { DefaultReqOpts } from './example-api';
 import { AbstractApiClient, ApiClientParams, createRouteRequest } from '../src';
-import { AxiosRequestConfig } from 'axios';
 
 class DogApiClient extends AbstractApiClient<DefaultReqOpts> {
   public createDog = createRouteRequest<CreateDogEndpointDef>(
@@ -27,28 +26,27 @@ export const defaultReqOptions: DefaultReqOpts = {
   headers: {
     myheader: 'default-header-value',
   },
+  params: {},
+  query: {},
+  body: {},
 };
 
 export class RootApiClient extends AbstractApiClient<DefaultReqOpts> {
-  constructor(
-    params: ApiClientParams<DefaultReqOpts>,
-    private axiosConfig?: AxiosRequestConfig
-  ) {
+  constructor(params: ApiClientParams<DefaultReqOpts>) {
     super(params);
   }
 
   public async getDefaultReqOptions(): Promise<DefaultReqOpts> {
-    return {
-      ...defaultReqOptions,
-      axiosConfig: this.axiosConfig,
-    };
+    return defaultReqOptions;
   }
 
   public dog = (): DogApiClient => new DogApiClient(this.getChildParams());
+
   public headerTest = createRouteRequest<HeaderTestEndpointDef>(
     this,
     headerTestRoute
   );
+
   public internalErrorTest = createRouteRequest<InternalErrorTestEndpointDef>(
     this,
     internalErrorTestRoute

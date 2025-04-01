@@ -1,11 +1,17 @@
-export interface Dog {
-  name: string;
-  breed: string;
-}
+import { z } from 'zod';
 
-export interface DogWithId extends Dog {
-  _id: string;
-}
+export const DogSchema = z.object({
+  name: z.string(),
+  breed: z.string(),
+});
+
+export type Dog = z.infer<typeof DogSchema>;
+
+const DogWithIdSchema = DogSchema.extend({
+  _id: z.string(),
+});
+
+export type DogWithId = z.infer<typeof DogWithIdSchema>;
 
 export const scoobyDoo: Dog = {
   name: 'Scooby Doo',

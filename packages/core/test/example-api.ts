@@ -1,16 +1,23 @@
+import { z } from 'zod';
 import {
   EndpointDef,
   ErrorType,
-  ReqOptions,
   ResOptions,
   TypesafeHttpError,
 } from '../src';
+import { AbstractRequest, ZodRequestSchema } from '../src/types/request-schema';
+import { schemaHelpers } from '../src/util/schema';
 
-export interface DefaultReqOpts extends ReqOptions {
-  headers: {
-    myheader: string;
-  };
-}
+const DefaultRequestSchema = z.object({
+  query: schemaHelpers.emptyObject(),
+  params: schemaHelpers.emptyObject(),
+  body: schemaHelpers.emptyObject(),
+  headers: z.object({
+    myheader: z.string(),
+  }),
+}) satisfies ZodRequestSchema;
+
+export type DefaultReqOpts = z.infer<typeof DefaultRequestSchema>;
 
 export interface ApiErrorBody {
   msg: string;
@@ -34,7 +41,7 @@ export const throwHttpError = (statusCode: number, msg: string) => {
 export type DefaultErrorCodes = 500;
 
 export type ApiEndpoint<
-  ReqOpt extends ReqOptions,
+  ReqOpt extends AbstractRequest,
   RespOpt extends ResOptions,
   E extends AbstractApiErrorType = ApiErrorType<DefaultErrorCodes>
 > = EndpointDef<DefaultReqOpts, ReqOpt, RespOpt, E>;
