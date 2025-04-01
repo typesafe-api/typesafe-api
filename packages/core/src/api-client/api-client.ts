@@ -1,13 +1,14 @@
 import { AxiosRequestConfig } from 'axios';
 import { AbstractRequest } from '../types/request-schema';
 
-export type ApiClientParams<DefaultReqOpt extends AbstractRequest> = {
+export type ApiClientParams<TDefaultRequest extends AbstractRequest> = {
   baseUrl?: string;
-  parent?: AbstractApiClient<DefaultReqOpt>;
+  parent?: AbstractApiClient<TDefaultRequest>;
+  axiosConfig?: AxiosRequestConfig
 };
 
 export abstract class AbstractApiClient<T extends AbstractRequest> {
-  constructor(private params: ApiClientParams<T>) {}
+  constructor(protected params: ApiClientParams<T>) {}
 
   public getBaseUrl(): string {
     const { parent, baseUrl } = this.params;
@@ -29,7 +30,7 @@ export abstract class AbstractApiClient<T extends AbstractRequest> {
   public async getDefaultAxiosConfig(): Promise<AxiosRequestConfig> {
     const parent = this.params.parent;
     if (!parent) {
-      return {}
+      return this.params.axiosConfig ?? {};
     }
     return parent.getDefaultAxiosConfig();
   }

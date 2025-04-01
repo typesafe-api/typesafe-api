@@ -1,12 +1,17 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { urlJoin } from 'url-join-ts';
-import { ResponseBody, ResponseHeaders, AbstractEndpointDef } from '../endpoint';
+import {
+  ResponseBody,
+  ResponseHeaders,
+  AbstractEndpointDef,
+} from '../endpoint';
 import { Route } from '../route';
 import deepMerge from 'deepmerge';
 import { AbstractApiClient } from './api-client';
 import { AbstractRequest } from '../types/request-schema';
 
-export interface TAxiosResponse<T extends AbstractEndpointDef> extends AxiosResponse<ResponseBody<T>> {
+export interface TAxiosResponse<T extends AbstractEndpointDef>
+  extends AxiosResponse<ResponseBody<T>> {
   headers: ResponseHeaders<T>;
 }
 
@@ -20,7 +25,10 @@ export interface TAxiosResponse<T extends AbstractEndpointDef> extends AxiosResp
  * @param path
  * @param params
  */
-export const replaceUrlParams = (path: string, params: Record<string, unknown>): string => {
+export const replaceUrlParams = (
+  path: string,
+  params: Record<string, unknown>
+): string => {
   if (params) {
     for (const [key, value] of Object.entries(params)) {
       const pattern = new RegExp(`(:${key})(/|$)`);
@@ -31,18 +39,29 @@ export const replaceUrlParams = (path: string, params: Record<string, unknown>):
   return path;
 };
 
-const getRequestOpts = async <E extends AbstractEndpointDef, DefaultReqOpt extends AbstractRequest>(
+const safeObj = (obj: Record<string, unknown>) => obj ?? {};
+
+const mergeOptions: deepMerge.Options = {
+  arrayMerge: (destinationArray: any[], sourceArray: any[]) => sourceArray,
+};
+
+const customMerge = (
+  destination: Record<string, unknown>,
+  source: Record<string, unknown>
+) => deepMerge(safeObj(destination), safeObj(source), mergeOptions);
+
+const getRequestOpts = async <
+  E extends AbstractEndpointDef,
+  DefaultReqOpt extends AbstractRequest
+>(
   defaultReqOpt: DefaultReqOpt,
   req: E['req']
-) => {
-  const mergeOptions: deepMerge.Options = {
-    arrayMerge: (destinationArray: any[], sourceArray: any[]) => sourceArray,
-  };
+): Promise<AbstractEndpointDef['mergedReq']> => {
   return {
-    params: deepMerge(defaultReqOpt.params, req.params, mergeOptions),
-    query: deepMerge(defaultReqOpt.query, req.query, mergeOptions),
-    body: deepMerge(defaultReqOpt.body, req.body, mergeOptions),
-    headers: deepMerge(defaultReqOpt.headers, req.headers, mergeOptions),
+    params: customMerge(defaultReqOpt.params, req.params),
+    query: customMerge(defaultReqOpt.query, req.query),
+    body: customMerge(defaultReqOpt.body, req.body),
+    headers: customMerge(defaultReqOpt.headers, req.headers),
   };
 };
 
@@ -54,7 +73,10 @@ const callRoute = async <E extends AbstractEndpointDef>(
 ): Promise<TAxiosResponse<E>> => {
   const defaultReqOpt = await apiClient.getDefaultReqOptions();
   const defaultAxiosConfig = await apiClient.getDefaultAxiosConfig();
-  const { params, query, body, headers } = await getRequestOpts(defaultReqOpt["model"], req);
+  const { params, query, body, headers } = await getRequestOpts(
+    defaultReqOpt,
+    req
+  );
   const { method } = route;
 
   if (!method) {
@@ -80,21 +102,22 @@ const callRoute = async <E extends AbstractEndpointDef>(
     params: query,
     data: body,
     headers,
-    ...(axiosConfig),
+    ...axiosConfig,
   };
 
   return axios.request(config);
 };
 
 type RouteRequestCallable<T extends AbstractEndpointDef> = (
-  options: T['req']
+  req: T['req'],
+  axiosConfig?: AxiosRequestConfig
 ) => Promise<TAxiosResponse<T>>;
 
 export const createRouteRequest = <T extends AbstractEndpointDef>(
   apiClient: AbstractApiClient<T['defaultReq']>,
   route: Route<T>
 ): RouteRequestCallable<T> => {
-  return async (options: T['req']): Promise<TAxiosResponse<T>> => {
-    return callRoute<T>(apiClient, route, options);
+  return async (req: T['req'], axiosConfig?: AxiosRequestConfig): Promise<TAxiosResponse<T>> => {
+    return callRoute<T>(apiClient, route, req, axiosConfig);
   };
 };

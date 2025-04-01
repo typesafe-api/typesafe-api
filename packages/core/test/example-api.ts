@@ -12,6 +12,7 @@ import {
   PartialAbstractRequestSchemaShape,
 } from '../src/types/request-schema';
 import { RequestSchemaProcessor, schemaHelpers } from '../src/util/schema';
+import { AbstractResponse } from '../src/types/response-schema';
 
 export const myApiDefaultRequestSchemaShape = {
   query: schemaHelpers.emptyObject(),
@@ -56,9 +57,10 @@ export type DefaultErrorCodes = 500;
 export type MyDefaultReqAndSchema = DefaultReqAndSchema<
   typeof myApiDefaultRequestSchema
 >;
+export type MyDefaultReq = MyDefaultReqAndSchema["req"] 
 
 export type ApiEndpoint<
   TProcessedReqSchemas extends AbstractProcessedSchemas,
-  TResp,
+  TResp extends AbstractResponse,
   E extends AbstractApiErrorType = ApiErrorType<DefaultErrorCodes>
 > = ApiEndpointHelper<MyDefaultReqAndSchema, TProcessedReqSchemas, TResp, E>;

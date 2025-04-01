@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { AbstractErrorType } from './error';
 import { AbstractRequestSchema } from './types/request-schema';
 import { AbstractProcessedSchemas } from './util/schema';
+import { AbstractResponse } from './types/response-schema';
 
 export type DefaultReqAndSchema<T extends AbstractRequestSchema> = {
   req: z.infer<T>;
@@ -26,7 +27,7 @@ export type EndpointReqModelsAndSchemas<
 export interface EndpointDef<
   TDefaultReq extends DefaultReqAndSchema<AbstractRequestSchema>,
   TEndpointReqModelsAndSchemas extends EndpointReqModelsAndSchemas<AbstractProcessedSchemas>,
-  TResp,
+  TResp extends AbstractResponse,
   E extends AbstractErrorType
 > {
   defaultReq: TDefaultReq['req'];
@@ -43,7 +44,7 @@ export interface EndpointDef<
 export type ApiEndpointHelper<
   TDefaultReq extends DefaultReqAndSchema<AbstractRequestSchema>,
   TProcessedReqSchemas extends AbstractProcessedSchemas,
-  TResp,
+  TResp extends AbstractResponse,
   E extends AbstractErrorType
 > = EndpointDef<
   TDefaultReq,
