@@ -3,4 +3,4 @@ export * from './api-client';
 export * from './route';
 export * from './error';
 export * from './middleware';
-export * from './utils';
+export * from './util/serialize';
