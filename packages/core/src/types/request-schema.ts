@@ -1,12 +1,10 @@
 import { z } from 'zod';
-import { ZodEmptyObject } from './zod';
+import { ZodEmptyObject, ZopOptionalPrimitive } from './zod';
 
-export type ZodPrimitive = z.ZodString | z.ZodNumber | z.ZodBoolean | z.ZodNever;
-
-export type ReqQuery = Record<string, ZodPrimitive>;
-export type ReqParams = Record<string, ZodPrimitive>;
+export type ReqQuery = Record<string, ZopOptionalPrimitive>;
+export type ReqParams = Record<string, ZopOptionalPrimitive>;
 export type ReqBody = Record<string, z.ZodTypeAny>;
-export type ReqHeaders = Record<string, ZodPrimitive>;
+export type ReqHeaders = Record<string, ZopOptionalPrimitive>;
 
 export type ZodRequestSchema = z.ZodObject<{
   query: z.ZodObject<ReqQuery> | ZodEmptyObject;
