@@ -1,0 +1,29 @@
+{
+  "name": "example-api-spec",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/examples/example-api-spec/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/examples/example-api-spec",
+        "main": "packages/examples/example-api-spec/src/index.ts",
+        "tsConfig": "packages/examples/example-api-spec/tsconfig.lib.json",
+        "assets": ["packages/examples/example-api-spec/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/examples/example-api-spec/jest.config.ts"
+      }
+    }
+  }
+}
