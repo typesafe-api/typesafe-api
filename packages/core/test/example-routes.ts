@@ -2,13 +2,11 @@ import { z } from 'zod';
 import {
   PartialAbstractRequestSchemaShape,
   Route,
-  EndpointReqModelsAndSchemas,
 } from '../src';
 import { DogSchema, DogWithId } from './dog';
 import {
   ApiEndpoint,
   ApiErrorType,
-  myApiDefaultRequestSchema,
   reqSchemaProcessor,
   routeHelper,
 } from './example-api';
