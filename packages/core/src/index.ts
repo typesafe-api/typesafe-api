@@ -5,3 +5,4 @@ export * from './middleware';
 export * from './util';
 export * from './types';
 export * from './endpoint';
+export * from './easy';
