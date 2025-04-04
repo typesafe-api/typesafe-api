@@ -1,21 +1,23 @@
 import { MiddlewareObj } from '@middy/core';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import {
-  AbstractErrorType,
+  AnyErrorType,
   defaultHttpErrorLogFn,
   defaultOtherErrorLogFn,
   serialize,
   TypeSafeApiErrorsParams,
-  TypesafeHttpError,
+  AbstractHttpError,
 } from '@typesafe-api/core';
 
 type ServerlessResponseType = { statusCode: number; body: string };
 
 type Request = Parameters<
-  NonNullable<MiddlewareObj<APIGatewayProxyEvent, ServerlessResponseType>['onError']>
+  NonNullable<
+    MiddlewareObj<APIGatewayProxyEvent, ServerlessResponseType>['onError']
+  >
 >[0];
 
-const handleError = async <T extends AbstractErrorType>(
+const handleError = async <T extends AnyErrorType>(
   request: Request,
   params: TypeSafeApiErrorsParams<T>
 ) => {
@@ -28,7 +30,7 @@ const handleError = async <T extends AbstractErrorType>(
   const { error } = request;
   // Duck typing to check if the error is a TypesafeHttpError, seems to work better than instanceof
   if ((error as any).isTypesafeHttpError) {
-    const { httpError } = error as TypesafeHttpError<T>;
+    const { httpError } = error as AbstractHttpError<T>;
     await httpErrorLogFn(httpError);
     request.response = {
       statusCode: httpError.statusCode,
@@ -44,7 +46,7 @@ const handleError = async <T extends AbstractErrorType>(
   };
 };
 
-export const typesafeApiErrors = <T extends AbstractErrorType>(
+export const typesafeApiErrors = <T extends AnyErrorType>(
   params: TypeSafeApiErrorsParams<T>
 ): MiddlewareObj<APIGatewayProxyEvent> => {
   return {

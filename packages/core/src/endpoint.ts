@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { AbstractErrorType } from './error';
+import { AnyErrorType } from './error';
 import { AbstractRequestSchema } from './types/request-schema';
 import { AbstractProcessedSchemas } from './util/schema';
 import { AbstractResponse } from './types/response-schema';
@@ -9,7 +9,8 @@ export type DefaultReqAndSchema<T extends AbstractRequestSchema> = {
   schema: T;
 };
 
-export type AbstractDefaultReqAndSchema = DefaultReqAndSchema<AbstractRequestSchema>
+export type AbstractDefaultReqAndSchema =
+  DefaultReqAndSchema<AbstractRequestSchema>;
 
 export type EndpointReqModelsAndSchemas<
   TProcessedReqSchemas extends AbstractProcessedSchemas
@@ -28,7 +29,7 @@ export interface EndpointDef<
   TDefaultReq extends DefaultReqAndSchema<AbstractRequestSchema>,
   TEndpointReqModelsAndSchemas extends EndpointReqModelsAndSchemas<AbstractProcessedSchemas>,
   TResp extends AbstractResponse,
-  E extends AbstractErrorType
+  E extends AnyErrorType
 > {
   defaultReq: TDefaultReq['req'];
   defaultReqSchema: TDefaultReq['schema'];
@@ -45,7 +46,7 @@ export type ApiEndpointHelper<
   TDefaultReq extends DefaultReqAndSchema<AbstractRequestSchema>,
   TProcessedReqSchemas extends AbstractProcessedSchemas,
   TResp extends AbstractResponse,
-  E extends AbstractErrorType
+  E extends AnyErrorType
 > = EndpointDef<
   TDefaultReq,
   EndpointReqModelsAndSchemas<TProcessedReqSchemas>,
@@ -53,7 +54,7 @@ export type ApiEndpointHelper<
   E
 >;
 
-export type AbstractEndpointDef = EndpointDef<any, any, any, AbstractErrorType>;
+export type AbstractEndpointDef = EndpointDef<any, any, any, AnyErrorType>;
 
 export type ResponseBody<T extends AbstractEndpointDef> = T['resp']['body'];
 

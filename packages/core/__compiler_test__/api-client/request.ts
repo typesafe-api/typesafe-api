@@ -1,5 +1,5 @@
 import { AbstractApiClient, createRouteRequest } from '../../src/api-client';
-import { MyDefaultReqAndSchema } from '../../test/example-api';
+import { ApiDefaultReq } from '../../test/example-api';
 import {
   CreateDogEndpointDef,
   GetDogEndpointDef,
@@ -7,7 +7,7 @@ import {
   postDogRoute,
 } from '../../test/example-routes';
 
-class TestClient extends AbstractApiClient<MyDefaultReqAndSchema['req']> {
+class TestClient extends AbstractApiClient<ApiDefaultReq> {
   constructor(baseUrl: string) {
     super({ baseUrl });
   }

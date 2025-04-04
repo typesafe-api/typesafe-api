@@ -1,21 +1,17 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import {
-  AbstractApiErrorType,
+  AnyApiErrorType,
   ApiErrorBody,
-  throwHttpError,
+  ApiHttpError,
 } from '../../../core/test/example-api';
-import {
-  typesafeApiErrors,
-} from '@typesafe-api/serverless';
+import { typesafeApiErrors } from '@typesafe-api/serverless';
 import middy from '@middy/core';
-import {
-  HttpErrorLogFn,
-  OtherErrorLogFn,
-} from '@typesafe-api/core';
+import { HttpErrorLogFn, OtherErrorLogFn } from '@typesafe-api/core';
 import { mockRequest } from '../util';
 import { Handler } from 'aws-lambda';
 
 const internalServerErrorBody: ApiErrorBody = {
-  msg: 'Default internal server error',
+  errMsg: 'Default internal server error',
 };
 
 it('Internal server error', async () => {
@@ -31,7 +27,7 @@ it('Internal server error', async () => {
     expect(err.message).toBe(errMsg)
   );
 
-  const errHandler = typesafeApiErrors<AbstractApiErrorType>({
+  const errHandler = typesafeApiErrors<AnyApiErrorType>({
     internalServerErrorBody,
     httpErrorLogFn,
     otherErrorLogFn,
@@ -51,13 +47,13 @@ it('Internal server error', async () => {
 
 it('TypesafeHttpError', async () => {
   const statusCode = 404;
-  const msg = 'A not found exception';
+  const errMsg = 'A not found exception';
   const errorBody = {
-    msg,
+    errMsg,
   };
 
   const handler = async () => {
-    throw throwHttpError(statusCode, msg);
+    throw new ApiHttpError(statusCode, errMsg);
   };
 
   const httpErrorLogFn: HttpErrorLogFn = jest.fn(async (httpError) => {
@@ -68,7 +64,7 @@ it('TypesafeHttpError', async () => {
   });
   const otherErrorLogFn: OtherErrorLogFn = jest.fn(async () => {});
 
-  const errHandler = typesafeApiErrors<AbstractApiErrorType>({
+  const errHandler = typesafeApiErrors<AnyApiErrorType>({
     internalServerErrorBody,
     httpErrorLogFn,
     otherErrorLogFn,

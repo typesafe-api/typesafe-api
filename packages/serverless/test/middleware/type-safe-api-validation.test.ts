@@ -4,7 +4,7 @@ import {
   CreateDogEndpointDef,
   postDogRoute,
 } from '../../../core/test/example-routes';
-import { typesafeApi, TypesafeApiEvent } from '@typesafe-api/serverless';
+import { TypesafeApiEvent } from '@typesafe-api/serverless';
 import {
   validate,
   OnValidationError,

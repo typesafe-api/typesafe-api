@@ -1,17 +1,17 @@
-import { AbstractErrorType } from '../error';
+import { AnyErrorType } from '../error';
 
-export type HttpErrorLogFn = (httpError: AbstractErrorType) => Promise<void>;
+export type HttpErrorLogFn = (httpError: AnyErrorType) => Promise<void>;
 
 export type OtherErrorLogFn = (err: unknown) => Promise<void>;
 
-export interface TypeSafeApiErrorsParams<T extends AbstractErrorType> {
+export interface TypeSafeApiErrorsParams<T extends AnyErrorType> {
   httpErrorLogFn?: HttpErrorLogFn;
   otherErrorLogFn?: OtherErrorLogFn;
   internalServerErrorBody: T['body'];
 }
 
 export const defaultHttpErrorLogFn: HttpErrorLogFn = async (
-  httpError: AbstractErrorType
+  httpError: AnyErrorType
 ) => {
   console.error(`TypeSafeHttpError - ${JSON.stringify(httpError)}`);
 };

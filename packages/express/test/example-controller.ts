@@ -1,3 +1,4 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Controller, TRequest, TResponse } from '@typesafe-api/express';
 import {
   CreateDogEndpointDef,
@@ -6,7 +7,7 @@ import {
   HeaderTestEndpointDef,
   InternalErrorTestEndpointDef,
 } from '../../core/test/example-routes';
-import { throwHttpError } from '../../core/test/example-api';
+import { ApiHttpError } from '../../core/test/example-api';
 import { dogDB, DogWithId } from '../../core/test/dog';
 import ObjectID from 'bson-objectid';
 
@@ -31,7 +32,7 @@ export const getDogController: Controller<GetDogEndpointDef> = async (
   if (dogDB.has(_id)) {
     res.send(dogDB.get(_id));
   } else {
-    throwHttpError(404, `No dog with _id ${_id} could be found`);
+    throw new ApiHttpError(404, `No dog with _id ${_id} could be found`);
   }
 };
 
@@ -57,9 +58,11 @@ export const headerTestController: Controller<HeaderTestEndpointDef> = async (
   res.send({ headerValue: value });
 };
 
-export const internalErrorTestController: Controller<InternalErrorTestEndpointDef> = async (
+export const internalErrorTestController: Controller<
+  InternalErrorTestEndpointDef
+> = async (
   req: TRequest<InternalErrorTestEndpointDef>,
   res: TResponse<InternalErrorTestEndpointDef>
 ) => {
-  throw Error("Example error");
+  throw Error('Example error');
 };

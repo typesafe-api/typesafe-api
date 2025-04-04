@@ -1,11 +1,13 @@
 import { z } from 'zod';
 import {
   DefaultReqAndSchema,
-  ErrorType,
-  TypesafeHttpError,
+  AbstractErrorType,
   AbstractProcessedSchemas,
   RouteHelper,
   ApiEndpointHelper,
+  BaseErrorCodes,
+  AbstractHttpError,
+  TypesafeHttpError,
 } from '../src';
 import {
   AbstractRequestSchema,
@@ -33,34 +35,40 @@ export const myApiDefaultRequestSchema = z.object(
 
 export const routeHelper = new RouteHelper(myApiDefaultRequestSchema);
 
-export interface ApiErrorBody {
-  msg: string;
-}
-
-export type ApiErrorType<S extends number> = ErrorType<S, ApiErrorBody>;
-
-export type AbstractApiErrorType = ApiErrorType<number>;
-
-export class ApiHttpError extends TypesafeHttpError<AbstractApiErrorType> {}
-
-export const throwHttpError = (statusCode: number, msg: string) => {
-  throw new ApiHttpError({
-    statusCode: statusCode,
-    body: {
-      msg,
-    },
-  });
+export type ApiDefaultErrorCodes = BaseErrorCodes | 403;
+export type ApiErrorBody = {
+  errMsg: string;
 };
+export type ApiErrorType<T extends number> = AbstractErrorType<T, ApiErrorBody>;
+export type AnyApiErrorType = ApiErrorType<number>;
+export type ApiDefaultErrorType = ApiErrorType<ApiDefaultErrorCodes>;
 
-export type DefaultErrorCodes = 500;
-
-export type MyDefaultReqAndSchema = DefaultReqAndSchema<
+export type ApiDefaultReqAndSchema = DefaultReqAndSchema<
   typeof myApiDefaultRequestSchema
 >;
-export type MyDefaultReq = MyDefaultReqAndSchema["req"] 
+export type ApiDefaultReq = ApiDefaultReqAndSchema['req'];
 
 export type ApiEndpoint<
   TProcessedReqSchemas extends AbstractProcessedSchemas,
   TResp extends AbstractResponse,
-  E extends AbstractApiErrorType = ApiErrorType<DefaultErrorCodes>
-> = ApiEndpointHelper<MyDefaultReqAndSchema, TProcessedReqSchemas, TResp, E>;
+  E extends AnyApiErrorType = ApiDefaultErrorType
+> = ApiEndpointHelper<ApiDefaultReqAndSchema, TProcessedReqSchemas, TResp, E>;
+
+export type AnyApiEndpoint = ApiEndpoint<
+  AbstractProcessedSchemas,
+  AbstractResponse,
+  ApiErrorType<number>
+>;
+
+export class ApiHttpError<
+  T extends AnyApiEndpoint
+> extends TypesafeHttpError<T> {
+  constructor(statusCode: T['errorType']['statusCode'], errMsg: string) {
+    super({
+      statusCode,
+      body: {
+        errMsg,
+      },
+    });
+  }
+}

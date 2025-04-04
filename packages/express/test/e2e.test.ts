@@ -138,7 +138,7 @@ it('Dog API', async () => {
     // Check the error is returned as expected
     const e = err as AxiosError<GetDogErrorType>;
     const expectedError: ApiErrorBody = {
-      msg: `No dog with _id ${fakeId} could be found`,
+      errMsg: `No dog with _id ${fakeId} could be found`,
     };
     expect(e.response?.data).toStrictEqual(expectedError);
     expect(e.response?.status).toBe(404);
