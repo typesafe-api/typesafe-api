@@ -7,9 +7,8 @@ import {
   GetDogErrorType,
   HeaderTestEndpointDef,
 } from '../../core/test/example-routes';
-import { ApiErrorBody } from '../../core/test/example-api';
 import { AxiosError, AxiosRequestConfig } from 'axios';
-import { ErrorHandlers, handleError, ResponseBody } from '@typesafe-api/core';
+import { EasyErrorBody, ErrorHandlers, handleError, ResponseBody } from '@typesafe-api/core';
 import {
   defaultReqOptions,
   RootApiClient,
@@ -22,6 +21,8 @@ const defaultHeaderTestResp: ResponseBody<HeaderTestEndpointDef> = {
 };
 
 const getDogErrorHandlers: ErrorHandlers<GetDogEndpointDef> = {
+  400: jest.fn(),
+  403: jest.fn(),
   404: jest.fn(),
   500: jest.fn(),
 };
@@ -137,8 +138,8 @@ it('Dog API', async () => {
   } catch (err) {
     // Check the error is returned as expected
     const e = err as AxiosError<GetDogErrorType>;
-    const expectedError: ApiErrorBody = {
-      errMsg: `No dog with _id ${fakeId} could be found`,
+    const expectedError: EasyErrorBody = {
+      msg: `No dog with _id ${fakeId} could be found`,
     };
     expect(e.response?.data).toStrictEqual(expectedError);
     expect(e.response?.status).toBe(404);

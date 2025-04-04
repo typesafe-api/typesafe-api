@@ -5,8 +5,8 @@ import {
 } from '../src';
 import { DogSchema, DogWithId } from './dog';
 import {
-  ApiEndpoint,
-  ApiErrorType,
+  MyApiEndpoint,
+  MyApiEndpointErrorType,
   reqSchemaProcessor,
   routeHelper,
 } from './example-api';
@@ -34,7 +34,7 @@ const createDogProcessedSchemas = reqSchemaProcessor.processReqShape(
   createDogReqSchemaShape
 );
 
-export type CreateDogEndpointDef = ApiEndpoint<
+export type CreateDogEndpointDef = MyApiEndpoint<
   typeof createDogProcessedSchemas,
   DogWithIdRes
 >;
@@ -58,7 +58,7 @@ export const getDogsReqSchemaShape = {
 const getDogsProcessedSchemas = reqSchemaProcessor.processReqShape(
   getDogsReqSchemaShape
 );
-export type GetDogsEndpointDef = ApiEndpoint<
+export type GetDogsEndpointDef = MyApiEndpoint<
   typeof getDogsProcessedSchemas,
   DogsWithIdRes
 >;
@@ -87,7 +87,7 @@ const getSearchDogsProcessedSchemas = reqSchemaProcessor.processReqShape(
   getSearchDogsReqSchemaShape
 );
 
-export type GetSearchDogsEndpointDef = ApiEndpoint<
+export type GetSearchDogsEndpointDef = MyApiEndpoint<
   typeof getSearchDogsProcessedSchemas,
   DogsWithIdRes
 >;
@@ -112,9 +112,9 @@ const getDogProcessedSchemas = reqSchemaProcessor.processReqShape(
   getDogReqSchemaShape
 );
 
-export type GetDogErrorType = ApiErrorType<500 | 404>;
+export type GetDogErrorType = MyApiEndpointErrorType<500 | 404>;
 
-export type GetDogEndpointDef = ApiEndpoint<
+export type GetDogEndpointDef = MyApiEndpoint<
   typeof getDogProcessedSchemas,
   DogWithIdRes,
   GetDogErrorType
@@ -145,7 +145,7 @@ export interface HeaderTestResp extends AbstractResponse {
   };
 }
 
-export type HeaderTestEndpointDef = ApiEndpoint<
+export type HeaderTestEndpointDef = MyApiEndpoint<
   typeof headerTestProcessedSchemas,
   HeaderTestResp
 >;
@@ -167,7 +167,7 @@ const internalErrorTestProcessedSchemas = reqSchemaProcessor.processReqShape(
   internalErrorTestReqSchemaShape
 );
 
-export type InternalErrorTestEndpointDef = ApiEndpoint<
+export type InternalErrorTestEndpointDef = MyApiEndpoint<
   typeof internalErrorTestProcessedSchemas,
   AbstractResponse
 >;

@@ -7,7 +7,7 @@ import {
   HeaderTestEndpointDef,
   InternalErrorTestEndpointDef,
 } from '../../core/test/example-routes';
-import { ApiHttpError } from '../../core/test/example-api';
+import { MyApiHttpError } from '../../core/test/example-api';
 import { dogDB, DogWithId } from '../../core/test/dog';
 import ObjectID from 'bson-objectid';
 
@@ -32,7 +32,7 @@ export const getDogController: Controller<GetDogEndpointDef> = async (
   if (dogDB.has(_id)) {
     res.send(dogDB.get(_id));
   } else {
-    throw new ApiHttpError(404, `No dog with _id ${_id} could be found`);
+    throw new MyApiHttpError(404, `No dog with _id ${_id} could be found`);
   }
 };
 

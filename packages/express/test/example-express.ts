@@ -23,8 +23,7 @@ import {
 } from './example-controller';
 import { typesafeApiErrors } from '../src/middleware';
 import {
-  AnyApiErrorType,
-  ApiErrorBody,
+  MyApiDefaultErrorType,
 } from '../../core/test/example-api';
 
 const app = express();
@@ -70,12 +69,12 @@ routes.push(eInternalErrorTestRoute);
 
 addRoutes(app, routes);
 
-export const internalServerErrorBody: ApiErrorBody = {
-  errMsg: 'Internal server error',
+export const internalServerErrorBody: MyApiDefaultErrorType["body"] = {
+  msg: 'Internal server error',
 };
 
 app.use(
-  typesafeApiErrors<AnyApiErrorType>({
+  typesafeApiErrors<MyApiDefaultErrorType>({
     internalServerErrorBody,
   })
 );
