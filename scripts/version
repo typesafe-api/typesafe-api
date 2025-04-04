@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 // Check if version type argument is provided
 if (process.argv.length < 3) {
@@ -17,6 +18,16 @@ if (!['patch', 'minor', 'major'].includes(UPDATE_TYPE)) {
     console.error("Version update type must be one of: patch, minor, major");
     process.exit(1);
 }
+
+// Build all packages first
+console.log('Building all packages...');
+try {
+    execSync('npx nx run-many --target=build --projects=core,express,serverless', { stdio: 'inherit' });
+} catch (error) {
+    console.error('Failed to build packages. Please fix build errors before updating version.');
+    process.exit(1);
+}
+console.log('Build completed successfully.');
 
 // Read current version from core package
 const corePkgPath = path.join(__dirname, '../packages/core/package.json');
