@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { AbstractEndpointDef, Route } from '@typesafe-api/core';
+import { AbstractEndpointDef, Route } from 'core-old';
 import { TypesafeApiEvent } from './typesafe-api';
 import { MiddlewareObj } from '@middy/core';
 

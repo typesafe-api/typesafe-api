@@ -2,17 +2,16 @@ import { z } from 'zod';
 import {
   PartialAbstractRequestSchemaShape,
   Route,
-} from '../src';
-import { DogSchema, DogWithId } from './dog';
+  schemaHelpers,
+  AbstractResponse,
+} from '../../../../../core/src';
+import { DogSchema, DogWithId } from '../dog';
 import {
   MyApiEndpoint,
   MyApiEndpointErrorType,
   reqSchemaProcessor,
   routeHelper,
-} from './example-api';
-
-import { schemaHelpers } from '../src/util/schema';
-import { AbstractResponse } from '../src/types/response-schema';
+} from '../api';
 
 export interface DogWithIdRes extends AbstractResponse {
   body: DogWithId;
@@ -92,11 +91,12 @@ export type GetSearchDogsEndpointDef = MyApiEndpoint<
   DogsWithIdRes
 >;
 
-export const getSearchDogsRoute: Route<GetSearchDogsEndpointDef> = routeHelper.create({
-  method: 'get',
-  path: '/dog/search',
-  processedSchemas: getSearchDogsProcessedSchemas,
-});
+export const getSearchDogsRoute: Route<GetSearchDogsEndpointDef> =
+  routeHelper.create({
+    method: 'get',
+    path: '/dog/search',
+    processedSchemas: getSearchDogsProcessedSchemas,
+  });
 
 /**
  * Get dog
@@ -108,9 +108,8 @@ const getDogReqSchemaShape = {
   }),
 } satisfies PartialAbstractRequestSchemaShape;
 
-const getDogProcessedSchemas = reqSchemaProcessor.processReqShape(
-  getDogReqSchemaShape
-);
+const getDogProcessedSchemas =
+  reqSchemaProcessor.processReqShape(getDogReqSchemaShape);
 
 export type GetDogErrorType = MyApiEndpointErrorType<500 | 404>;
 
@@ -150,11 +149,13 @@ export type HeaderTestEndpointDef = MyApiEndpoint<
   HeaderTestResp
 >;
 
-export const headerTestRoute: Route<HeaderTestEndpointDef> = routeHelper.create({
-  method: 'get',
-  path: '/header-tst',
-  processedSchemas: headerTestProcessedSchemas,
-});
+export const headerTestRoute: Route<HeaderTestEndpointDef> = routeHelper.create(
+  {
+    method: 'get',
+    path: '/header-tst',
+    processedSchemas: headerTestProcessedSchemas,
+  }
+);
 
 /**
  * Internal error test
@@ -172,8 +173,9 @@ export type InternalErrorTestEndpointDef = MyApiEndpoint<
   AbstractResponse
 >;
 
-export const internalErrorTestRoute: Route<InternalErrorTestEndpointDef> = routeHelper.create({
-  method: 'get',
-  path: '/internal-error',
-  processedSchemas: internalErrorTestProcessedSchemas,
-});
+export const internalErrorTestRoute: Route<InternalErrorTestEndpointDef> =
+  routeHelper.create({
+    method: 'get',
+    path: '/internal-error',
+    processedSchemas: internalErrorTestProcessedSchemas,
+  });

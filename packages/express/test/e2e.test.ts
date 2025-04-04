@@ -1,14 +1,19 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 
-import { clearDogDB, scoobyDoo } from '../../core/test/dog';
+import { clearDogDB, scoobyDoo } from '../../examples/example-api-spec/src/lib/dog';
 import { internalServerErrorBody, startApp } from './example-express';
 import {
   GetDogEndpointDef,
   GetDogErrorType,
   HeaderTestEndpointDef,
-} from '../../core/test/example-routes';
+} from '../../examples/example-api-spec/src/lib/routes/example-routes';
 import { AxiosError, AxiosRequestConfig } from 'axios';
-import { EasyErrorBody, ErrorHandlers, handleError, ResponseBody } from '@typesafe-api/core';
+import {
+  EasyErrorBody,
+  ErrorHandlers,
+  handleError,
+  ResponseBody,
+} from 'core-old';
 import {
   defaultReqOptions,
   RootApiClient,

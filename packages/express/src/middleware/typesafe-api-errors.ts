@@ -7,7 +7,7 @@ import {
   defaultOtherErrorLogFn,
   TypeSafeApiErrorsParams,
   TypesafeHttpError,
-} from '@typesafe-api/core';
+} from 'core-old';
 
 const sendError = (res: Response, err: AnyErrorType) =>
   res.status(err.statusCode).json(err.body);

@@ -7,13 +7,12 @@ import {
   ApiEndpointHelper,
   BaseErrorCodes,
   TypesafeHttpError,
-} from '../src';
-import {
   AbstractRequestSchema,
   PartialAbstractRequestSchemaShape,
-} from '../src/types/request-schema';
-import { RequestSchemaProcessor, schemaHelpers } from '../src/util/schema';
-import { AbstractResponse } from '../src/types/response-schema';
+  RequestSchemaProcessor,
+  schemaHelpers,
+  AbstractResponse,
+} from '../../../../core/src';
 
 /*
  * Default request

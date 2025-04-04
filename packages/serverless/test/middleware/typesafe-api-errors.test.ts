@@ -5,11 +5,11 @@ import {
 } from '../../../core/test/example-api';
 import { typesafeApiErrors } from '@typesafe-api/serverless';
 import middy from '@middy/core';
-import { HttpErrorLogFn, OtherErrorLogFn } from '@typesafe-api/core';
+import { HttpErrorLogFn, OtherErrorLogFn } from 'core-old';
 import { mockRequest } from '../util';
 import { Handler } from 'aws-lambda';
 
-const internalServerErrorBody: MyApiDefaultErrorType["body"] = {
+const internalServerErrorBody: MyApiDefaultErrorType['body'] = {
   msg: 'Default internal server error',
 };
 
@@ -47,7 +47,7 @@ it('Internal server error', async () => {
 it('TypesafeHttpError', async () => {
   const statusCode = 404;
   const msg = 'A not found exception';
-  const errorBody: MyApiDefaultErrorType["body"] = {
+  const errorBody: MyApiDefaultErrorType['body'] = {
     msg,
   };
 

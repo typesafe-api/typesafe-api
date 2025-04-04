@@ -1,6 +1,6 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Controller, TRequest, TResponse } from '../src/controller';
-import { CreateDogEndpointDef } from '../../core/test/example-routes';
+import { CreateDogEndpointDef } from '../../examples/example-api-spec/src/lib/routes/example-routes';
 
 export const reqTest: Controller<CreateDogEndpointDef> = async (
   req: TRequest<CreateDogEndpointDef>,

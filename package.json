@@ -41,7 +41,8 @@
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
     "tsx": "^3.12.3",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "verdaccio": "^6.0.5"
   },
   "workspaces": [
     "packages/**"
@@ -64,5 +65,8 @@
     "url-join-ts": "^1.0.5",
     "write-yaml-file": "^4.2.0",
     "zod": "^3.24.2"
+  },
+  "nx": {
+    "includedScripts": []
   }
 }

@@ -7,7 +7,7 @@ export type RespHeaders = Record<string, ZopOptionalPrimitive>;
 export type AbstractResponseSchemaShape = {
   body: z.ZodObject<RespBody> | ZodEmptyObject;
   headers: z.ZodObject<RespHeaders> | ZodEmptyObject;
-}
+};
 
 export type AbstractResponseSchema = z.ZodObject<AbstractResponseSchemaShape>;
 

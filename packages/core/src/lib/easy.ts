@@ -37,13 +37,12 @@ export type EasyApiEndpointHelper<
   E extends AnyEasyErrorType
 > = ApiEndpointHelper<TDefaultReqAndSchema, TProcessedReqSchemas, TResp, E>;
 
-export type EasyAnyEndpoint =
-  EndpointDef<
-    DefaultReqAndSchema<AbstractRequestSchema>,
-    EndpointReqModelsAndSchemas<AbstractProcessedSchemas>,
-    AbstractResponse,
-    EasyErrorType<number>
-  >;
+export type EasyAnyEndpoint = EndpointDef<
+  DefaultReqAndSchema<AbstractRequestSchema>,
+  EndpointReqModelsAndSchemas<AbstractProcessedSchemas>,
+  AbstractResponse,
+  EasyErrorType<number>
+>;
 
 /*
  * Api error class

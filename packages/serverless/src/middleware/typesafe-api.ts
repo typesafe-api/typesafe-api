@@ -1,6 +1,6 @@
 import { MiddlewareObj } from '@middy/core';
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import { AbstractEndpointDef, serialize } from '@typesafe-api/core';
+import { AbstractEndpointDef, serialize } from 'core-old';
 
 type ToExclude = Record<string, never>;
 

@@ -11,12 +11,14 @@ export type AbstractRequestSchemaShape = {
   params: z.ZodObject<ReqParams> | ZodEmptyObject;
   body: z.ZodObject<ReqBody> | ZodEmptyObject;
   headers: z.ZodObject<ReqHeaders> | ZodEmptyObject;
-}
+};
 
 export type AbstractRequestSchema = z.ZodObject<AbstractRequestSchemaShape>;
 
 export type AbstractRequest = z.infer<AbstractRequestSchema>;
 
-export type PartialAbstractRequestSchemaShape = Partial<AbstractRequestSchemaShape>
+export type PartialAbstractRequestSchemaShape =
+  Partial<AbstractRequestSchemaShape>;
 
-export type PartialAbstractRequestSchema = z.ZodObject<PartialAbstractRequestSchemaShape>;
+export type PartialAbstractRequestSchema =
+  z.ZodObject<PartialAbstractRequestSchemaShape>;

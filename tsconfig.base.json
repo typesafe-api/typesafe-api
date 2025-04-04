@@ -23,6 +23,7 @@
       "@typesafe-api/open-api": ["packages/open-api/src/index.ts"],
       "@typesafe-api/serverless": ["packages/serverless/src/index.ts"],
       "@typesafe-api/utils": ["packages/utils/src/index.ts"],
+      "core-old": ["packcore-old/src/index.ts"],
       "example-api-spec": ["packages/examples/example-api-spec/src/index.ts"]
     }
   },

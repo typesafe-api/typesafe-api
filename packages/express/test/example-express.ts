@@ -13,7 +13,7 @@ import {
   InternalErrorTestEndpointDef,
   internalErrorTestRoute,
   postDogRoute,
-} from '../../core/test/example-routes';
+} from '../../examples/example-api-spec/src/lib/routes/example-routes';
 import {
   createDogController,
   getDogController,
@@ -24,7 +24,7 @@ import {
 import { typesafeApiErrors } from '../src/middleware';
 import {
   MyApiDefaultErrorType,
-} from '../../core/test/example-api';
+} from '../../examples/example-api-spec/src/lib/api';
 
 const app = express();
 

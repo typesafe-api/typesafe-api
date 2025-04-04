@@ -4,7 +4,7 @@ import { AbstractRequest } from '../types/request-schema';
 export type ApiClientParams<TDefaultRequest extends AbstractRequest> = {
   baseUrl?: string;
   parent?: AbstractApiClient<TDefaultRequest>;
-  axiosConfig?: AxiosRequestConfig
+  axiosConfig?: AxiosRequestConfig;
 };
 
 export abstract class AbstractApiClient<T extends AbstractRequest> {
@@ -22,7 +22,9 @@ export abstract class AbstractApiClient<T extends AbstractRequest> {
   public async getDefaultReqOptions(): Promise<T> {
     const parent = this.params.parent;
     if (!parent) {
-      throw Error('getDefaultReqOptions(..) must be overridden if client has no parent');
+      throw Error(
+        'getDefaultReqOptions(..) must be overridden if client has no parent'
+      );
     }
     return parent.getDefaultReqOptions();
   }

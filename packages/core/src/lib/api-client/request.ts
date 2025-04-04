@@ -117,7 +117,10 @@ export const createRouteRequest = <T extends AbstractEndpointDef>(
   apiClient: AbstractApiClient<T['defaultReq']>,
   route: Route<T>
 ): RouteRequestCallable<T> => {
-  return async (req: T['req'], axiosConfig?: AxiosRequestConfig): Promise<TAxiosResponse<T>> => {
+  return async (
+    req: T['req'],
+    axiosConfig?: AxiosRequestConfig
+  ): Promise<TAxiosResponse<T>> => {
     return callRoute<T>(apiClient, route, req, axiosConfig);
   };
 };

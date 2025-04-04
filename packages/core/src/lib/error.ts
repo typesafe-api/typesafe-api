@@ -10,9 +10,9 @@ export interface AbstractErrorType<ErrorCodes extends number, Body> {
   body: Body;
 }
 
-export type AnyErrorType = AbstractErrorType<number, unknown>
+export type AnyErrorType = AbstractErrorType<number, unknown>;
 
-export abstract class AbstractHttpError<T extends AnyErrorType> extends Error{
+export abstract class AbstractHttpError<T extends AnyErrorType> extends Error {
   public readonly isTypesafeHttpError = true;
   constructor(public httpError: T) {
     super(JSON.stringify(httpError));

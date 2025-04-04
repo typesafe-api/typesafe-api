@@ -1,41 +1,43 @@
 {
+  "name": "core",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/core/src",
   "projectType": "library",
-  "targets": {
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["packages/core/**/*.ts"]
-      }
-    },
-    "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/core"],
-      "options": {
-        "jestConfig": "packages/core/jest.config.ts",
-        "passWithNoTests": true
-      }
-    },
-    "publish": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "nx build core && cd dist/packages/core && npm publish --access public"
-      }
-    },
-    "build": {
-      "executor": "@nrwl/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/packages/core",
-        "tsConfig": "packages/core/tsconfig.lib.json",
-        "packageJson": "packages/core/package.json",
-        "main": "packages/core/src/index.ts",
-        "assets": ["packages/core/*.md"]
+  "release": {
+    "version": {
+      "generatorOptions": {
+        "packageRoot": "dist/{projectRoot}",
+        "currentVersionResolver": "git-tag",
+        "fallbackCurrentVersionResolver": "disk"
       }
     }
   },
   "tags": [],
-  "name": "core"
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/core",
+        "main": "packages/core/src/index.ts",
+        "tsConfig": "packages/core/tsconfig.lib.json",
+        "assets": ["packages/core/*.md"]
+      }
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/{projectRoot}"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/core/jest.config.ts"
+      }
+    }
+  }
 }

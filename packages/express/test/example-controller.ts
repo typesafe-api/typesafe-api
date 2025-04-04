@@ -6,9 +6,9 @@ import {
   GetDogsEndpointDef,
   HeaderTestEndpointDef,
   InternalErrorTestEndpointDef,
-} from '../../core/test/example-routes';
-import { MyApiHttpError } from '../../core/test/example-api';
-import { dogDB, DogWithId } from '../../core/test/dog';
+} from '../../examples/example-api-spec/src/lib/routes/example-routes';
+import { MyApiHttpError } from '../../examples/example-api-spec/src/lib/api';
+import { dogDB, DogWithId } from '../../examples/example-api-spec/src/lib/dog';
 import ObjectID from 'bson-objectid';
 
 export const createDogController: Controller<CreateDogEndpointDef> = async (

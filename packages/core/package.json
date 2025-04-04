@@ -1,10 +1,10 @@
 {
   "name": "@typesafe-api/core",
-  "version": "4.0.11",
-  "homepage": "https://github.com/typesafe-api/typesafe-api#readme",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/typesafe-api/typesafe-api",
-    "directory": "packages/core"
+  "version": "0.0.1",
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "dependencies": {
+    "tslib": "^2.3.0"
   }
 }

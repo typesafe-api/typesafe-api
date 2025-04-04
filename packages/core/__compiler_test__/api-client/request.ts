@@ -1,13 +1,13 @@
-import { AbstractApiClient, createRouteRequest } from '../../src/api-client';
-import { ApiDefaultReq } from '../../test/example-api';
+import { AbstractApiClient, createRouteRequest } from '../../src';
+import { MyApiDefaultReq } from '../../../examples/example-api-spec/src/lib/api';
 import {
   CreateDogEndpointDef,
   GetDogEndpointDef,
   getDogRoute,
   postDogRoute,
-} from '../../test/example-routes';
+} from 'example-api-spec';
 
-class TestClient extends AbstractApiClient<ApiDefaultReq> {
+class TestClient extends AbstractApiClient<MyApiDefaultReq> {
   constructor(baseUrl: string) {
     super({ baseUrl });
   }

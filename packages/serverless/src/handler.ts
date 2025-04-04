@@ -1,5 +1,5 @@
 import { AwsArn, AwsCfInstruction } from '@serverless/typescript';
-import { AbstractEndpointDef, ResponseBody, Route } from '@typesafe-api/core';
+import { AbstractEndpointDef, ResponseBody, Route } from 'core-old';
 
 export type TypesafeApiHandlerResponse<T extends AbstractEndpointDef> = {
   statusCode: number;
@@ -41,7 +41,16 @@ export type AwsCors =
       cacheControl?: string;
       headers?: string[];
       maxAge?: number;
-      methods?: ("GET" | "POST" | "PUT" | "PATCH" | "OPTIONS" | "HEAD" | "DELETE" | "ANY")[];
+      methods?: (
+        | 'GET'
+        | 'POST'
+        | 'PUT'
+        | 'PATCH'
+        | 'OPTIONS'
+        | 'HEAD'
+        | 'DELETE'
+        | 'ANY'
+      )[];
       origin?: string;
       origins?: string[];
     };
