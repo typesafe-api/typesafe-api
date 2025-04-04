@@ -19,15 +19,27 @@ if (!['patch', 'minor', 'major'].includes(UPDATE_TYPE)) {
     process.exit(1);
 }
 
+const PROJECTS = ['core', 'express', 'serverless'];
+
 // Build all packages first
 console.log('Building all packages...');
 try {
-    execSync('npx nx run-many --target=build --projects=core,express,serverless', { stdio: 'inherit' });
+    execSync(`npx nx run-many --target=build --projects=${PROJECTS.join(',')}`, { stdio: 'inherit' });
 } catch (error) {
     console.error('Failed to build packages. Please fix build errors before updating version.');
     process.exit(1);
 }
 console.log('Build completed successfully.');
+
+// Test all packages first
+console.log('Testing all packages...');
+try {
+    execSync(`npx nx run-many --target=test --projects=${PROJECTS.join(',')}`, { stdio: 'inherit' });
+} catch (error) {
+    console.error('Failed to test packages. Please fix test errors before updating version.');
+    process.exit(1);
+}
+console.log('Tests completed successfully.');
 
 // Read current version from core package
 const corePkgPath = path.join(__dirname, '../packages/core/package.json');
