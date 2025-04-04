@@ -1,14 +1,5 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
-
-import {
-  CreateDogEndpointDef,
-  postDogRoute,
-} from '../../../core/test/example-routes';
-import { TypesafeApiEvent } from '@typesafe-api/serverless';
-import {
-  validate,
-  OnValidationError,
-} from '../../src/middleware/type-safe-api-validation';
+import { CreateDogEndpointDef, postDogRoute } from 'example-api-spec';
+import { TypesafeApiEvent, validate, OnValidationError } from '../../src';
 
 describe('validate', () => {
   it('Should pass validation', async () => {

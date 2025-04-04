@@ -1,5 +1,4 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
-import { Controller, TRequest, TResponse } from '@typesafe-api/express';
+import { Controller, TRequest, TResponse } from '../src';
 import {
   CreateDogEndpointDef,
   GetDogEndpointDef,
@@ -8,7 +7,7 @@ import {
   InternalErrorTestEndpointDef,
 } from '../../examples/example-api-spec/src/lib/routes/example-routes';
 import { MyApiHttpError } from '../../examples/example-api-spec/src/lib/api';
-import { dogDB, DogWithId } from '../../examples/example-api-spec/src/lib/dog';
+import { dogDB, DogWithId } from 'example-api-spec/src/lib/dto/dog';
 import ObjectID from 'bson-objectid';
 
 export const createDogController: Controller<CreateDogEndpointDef> = async (

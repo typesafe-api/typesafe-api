@@ -11,7 +11,7 @@ import {
   postDogRoute,
   MyApiDefaultReq,
 } from 'example-api-spec';
-import { AbstractApiClient, ApiClientParams, createRouteRequest } from '../src';
+import { AbstractApiClient, ApiClientParams, createRouteRequest } from '../../../../../core/src';
 
 class DogApiClient extends AbstractApiClient<MyApiDefaultReq> {
   public createDog = createRouteRequest<CreateDogEndpointDef>(
@@ -36,7 +36,7 @@ export class RootApiClient extends AbstractApiClient<MyApiDefaultReq> {
     super(params);
   }
 
-  public async getDefaultReqOptions(): Promise<MyApiDefaultReq> {
+  public override async getDefaultReqOptions(): Promise<MyApiDefaultReq> {
     return defaultReqOptions;
   }
 

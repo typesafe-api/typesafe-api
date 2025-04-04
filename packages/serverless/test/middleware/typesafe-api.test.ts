@@ -1,16 +1,15 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 
 import {
   TypesafeApiEvent,
   TypesafeApiHandlerResponse,
   typesafeApi,
-} from '@typesafe-api/serverless';
+} from '../../src';
 import middy from '@middy/core';
 import { mockRequest } from '../util';
 import {
   GetDogEndpointDef,
   GetSearchDogsEndpointDef,
-} from '../../../core/test/example-routes';
+} from 'example-api-spec';
 import { Handler } from 'aws-lambda';
 
 it('Successful request using params', async () => {

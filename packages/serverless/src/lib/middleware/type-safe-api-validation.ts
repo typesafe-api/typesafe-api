@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { AbstractEndpointDef, Route } from 'core-old';
-import { TypesafeApiEvent } from './typesafe-api';
+import { AbstractEndpointDef, Route } from '@typesafe-api/core';
+import { TypesafeApiEvent } from '../../../src';
 import { MiddlewareObj } from '@middy/core';
 
 export type OnValidationError<T extends AbstractEndpointDef> = (

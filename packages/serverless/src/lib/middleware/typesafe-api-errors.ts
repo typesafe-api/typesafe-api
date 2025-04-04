@@ -7,7 +7,7 @@ import {
   serialize,
   TypeSafeApiErrorsParams,
   AbstractHttpError,
-} from 'core-old';
+} from '@typesafe-api/core';
 
 type ServerlessResponseType = { statusCode: number; body: string };
 

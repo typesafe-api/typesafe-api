@@ -1,5 +1,5 @@
 import { AwsArn, AwsCfInstruction } from '@serverless/typescript';
-import { AbstractEndpointDef, ResponseBody, Route } from 'core-old';
+import { AbstractEndpointDef, ResponseBody, Route } from '@typesafe-api/core';
 
 export type TypesafeApiHandlerResponse<T extends AbstractEndpointDef> = {
   statusCode: number;

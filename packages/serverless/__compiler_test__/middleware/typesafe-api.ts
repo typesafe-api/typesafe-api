@@ -1,15 +1,12 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import {
-  CreateDogEndpointDef,
-} from '../../../core/test/example-routes';
+import { CreateDogEndpointDef } from '../../../core/test/example-routes';
 import {
   parseEvent,
   TypesafeApiEvent,
 } from '../../src/middleware/typesafe-api';
 import createEvent from '@serverless/event-mocks';
 
-const request: CreateDogEndpointDef["mergedReq"] = {
+const request: CreateDogEndpointDef['mergedReq'] = {
   params: {},
   query: {},
   body: {
@@ -31,25 +28,23 @@ const parsedEvent: TypesafeApiEvent<CreateDogEndpointDef>['typesafeApi'] =
   parseEvent<CreateDogEndpointDef>(event);
 
 // Invalid params
-parsedEvent.params.invalidParam
+parsedEvent.params.invalidParam;
 
 // Invalid query
-parsedEvent.query.invalidQuery
+parsedEvent.query.invalidQuery;
 
 // Valid body
-parsedEvent.body.name
+parsedEvent.body.name;
 
 // Invalid body
-parsedEvent.body.invalidBody
+parsedEvent.body.invalidBody;
 
 // Valid header
-parsedEvent.headers.myheader
+parsedEvent.headers.myheader;
 
 // Invalid header
-parsedEvent.headers.invalidHeader
+parsedEvent.headers.invalidHeader;
 
 // @expected-compiler-errors-start
-// (34,20): error TS2339: Property 'invalidParam' does not exist on type 'never'.
-// (37,19): error TS2339: Property 'invalidQuery' does not exist on type 'never'.
-// (43,18): error TS2339: Property 'invalidBody' does not exist on type '{ name: string; breed: string; }'.
-// (49,21): error TS2339: Property 'invalidHeader' does not exist on type '{ myheader: string; }'.
+// (2,38): error TS2307: Cannot find module '../../../core/test/example-routes' or its corresponding type declarations.
+// (6,8): error TS2307: Cannot find module '../../src/middleware/typesafe-api' or its corresponding type declarations.

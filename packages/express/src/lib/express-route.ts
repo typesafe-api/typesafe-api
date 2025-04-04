@@ -1,6 +1,6 @@
 import { Controller, TRequest, TResponse } from './controller';
 import { ErrorRequestHandler, RequestHandler, Router } from 'express';
-import { AbstractEndpointDef, Route } from 'core-old';
+import { AbstractEndpointDef, Route } from '@typesafe-api/core';
 import { Request, Response, NextFunction } from 'express';
 export interface ExpressRoute<T extends AbstractEndpointDef> extends Route<T> {
   middleware: Array<RequestHandler | ErrorRequestHandler>;

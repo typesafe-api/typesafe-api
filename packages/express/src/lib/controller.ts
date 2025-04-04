@@ -1,5 +1,5 @@
 import { NextFunction } from 'express';
-import { AbstractEndpointDef, ResponseBody } from 'core-old';
+import { AbstractEndpointDef, ResponseBody } from '@typesafe-api/core';
 import { Request, Response } from 'express-serve-static-core';
 
 type ToExclude = Record<string, never>;

@@ -4,8 +4,8 @@
   "projects": {
     "compiler-test": "packages/compiler-test",
     "core": "packages/core",
-    "express": "packages/express",
-    "serverless": "packages/serverless",
+    "express-old": "libs/express-old",
+    "severless-old": "libs/severless-old",
     "utils": "packages/utils"
   }
 }

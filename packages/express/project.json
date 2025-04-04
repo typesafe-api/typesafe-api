@@ -1,43 +1,43 @@
 {
+  "name": "express",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/express/src",
   "projectType": "library",
-  "implicitDependencies": [],
-  "targets": {
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["packages/express/**/*.ts"]
-      }
-    },
-    "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/express"],
-      "options": {
-        "jestConfig": "packages/express/jest.config.ts",
-        "passWithNoTests": true
-      }
-    },
-    "publish": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "nx build express && cd dist/packages/express && npm publish --access public"
-      }
-    },
-    "build": {
-      "executor": "@nrwl/js:tsc",
-      "dependsOn": ["^build"],
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/packages/express",
-        "tsConfig": "packages/express/tsconfig.lib.json",
-        "packageJson": "packages/express/package.json",
-        "main": "packages/express/src/index.ts",
-        "assets": ["packages/express/*.md"]
+  "release": {
+    "version": {
+      "generatorOptions": {
+        "packageRoot": "dist/{projectRoot}",
+        "currentVersionResolver": "git-tag",
+        "fallbackCurrentVersionResolver": "disk"
       }
     }
   },
   "tags": [],
-  "name": "express"
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/express",
+        "main": "packages/express/src/index.ts",
+        "tsConfig": "packages/express/tsconfig.lib.json",
+        "assets": ["packages/express/*.md"]
+      }
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/{projectRoot}"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/express/jest.config.ts"
+      }
+    }
+  }
 }

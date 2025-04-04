@@ -5,7 +5,7 @@ import {
   schemaHelpers,
   AbstractResponse,
 } from '../../../../../core/src';
-import { DogSchema, DogWithId } from '../dog';
+import { DogSchema, DogWithId } from '../dto/dog';
 import {
   MyApiEndpoint,
   MyApiEndpointErrorType,

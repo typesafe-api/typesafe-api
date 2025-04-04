@@ -1,8 +1,10 @@
 {
-  "name": "@typesafe-api/serverless",
-  "version": "4.0.11",
-  "peerDependencies": {
-    "@middy/core": "^4.7.0",
-    "@typesafe-api/core": "^4.0.10"
+  "name": "@typesafe-api/severless",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "dependencies": {
+    "tslib": "^2.3.0"
   }
 }

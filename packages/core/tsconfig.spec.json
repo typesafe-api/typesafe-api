@@ -13,5 +13,5 @@
     "src/**/*.d.ts",
     "test/**/*.ts",
     "__compiler_test__/**/*.ts"
-, "../examples/example-api-spec/src/lib/api.ts", "../examples/example-api-spec/src/lib/routes/example-routes.ts", "../examples/example-api-spec/src/lib/api-custom-error-type.ts", "../examples/example-api-spec/src/lib/dog.ts"  ]
+, "../examples/example-api-spec/src/lib/client/api-client.ts"  ]
 }

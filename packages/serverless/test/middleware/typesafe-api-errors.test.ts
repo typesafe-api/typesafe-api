@@ -1,11 +1,10 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import {
   MyApiDefaultErrorType,
   MyApiHttpError,
-} from '../../../core/test/example-api';
-import { typesafeApiErrors } from '@typesafe-api/serverless';
+} from 'example-api-spec';
+import { typesafeApiErrors } from '../../src';
 import middy from '@middy/core';
-import { HttpErrorLogFn, OtherErrorLogFn } from 'core-old';
+import { HttpErrorLogFn, OtherErrorLogFn } from '@typesafe-api/core';
 import { mockRequest } from '../util';
 import { Handler } from 'aws-lambda';
 

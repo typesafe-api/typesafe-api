@@ -1,23 +1,20 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
-
-import { clearDogDB, scoobyDoo } from '../../examples/example-api-spec/src/lib/dog';
+import { AxiosError, AxiosRequestConfig } from 'axios';
 import { internalServerErrorBody, startApp } from './example-express';
 import {
   GetDogEndpointDef,
   GetDogErrorType,
   HeaderTestEndpointDef,
-} from '../../examples/example-api-spec/src/lib/routes/example-routes';
-import { AxiosError, AxiosRequestConfig } from 'axios';
+  defaultReqOptions,
+  RootApiClient,
+  clearDogDB,
+  scoobyDoo,
+} from 'example-api-spec';
 import {
   EasyErrorBody,
   ErrorHandlers,
   handleError,
   ResponseBody,
-} from 'core-old';
-import {
-  defaultReqOptions,
-  RootApiClient,
-} from '../../core/test/example-api-client';
+} from '@typesafe-api/core';
 
 export const OBJECT_ID_STRING = /^[a-f\d]{24}$/i;
 

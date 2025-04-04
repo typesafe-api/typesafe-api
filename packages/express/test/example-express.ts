@@ -1,7 +1,6 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import express from 'express';
 import findFreePorts from 'find-free-ports';
-import { addRoutes, ExpressRoute } from '@typesafe-api/express';
+import { addRoutes, ExpressRoute } from '../src';
 import {
   CreateDogEndpointDef,
   GetDogEndpointDef,
@@ -21,10 +20,8 @@ import {
   headerTestController,
   internalErrorTestController,
 } from './example-controller';
-import { typesafeApiErrors } from '../src/middleware';
-import {
-  MyApiDefaultErrorType,
-} from '../../examples/example-api-spec/src/lib/api';
+import { typesafeApiErrors } from '../src/lib/middleware/typesafe-api-errors';
+import { MyApiDefaultErrorType } from '../../examples/example-api-spec/src/lib/api';
 
 const app = express();
 
@@ -69,7 +66,7 @@ routes.push(eInternalErrorTestRoute);
 
 addRoutes(app, routes);
 
-export const internalServerErrorBody: MyApiDefaultErrorType["body"] = {
+export const internalServerErrorBody: MyApiDefaultErrorType['body'] = {
   msg: 'Internal server error',
 };
 
