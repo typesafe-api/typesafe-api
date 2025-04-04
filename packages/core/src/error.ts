@@ -1,5 +1,8 @@
 import { AbstractEndpointDef } from './endpoint';
 
+/*
+ * All API should expect a 400 for validation and a 500 (nothing is perfect).
+ */
 export type BaseErrorCodes = 400 | 500;
 
 export interface AbstractErrorType<ErrorCodes extends number, Body> {
