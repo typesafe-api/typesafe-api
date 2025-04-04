@@ -13,5 +13,5 @@
     "src/**/*.d.ts",
     "test/**/*.ts",
     "__compiler_test__/**/*.ts"
-, "../examples/example-api-spec/src/lib/client/api-client.ts"  ]
+  ]
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@typesafe-api/serverless",
+  "name": "@typesafe-api/ts-type-test",
   "version": "0.0.1",
   "type": "commonjs",
   "main": "./src/index.js",

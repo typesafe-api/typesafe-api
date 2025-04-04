@@ -1,4 +1,4 @@
-import { runCompilerTests } from '@typesafe-api/compiler-test';
+import { runCompilerTests } from '@typesafe-api/ts-type-test';
 
 it('Compiler tests', async () => {
   const { expected, actual } = await runCompilerTests(__dirname + '/../');
