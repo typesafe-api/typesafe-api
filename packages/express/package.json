@@ -1,8 +1,8 @@
 {
   "name": "@typesafe-api/express",
-  "version": "4.0.5",
+  "version": "4.0.6",
   "peerDependencies": {
-    "@typesafe-api/core": "^4.0.5",
+    "@typesafe-api/core": "^4.0.6",
     "express": "^4.0.0"
   }
 }
