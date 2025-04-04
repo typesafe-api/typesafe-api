@@ -6,7 +6,6 @@ import {
   RouteHelper,
   ApiEndpointHelper,
   BaseErrorCodes,
-  AbstractHttpError,
   TypesafeHttpError,
 } from '../src';
 import {
@@ -15,6 +14,10 @@ import {
 } from '../src/types/request-schema';
 import { RequestSchemaProcessor, schemaHelpers } from '../src/util/schema';
 import { AbstractResponse } from '../src/types/response-schema';
+
+/*
+ * Default request
+ */
 
 export const myApiDefaultRequestSchemaShape = {
   query: schemaHelpers.emptyObject(),
@@ -25,28 +28,30 @@ export const myApiDefaultRequestSchemaShape = {
   }),
 } satisfies PartialAbstractRequestSchemaShape;
 
-export const reqSchemaProcessor = new RequestSchemaProcessor(
-  myApiDefaultRequestSchemaShape
-);
-
 export const myApiDefaultRequestSchema = z.object(
   myApiDefaultRequestSchemaShape
 ) satisfies AbstractRequestSchema;
 
-export const routeHelper = new RouteHelper(myApiDefaultRequestSchema);
+export type ApiDefaultReqAndSchema = DefaultReqAndSchema<
+  typeof myApiDefaultRequestSchema
+>;
+export type ApiDefaultReq = ApiDefaultReqAndSchema['req'];
+
+/*
+ * Error types
+ */
 
 export type ApiDefaultErrorCodes = BaseErrorCodes | 403;
-export type ApiErrorBody = {
+export interface ApiErrorBody {
   errMsg: string;
 };
 export type ApiErrorType<T extends number> = AbstractErrorType<T, ApiErrorBody>;
 export type AnyApiErrorType = ApiErrorType<number>;
 export type ApiDefaultErrorType = ApiErrorType<ApiDefaultErrorCodes>;
 
-export type ApiDefaultReqAndSchema = DefaultReqAndSchema<
-  typeof myApiDefaultRequestSchema
->;
-export type ApiDefaultReq = ApiDefaultReqAndSchema['req'];
+/*
+ * Api Endpoint
+ */
 
 export type ApiEndpoint<
   TProcessedReqSchemas extends AbstractProcessedSchemas,
@@ -60,6 +65,10 @@ export type AnyApiEndpoint = ApiEndpoint<
   ApiErrorType<number>
 >;
 
+/*
+ * Api error class
+ */
+
 export class ApiHttpError<
   T extends AnyApiEndpoint
 > extends TypesafeHttpError<T> {
@@ -72,3 +81,12 @@ export class ApiHttpError<
     });
   }
 }
+
+/*
+ * Create helpers
+ */
+
+export const routeHelper = new RouteHelper(myApiDefaultRequestSchema);
+export const reqSchemaProcessor = new RequestSchemaProcessor(
+  myApiDefaultRequestSchemaShape
+);
