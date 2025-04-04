@@ -29,8 +29,6 @@ export const validate = async <T extends AbstractEndpointDef>(
   const schema: z.AnyZodObject = route.schemas.mergedReqSchema;
   const result = schema.safeParse(typesafeApi);
   if (!result.success) {
-    
-
     await onError(result.error);
   }
 };
