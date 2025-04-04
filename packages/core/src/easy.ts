@@ -37,7 +37,7 @@ export type EasyApiEndpointHelper<
   E extends AnyEasyErrorType
 > = ApiEndpointHelper<TDefaultReqAndSchema, TProcessedReqSchemas, TResp, E>;
 
-export type EasyAnyEndpoint<T extends EasyDefaultErrorType<number>> =
+export type EasyAnyEndpoint<T extends EasyErrorType<number>> =
   EndpointDef<
     DefaultReqAndSchema<AbstractRequestSchema>,
     EndpointReqModelsAndSchemas<AbstractProcessedSchemas>,
@@ -50,7 +50,7 @@ export type EasyAnyEndpoint<T extends EasyDefaultErrorType<number>> =
  */
 
 export class EasyTypesafeHttpError<
-  T extends EasyAnyEndpoint<EasyDefaultErrorType<number>>
+  T extends EasyAnyEndpoint<EasyErrorType<number>>
 > extends TypesafeHttpError<T> {
   constructor(statusCode: T['errorType']['statusCode'], msg: string) {
     super({
