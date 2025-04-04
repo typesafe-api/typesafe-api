@@ -1,0 +1,57 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const path = require('path');
+
+// Check if version argument is provided
+if (process.argv.length < 3) {
+    console.error("Please provide a version number");
+    console.error("Usage: node scripts/version.js <version>");
+    process.exit(1);
+}
+
+const NEW_VERSION = process.argv[2];
+
+// Helper function to update package.json
+function updatePackageJson(filePath, updateFn) {
+    const content = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    const updated = updateFn(content);
+    fs.writeFileSync(filePath, JSON.stringify(updated, null, 2) + '\n');
+}
+
+console.log(`Updating version to ${NEW_VERSION}`);
+
+// Update core package
+updatePackageJson(
+    path.join(__dirname, '../packages/core/package.json'),
+    (pkg) => ({ ...pkg, version: NEW_VERSION })
+);
+
+// Update express package and its peer dependencies
+updatePackageJson(
+    path.join(__dirname, '../packages/express/package.json'),
+    (pkg) => ({
+        ...pkg,
+        version: NEW_VERSION,
+        peerDependencies: {
+            ...pkg.peerDependencies,
+            '@typesafe-api/core': `^${NEW_VERSION}`
+        }
+    })
+);
+
+// Update serverless package and its peer dependencies
+updatePackageJson(
+    path.join(__dirname, '../packages/serverless/package.json'),
+    (pkg) => ({
+        ...pkg,
+        version: NEW_VERSION,
+        peerDependencies: {
+            ...pkg.peerDependencies,
+            '@typesafe-api/core': `^${NEW_VERSION}`
+        }
+    })
+);
+
+console.log(`Version updated successfully to ${NEW_VERSION}`);
+console.log("Now you need to commit and push the changes and run ./scripts/publish"); 
