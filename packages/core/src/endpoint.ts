@@ -43,12 +43,12 @@ export interface EndpointDef<
 
 // This is just a little wrapper around EndpointDef that makes it easier to call when setting up your API
 export type ApiEndpointHelper<
-  TDefaultReq extends DefaultReqAndSchema<AbstractRequestSchema>,
+  TDefaultReqAndSchema extends DefaultReqAndSchema<AbstractRequestSchema>,
   TProcessedReqSchemas extends AbstractProcessedSchemas,
   TResp extends AbstractResponse,
   E extends AnyErrorType
 > = EndpointDef<
-  TDefaultReq,
+  TDefaultReqAndSchema,
   EndpointReqModelsAndSchemas<TProcessedReqSchemas>,
   TResp,
   E
