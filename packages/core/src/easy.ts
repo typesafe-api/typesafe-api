@@ -20,8 +20,11 @@ export type EasyErrorType<T extends number> = AbstractErrorType<
   T,
   EasyErrorBody
 >;
+export type EasyEndpointErrorType<
+  DefaultErrorCodes extends number,
+  EndpointErrorCodes extends number
+> = EasyErrorType<DefaultErrorCodes | EndpointErrorCodes>;
 export type AnyEasyErrorType = EasyErrorType<number>;
-export type EasyDefaultErrorType<T extends number> = EasyErrorType<T>;
 
 /*
  * Api Endpoint

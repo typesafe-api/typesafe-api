@@ -9,6 +9,8 @@ import {
   AnyEasyErrorType,
   EasyAnyEndpoint,
   EasyTypesafeHttpError,
+  EasyEndpointErrorType,
+  EasyErrorType,
 } from '../src';
 import {
   AbstractRequestSchema,
@@ -44,7 +46,8 @@ export type ApiDefaultReq = ApiDefaultReqAndSchema['req'];
  */
 
 type ApiEasyDefaultErrorCodes = BaseErrorCodes | 403;
-type ApiEasyDefaultErrorType = EasyDefaultErrorType<ApiEasyDefaultErrorCodes>;
+type ApiEasyEndpointErrorType<T extends number> = EasyEndpointErrorType<ApiEasyDefaultErrorCodes, T>
+type ApiEasyDefaultErrorType = EasyErrorType<ApiEasyDefaultErrorCodes>;
 
 /*
  * Api Endpoint
