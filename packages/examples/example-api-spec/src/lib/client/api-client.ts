@@ -11,7 +11,7 @@ import {
   postDogRoute,
   MyApiDefaultReq,
 } from 'example-api-spec';
-import { AbstractApiClient, ApiClientParams, createRouteRequest } from '../../../../../core/src';
+import { AbstractApiClient, ApiClientParams, createRouteRequest } from '@typesafe-api/core';
 
 class DogApiClient extends AbstractApiClient<MyApiDefaultReq> {
   public createDog = createRouteRequest<CreateDogEndpointDef>(

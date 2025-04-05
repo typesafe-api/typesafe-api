@@ -12,7 +12,7 @@ import {
   RequestSchemaProcessor,
   schemaHelpers,
   AbstractResponse,
-} from '../../../../core/src';
+} from '@typesafe-api/core';
 
 /*
  * Default request

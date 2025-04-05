@@ -4,7 +4,7 @@ import {
   Route,
   schemaHelpers,
   AbstractResponse,
-} from '../../../../../core/src';
+} from '@typesafe-api/core';
 import { DogSchema, DogWithId } from '../dto/dog';
 import {
   MyApiEndpoint,
