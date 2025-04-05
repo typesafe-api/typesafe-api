@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Check for uncommitted changes
+if ! git diff-index --quiet HEAD; then
+    echo "Error: You have uncommitted changes"
+    exit 1
+fi
+
+# Run build
+echo "Running build..."
+npx nx run-many -t build
+
+# Run tests
+echo "Running tests..."
+npx nx run-many -t test
+
+echo "Pre-version checks completed successfully" 
+
+npx nx release
