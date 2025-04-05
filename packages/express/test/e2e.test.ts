@@ -103,9 +103,7 @@ it('Dog API', async () => {
   const dogClient = rootApiClient.dog();
 
   // Create a dog
-  const createResp = await dogClient.createDog({
-    body: scoobyDoo,
-  });
+  const createResp = await dogClient.createDog(scoobyDoo);
   const respBody = createResp.data;
   const { _id } = respBody;
   expect(_id).toMatch(OBJECT_ID_STRING);
@@ -116,27 +114,17 @@ it('Dog API', async () => {
   expect(respBody).toStrictEqual(dogWithId);
 
   // Try to get the same dog
-  const getOneResp = await dogClient.getDog({
-    params: {
-      _id,
-    },
-  });
+  const getOneResp = await dogClient.getDog(_id);
   expect(getOneResp.data).toStrictEqual(dogWithId);
 
   // Get all the dogs
-  const getAllResp = await dogClient.getDogs({
-    query: {},
-  });
+  const getAllResp = await dogClient.getDogs();
   expect(getAllResp.data).toStrictEqual([dogWithId]);
 
   // Try to get a dog that doesn't exist
   const fakeId = 'not-a-real-dog';
   try {
-    await dogClient.getDog({
-      params: {
-        _id: fakeId,
-      },
-    });
+    await dogClient.getDog(fakeId);
   } catch (err) {
     // Check the error is returned as expected
     const e = err as AxiosError<GetDogErrorType>;

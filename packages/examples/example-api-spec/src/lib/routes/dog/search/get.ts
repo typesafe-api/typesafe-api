@@ -21,9 +21,6 @@ export const getSearchDogsReqSchemaShape = {
     searchQuery: z.string().optional(),
     breed: z.string().optional(),
   }),
-  headers: schemaHelpers.emptyObject(),
-  params: schemaHelpers.emptyObject(),
-  body: schemaHelpers.emptyObject(),
 } satisfies PartialAbstractRequestSchemaShape;
 
 const getSearchDogsProcessedSchemas = reqSchemaProcessor.processReqShape(
