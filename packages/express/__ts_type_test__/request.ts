@@ -1,5 +1,5 @@
 import { Controller, TRequest, TResponse } from '../src';
-import { CreateDogEndpointDef } from '../../examples/example-api-spec/src/lib/routes/example-routes';
+import { CreateDogEndpointDef } from 'example-api-spec';
 
 export const reqTest: Controller<CreateDogEndpointDef> = async (
   req: TRequest<CreateDogEndpointDef>,

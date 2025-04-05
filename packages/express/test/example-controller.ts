@@ -5,8 +5,8 @@ import {
   GetDogsEndpointDef,
   HeaderTestEndpointDef,
   InternalErrorTestEndpointDef,
-} from '../../examples/example-api-spec/src/lib/routes/example-routes';
-import { MyApiHttpError } from '../../examples/example-api-spec/src/lib/api';
+  MyApiHttpError
+} from 'example-api-spec';
 import { dogDB, DogWithId } from 'example-api-spec/src/lib/dto/dog';
 import ObjectID from 'bson-objectid';
 
