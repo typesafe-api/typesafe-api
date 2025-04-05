@@ -20,7 +20,7 @@ const shell = (cmd: string): Promise<Out> =>
   });
 
 export const getTestFiles = (prefix = ''): Promise<string[]> => {
-  const path = prefix + '__compiler_test__/**/*.ts';
+  const path = prefix + '__ts_type_test__/**/*.ts';
   console.log(`Selecting compiler tests using ${path}`);
   return glob(path);
 };

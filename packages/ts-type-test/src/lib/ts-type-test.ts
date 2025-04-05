@@ -10,7 +10,7 @@ export interface CompilerTestResults {
   actual: AllFileErrors;
 }
 
-export const runCompilerTests = async (
+export const runTests = async (
   pathPrefix: string
 ): Promise<CompilerTestResults> => {
   const expected: AllFileErrors = {};

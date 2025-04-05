@@ -12,6 +12,6 @@
     "src/**/*.spec.ts",
     "src/**/*.d.ts",
     "test/**/*.ts",
-    "__compiler_test__/**/*.ts"
+    "__ts_type_test__/**/*.ts"
   ]
 }
