@@ -3,11 +3,7 @@ import {
   Route,
   AbstractResponse,
 } from '@typesafe-api/core';
-import {
-  MyApiEndpoint,
-  reqSchemaProcessor,
-  routeHelper,
-} from '../../api';
+import { MyApiEndpoint, reqSchemaProcessor, routeHelper } from '../../api';
 
 const headerTestReqSchemaShape = {} satisfies PartialAbstractRequestSchemaShape;
 
@@ -29,8 +25,10 @@ export type HeaderTestEndpointDef = MyApiEndpoint<
   HeaderTestResp
 >;
 
-export const headerTestRoute: Route<HeaderTestEndpointDef> = routeHelper.create({
-  method: 'get',
-  path: '/header-tst',
-  processedSchemas: headerTestProcessedSchemas,
-}); 
+export const headerTestRoute: Route<HeaderTestEndpointDef> = routeHelper.create(
+  {
+    method: 'get',
+    path: '/header-tst',
+    processedSchemas: headerTestProcessedSchemas,
+  }
+);

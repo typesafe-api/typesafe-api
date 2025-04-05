@@ -18,7 +18,8 @@ const getDogReqSchemaShape = {
   }),
 } satisfies PartialAbstractRequestSchemaShape;
 
-const getDogProcessedSchemas = reqSchemaProcessor.processReqShape(getDogReqSchemaShape);
+const getDogProcessedSchemas =
+  reqSchemaProcessor.processReqShape(getDogReqSchemaShape);
 
 export interface GetDogRes extends AbstractResponse {
   body: DogWithId;
@@ -36,4 +37,4 @@ export const getDogRoute: Route<GetDogEndpointDef> = routeHelper.create({
   method: 'get',
   path: '/dog/:_id',
   processedSchemas: getDogProcessedSchemas,
-}); 
+});

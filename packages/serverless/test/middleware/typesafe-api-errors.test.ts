@@ -1,7 +1,4 @@
-import {
-  MyApiDefaultErrorType,
-  MyApiHttpError,
-} from 'example-api-spec';
+import { MyApiDefaultErrorType, MyApiHttpError } from 'example-api-spec';
 import { typesafeApiErrors } from '../../src';
 import middy from '@middy/core';
 import { HttpErrorLogFn, OtherErrorLogFn } from '@typesafe-api/core';

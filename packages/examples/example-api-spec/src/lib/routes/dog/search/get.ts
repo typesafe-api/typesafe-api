@@ -6,11 +6,7 @@ import {
   schemaHelpers,
 } from '@typesafe-api/core';
 import { DogWithId } from '../../../dto/dog';
-import {
-  MyApiEndpoint,
-  reqSchemaProcessor,
-  routeHelper,
-} from '../../../api';
+import { MyApiEndpoint, reqSchemaProcessor, routeHelper } from '../../../api';
 
 export interface GetSearchDogsRes extends AbstractResponse {
   body: DogWithId[];
@@ -32,8 +28,9 @@ export type GetSearchDogsEndpointDef = MyApiEndpoint<
   GetSearchDogsRes
 >;
 
-export const getSearchDogsRoute: Route<GetSearchDogsEndpointDef> = routeHelper.create({
-  method: 'get',
-  path: '/dog/search',
-  processedSchemas: getSearchDogsProcessedSchemas,
-}); 
+export const getSearchDogsRoute: Route<GetSearchDogsEndpointDef> =
+  routeHelper.create({
+    method: 'get',
+    path: '/dog/search',
+    processedSchemas: getSearchDogsProcessedSchemas,
+  });

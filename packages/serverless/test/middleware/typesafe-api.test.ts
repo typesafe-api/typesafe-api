@@ -1,4 +1,3 @@
-
 import {
   TypesafeApiEvent,
   TypesafeApiHandlerResponse,
@@ -6,10 +5,7 @@ import {
 } from '../../src';
 import middy from '@middy/core';
 import { mockRequest } from '../util';
-import {
-  GetDogEndpointDef,
-  GetSearchDogsEndpointDef,
-} from 'example-api-spec';
+import { GetDogEndpointDef, GetSearchDogsEndpointDef } from 'example-api-spec';
 import { Handler } from 'aws-lambda';
 
 it('Successful request using params', async () => {

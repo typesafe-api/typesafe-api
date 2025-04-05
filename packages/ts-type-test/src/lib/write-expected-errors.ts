@@ -19,7 +19,13 @@ const run = async () => {
     const errors = await getCompilerErrors(file);
 
     // Build the new code for the file
-    const newCode = [...code, '', `// ${EXPECTED_ERRORS_START}`, ...errors.map((s) => `// ${s}`), ''].join('\n');
+    const newCode = [
+      ...code,
+      '',
+      `// ${EXPECTED_ERRORS_START}`,
+      ...errors.map((s) => `// ${s}`),
+      '',
+    ].join('\n');
 
     fs.writeFileSync(file, newCode);
   }

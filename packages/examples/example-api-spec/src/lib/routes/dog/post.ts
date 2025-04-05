@@ -5,11 +5,7 @@ import {
   AbstractResponse,
 } from '@typesafe-api/core';
 import { DogSchema, DogWithId } from '../../dto/dog';
-import {
-  MyApiEndpoint,
-  reqSchemaProcessor,
-  routeHelper,
-} from '../../api';
+import { MyApiEndpoint, reqSchemaProcessor, routeHelper } from '../../api';
 
 export interface CreateDogRes extends AbstractResponse {
   body: DogWithId;
@@ -32,4 +28,4 @@ export const postDogRoute: Route<CreateDogEndpointDef> = routeHelper.create({
   path: '/dog',
   method: 'post',
   processedSchemas: createDogProcessedSchemas,
-}); 
+});

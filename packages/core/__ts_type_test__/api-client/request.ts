@@ -4,7 +4,7 @@ import {
   GetDogEndpointDef,
   getDogRoute,
   postDogRoute,
-  MyApiDefaultReq
+  MyApiDefaultReq,
 } from 'example-api-spec';
 
 class TestClient extends AbstractApiClient<MyApiDefaultReq> {
