@@ -1,5 +1,5 @@
 import { EXPECTED_ERRORS_START } from './util';
-import { readLines } from '@typesafe-api/utils';
+import { readLines } from './file-utils';
 
 const startPattern = new RegExp(`//\\s*${EXPECTED_ERRORS_START}\\b`);
 
