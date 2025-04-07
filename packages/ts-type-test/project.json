@@ -39,6 +39,12 @@
         "jestConfig": "packages/ts-type-test/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "write-expected": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "cd packages/ts-type-test && ts-node --project tsconfig.spec.json src/lib/write-expected-errors.ts"
+      }
     }
   }
 }
