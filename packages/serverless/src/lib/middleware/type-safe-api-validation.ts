@@ -5,7 +5,7 @@ import { MiddlewareObj } from '@middy/core';
 
 export type OnValidationError<T extends AbstractEndpointDef> = (
   zodError: z.ZodError<T['mergedReq']>
-) => Promise<void>;
+) => Promise<void> | void;
 
 interface TypesafeApiValidationParams<T extends AbstractEndpointDef> {
   route: Route<T>;
