@@ -14,6 +14,14 @@ export interface TypesafeApiEvent<T extends AbstractEndpointDef>
   };
 }
 
+const parseHeaders = <T extends AbstractEndpointDef>(
+  headers: any
+): T['mergedReq']['headers'] => {
+  return Object.fromEntries(
+    Object.entries(headers).map(([key, value]) => [key.toLowerCase(), value])
+  );
+};
+
 export const parseEvent = <T extends AbstractEndpointDef>(
   event: APIGatewayProxyEvent
 ): TypesafeApiEvent<T>['typesafeApi'] => {
@@ -30,7 +38,7 @@ export const parseEvent = <T extends AbstractEndpointDef>(
     query: query as T['mergedReq']['query'],
     params: params as T['mergedReq']['params'],
     body: parsedBody as T['mergedReq']['body'],
-    headers: headers as T['mergedReq']['headers'],
+    headers: parseHeaders<T>(headers),
   };
 };
 
