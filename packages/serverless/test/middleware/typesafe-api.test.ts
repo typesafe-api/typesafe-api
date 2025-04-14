@@ -5,7 +5,7 @@ import {
 } from '../../src';
 import middy from '@middy/core';
 import { mockRequest } from '../util';
-import { GetDogEndpointDef, GetSearchDogsEndpointDef } from 'example-api-spec';
+import { GetDogEndpointDef, GetSearchDogsEndpointDef, HeaderTestEndpointDef } from 'example-api-spec';
 import { Handler } from 'aws-lambda';
 
 it('Successful request using params', async () => {
@@ -88,5 +88,41 @@ it('Successful request using query', async () => {
         breed,
       },
     ]),
+  });
+});
+
+it('Successful request using headers', async () => {
+  const statusCode = 200;
+  const headerValue = 'test-header-value';
+  
+  const handler = async (
+    event: TypesafeApiEvent<HeaderTestEndpointDef>
+  ): Promise<TypesafeApiHandlerResponse<HeaderTestEndpointDef>> => {
+    const myheader = event.typesafeApi.headers.myheader;
+    
+    if (!myheader) {
+      throw new Error('myheader is required');
+    }
+    
+    return {
+      statusCode,
+      body: {
+        headerValue: myheader,
+      },
+    };
+  };
+
+  const middyfied = middy(handler as Handler).use(typesafeApi());
+
+  const { event, context } = mockRequest({
+    headers: { 'MyHeader': headerValue },
+  });
+  
+  const resp = await middyfied(event, context);
+  expect(resp).toEqual({
+    statusCode,
+    body: JSON.stringify({
+      headerValue,
+    }),
   });
 });
