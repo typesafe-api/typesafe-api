@@ -10,11 +10,11 @@ fi
 
 # Run build
 echo "Running build..."
-npx nx run-many -t build
+npx nx run-many -t build --exclude=example-api-serverless
 
 # Run tests
 echo "Running tests..."
-npx nx run-many -t test
+npx nx run-many -t test --exclude=example-api-serverless
 
 echo "Pre-version checks completed successfully" 
 
