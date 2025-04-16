@@ -1,8 +1,9 @@
 import fs from 'fs';
-import { EXPECTED_ERRORS_START, getCompilerErrors, getTestFiles } from './util';
-import { parseTS } from './parse-ts';
 
-const run = async () => {
+import { parseTS } from './parse-ts';
+import { EXPECTED_ERRORS_START, getCompilerErrors, getTestFiles } from './util';
+
+const run = async (): Promise<void> => {
   for (const file of await getTestFiles(__dirname + '/../../../**/')) {
     const { code } = await parseTS(file);
 

@@ -1,5 +1,5 @@
-import { EXPECTED_ERRORS_START } from './util';
 import { readLines } from './file-utils';
+import { EXPECTED_ERRORS_START } from './util';
 
 const startPattern = new RegExp(`//\\s*${EXPECTED_ERRORS_START}\\b`);
 

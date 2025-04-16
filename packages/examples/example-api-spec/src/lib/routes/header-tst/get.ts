@@ -1,9 +1,11 @@
-import {
+import { reqSchemaProcessor, routeHelper } from '../../api';
+
+import type { MyApiEndpoint } from '../../api';
+import type {
   PartialAbstractRequestSchemaShape,
   Route,
   AbstractResponse,
 } from '@typesafe-api/core';
-import { MyApiEndpoint, reqSchemaProcessor, routeHelper } from '../../api';
 
 const headerTestReqSchemaShape = {} satisfies PartialAbstractRequestSchemaShape;
 

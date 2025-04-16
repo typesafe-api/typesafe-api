@@ -8,13 +8,21 @@ if ! git diff-index --quiet HEAD; then
     exit 1
 fi
 
-# Run build
-echo "Running build..."
-npx nx run-many -t build --exclude=example-api-serverless
-
 # Run tests
 echo "Running tests..."
 npx nx run-many -t test --exclude=example-api-serverless
+
+# Run lint
+echo "Running lint..."
+npx nx run-many -t lint --exclude=example-api-serverless
+
+# Run format
+echo "Running format..."
+npx nx run-many -t format --exclude=example-api-serverless
+
+# Run build
+echo "Running build..."
+npx nx run-many -t build --exclude=example-api-serverless
 
 echo "Pre-version checks completed successfully" 
 

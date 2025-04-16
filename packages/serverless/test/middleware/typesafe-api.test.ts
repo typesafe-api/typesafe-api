@@ -1,12 +1,15 @@
-import {
-  TypesafeApiEvent,
-  TypesafeApiHandlerResponse,
-  typesafeApi,
-} from '../../src';
 import middy from '@middy/core';
+
+import { typesafeApi } from '../../src';
 import { mockRequest } from '../util';
-import { GetDogEndpointDef, GetSearchDogsEndpointDef, HeaderTestEndpointDef } from 'example-api-spec';
-import { Handler } from 'aws-lambda';
+
+import type { TypesafeApiEvent, TypesafeApiHandlerResponse } from '../../src';
+import type { Handler } from 'aws-lambda';
+import type {
+  GetDogEndpointDef,
+  GetSearchDogsEndpointDef,
+  HeaderTestEndpointDef,
+} from 'example-api-spec';
 
 it('Successful request using params', async () => {
   const statusCode = 200;
@@ -94,16 +97,16 @@ it('Successful request using query', async () => {
 it('Successful request using headers', async () => {
   const statusCode = 200;
   const headerValue = 'test-header-value';
-  
+
   const handler = async (
     event: TypesafeApiEvent<HeaderTestEndpointDef>
   ): Promise<TypesafeApiHandlerResponse<HeaderTestEndpointDef>> => {
     const myheader = event.typesafeApi.headers.myheader;
-    
+
     if (!myheader) {
       throw new Error('myheader is required');
     }
-    
+
     return {
       statusCode,
       body: {
@@ -115,9 +118,9 @@ it('Successful request using headers', async () => {
   const middyfied = middy(handler as Handler).use(typesafeApi());
 
   const { event, context } = mockRequest({
-    headers: { 'MyHeader': headerValue },
+    headers: { MyHeader: headerValue },
   });
-  
+
   const resp = await middyfied(event, context);
   expect(resp).toEqual({
     statusCode,

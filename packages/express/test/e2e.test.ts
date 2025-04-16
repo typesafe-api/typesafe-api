@@ -1,20 +1,25 @@
-import { AxiosError, AxiosRequestConfig } from 'axios';
-import { internalServerErrorBody, startApp } from './example-express';
+import { handleError } from '@typesafe-api/core';
 import {
-  GetDogEndpointDef,
-  GetDogErrorType,
-  HeaderTestEndpointDef,
   defaultReqOptions,
   RootApiClient,
   clearDogDB,
   scoobyDoo,
 } from 'example-api-spec';
-import {
+
+import { internalServerErrorBody, startApp } from './example-express';
+
+import type {
   EasyErrorBody,
   ErrorHandlers,
-  handleError,
   ResponseBody,
 } from '@typesafe-api/core';
+import type { AxiosError, AxiosRequestConfig } from 'axios';
+import type {
+  GetDogEndpointDef,
+  GetDogErrorType,
+  HeaderTestEndpointDef,
+} from 'example-api-spec';
+import type { Server } from 'http';
 
 export const OBJECT_ID_STRING = /^[a-f\d]{24}$/i;
 
@@ -31,11 +36,13 @@ const getDogErrorHandlers: ErrorHandlers<GetDogEndpointDef> = {
 
 const zeroContent: AxiosRequestConfig = { maxContentLength: 0 };
 
-const expectMaxContentSizeError = async (resp: Promise<unknown>) =>
+const expectMaxContentSizeError = async (
+  resp: Promise<unknown>
+): Promise<void> =>
   expect(resp).rejects.toThrow(/maxContentLength size of 0 exceeded/);
 
 let baseUrl: string;
-let server: any;
+let server: Server;
 let rootApiClient: RootApiClient;
 
 beforeAll(async () => {
@@ -54,7 +61,9 @@ afterAll(async () => {
 });
 
 it('Test Root API (headers and default params)', async () => {
-  const hitEndpont = async (options: HeaderTestEndpointDef['req']) => {
+  const hitEndpont = async (
+    options: HeaderTestEndpointDef['req']
+  ): Promise<ResponseBody<HeaderTestEndpointDef>> => {
     const resp = await rootApiClient.headerTest(options);
     return resp.data;
   };

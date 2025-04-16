@@ -1,5 +1,9 @@
-import { AwsArn, AwsCfInstruction } from '@serverless/typescript';
-import { AbstractEndpointDef, ResponseBody, Route } from '@typesafe-api/core';
+import type { AwsArn, AwsCfInstruction } from '@serverless/typescript';
+import type {
+  AbstractEndpointDef,
+  ResponseBody,
+  Route,
+} from '@typesafe-api/core';
 
 export type TypesafeApiHandlerResponse<T extends AbstractEndpointDef> = {
   statusCode: number;
@@ -55,7 +59,7 @@ export type AwsCors =
       origins?: string[];
     };
 
-export const relativeToCWD = (absPath: string) => {
+export const relativeToCWD = (absPath: string): string => {
   return `${absPath.split(process.cwd())[1].substring(1).replace(/\\/g, '/')}`;
 };
 

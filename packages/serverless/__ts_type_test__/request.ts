@@ -1,5 +1,6 @@
-import { CreateDogEndpointDef } from 'example-api-spec';
-import { TypesafeApiEvent, TypesafeApiHandlerResponse } from '../src';
+import type { TypesafeApiEvent, TypesafeApiHandlerResponse } from '../src';
+import type { CreateDogEndpointDef } from 'example-api-spec';
+
 
 export const reqTest = async (
   event: TypesafeApiEvent<CreateDogEndpointDef>

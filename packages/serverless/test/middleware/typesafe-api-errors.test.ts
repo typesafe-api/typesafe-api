@@ -1,9 +1,12 @@
-import { MyApiDefaultErrorType, MyApiHttpError } from 'example-api-spec';
-import { typesafeApiErrors } from '../../src';
 import middy from '@middy/core';
-import { HttpErrorLogFn, OtherErrorLogFn } from '@typesafe-api/core';
+import { MyApiHttpError } from 'example-api-spec';
+
+import { typesafeApiErrors } from '../../src';
 import { mockRequest } from '../util';
-import { Handler } from 'aws-lambda';
+
+import type { HttpErrorLogFn, OtherErrorLogFn } from '@typesafe-api/core';
+import type { Handler } from 'aws-lambda';
+import type { MyApiDefaultErrorType } from 'example-api-spec';
 
 const internalServerErrorBody: MyApiDefaultErrorType['body'] = {
   msg: 'Default internal server error',
@@ -13,11 +16,11 @@ it('Internal server error', async () => {
   const statusCode = 500;
   const errMsg = 'A unexpected error';
 
-  const handler = async () => {
+  const handler = async (): Promise<void> => {
     throw Error(errMsg);
   };
 
-  const httpErrorLogFn = jest.fn(async () => {});
+  const httpErrorLogFn = jest.fn();
   const otherErrorLogFn = jest.fn(async (err) =>
     expect(err.message).toBe(errMsg)
   );
@@ -47,7 +50,7 @@ it('TypesafeHttpError', async () => {
     msg,
   };
 
-  const handler = async () => {
+  const handler = async (): Promise<void> => {
     throw new MyApiHttpError(statusCode, msg);
   };
 
@@ -57,7 +60,7 @@ it('TypesafeHttpError', async () => {
       body: errorBody,
     }).toEqual(httpError);
   });
-  const otherErrorLogFn: OtherErrorLogFn = jest.fn(async () => {});
+  const otherErrorLogFn: OtherErrorLogFn = jest.fn();
 
   const errHandler = typesafeApiErrors<MyApiDefaultErrorType>({
     internalServerErrorBody,

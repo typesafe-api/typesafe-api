@@ -1,4 +1,4 @@
-import { AnyErrorType } from '../error';
+import type { AnyErrorType } from '../error';
 
 export type HttpErrorLogFn = (httpError: AnyErrorType) => Promise<void>;
 

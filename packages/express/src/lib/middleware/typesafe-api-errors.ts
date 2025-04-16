@@ -1,22 +1,22 @@
 import 'express-async-errors';
-import { NextFunction } from 'express-serve-static-core';
-import { Request, Response } from 'express';
 import {
-  AnyErrorType,
   defaultHttpErrorLogFn,
   defaultOtherErrorLogFn,
-  TypeSafeApiErrorsParams,
   TypesafeHttpError,
 } from '@typesafe-api/core';
 
-const sendError = (res: Response, err: AnyErrorType) =>
+import type { AnyErrorType, TypeSafeApiErrorsParams } from '@typesafe-api/core';
+import type { Request, Response } from 'express';
+import type { NextFunction } from 'express-serve-static-core';
+
+const sendError = (res: Response, err: AnyErrorType): Response =>
   res.status(err.statusCode).json(err.body);
 
 const handleError = async <T extends AnyErrorType>(
   params: TypeSafeApiErrorsParams<T>,
   err: unknown,
   res: Response
-) => {
+): Promise<void> => {
   const {
     httpErrorLogFn = defaultHttpErrorLogFn,
     otherErrorLogFn = defaultOtherErrorLogFn,

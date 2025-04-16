@@ -1,13 +1,16 @@
-import { MiddlewareObj } from '@middy/core';
-import { APIGatewayProxyEvent } from 'aws-lambda';
 import {
-  AnyErrorType,
   defaultHttpErrorLogFn,
   defaultOtherErrorLogFn,
   serialize,
+} from '@typesafe-api/core';
+
+import type { MiddlewareObj } from '@middy/core';
+import type {
+  AnyErrorType,
   TypeSafeApiErrorsParams,
   AbstractHttpError,
 } from '@typesafe-api/core';
+import type { APIGatewayProxyEvent } from 'aws-lambda';
 
 type ServerlessResponseType = { statusCode: number; body: string };
 
@@ -20,7 +23,7 @@ type Request = Parameters<
 const handleError = async <T extends AnyErrorType>(
   request: Request,
   params: TypeSafeApiErrorsParams<T>
-) => {
+): Promise<void> => {
   const {
     httpErrorLogFn = defaultHttpErrorLogFn,
     otherErrorLogFn = defaultOtherErrorLogFn,
@@ -29,6 +32,7 @@ const handleError = async <T extends AnyErrorType>(
 
   const { error } = request;
   // Duck typing to check if the error is a TypesafeHttpError, seems to work better than instanceof
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if ((error as any).isTypesafeHttpError) {
     const { httpError } = error as AbstractHttpError<T>;
     await httpErrorLogFn(httpError);

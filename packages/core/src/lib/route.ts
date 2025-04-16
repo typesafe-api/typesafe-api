@@ -1,6 +1,6 @@
-import { AbstractEndpointDef } from './endpoint';
-import { AbstractProcessedSchemas } from './util';
-import { PartialAbstractRequestSchema } from './types';
+import type { AbstractEndpointDef } from './endpoint';
+import type { PartialAbstractRequestSchema } from './types';
+import type { AbstractProcessedSchemas } from './util';
 
 export interface RouteSchemas<T extends AbstractEndpointDef> {
   defaultReqSchema: T['defaultReqSchema'];

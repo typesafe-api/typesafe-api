@@ -1,5 +1,7 @@
 import { typesafeApiErrors } from '../../src';
-import { MyApiDefaultErrorType } from 'example-api-spec';
+
+import type { MyApiDefaultErrorType } from 'example-api-spec';
+
 
 typesafeApiErrors<MyApiDefaultErrorType>({
   internalServerErrorBody: {},

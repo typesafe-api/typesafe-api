@@ -1,14 +1,16 @@
-import { Controller, TRequest, TResponse } from '../src';
-import {
+import ObjectID from 'bson-objectid';
+import { MyApiHttpError } from 'example-api-spec';
+import { dogDB } from 'example-api-spec/src/lib/dto/dog';
+
+import type { Controller, TRequest, TResponse } from '../src';
+import type {
   CreateDogEndpointDef,
   GetDogEndpointDef,
   GetDogsEndpointDef,
   HeaderTestEndpointDef,
   InternalErrorTestEndpointDef,
-  MyApiHttpError,
 } from 'example-api-spec';
-import { dogDB, DogWithId } from 'example-api-spec/src/lib/dto/dog';
-import ObjectID from 'bson-objectid';
+import type { DogWithId } from 'example-api-spec/src/lib/dto/dog';
 
 export const createDogController: Controller<CreateDogEndpointDef> = async (
   req: TRequest<CreateDogEndpointDef>,
@@ -60,8 +62,8 @@ export const headerTestController: Controller<HeaderTestEndpointDef> = async (
 export const internalErrorTestController: Controller<
   InternalErrorTestEndpointDef
 > = async (
-  req: TRequest<InternalErrorTestEndpointDef>,
-  res: TResponse<InternalErrorTestEndpointDef>
+  _req: TRequest<InternalErrorTestEndpointDef>,
+  _res: TResponse<InternalErrorTestEndpointDef>
 ) => {
   throw Error('Example error');
 };

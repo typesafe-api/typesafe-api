@@ -1,8 +1,8 @@
-import { z } from 'zod';
-import { AnyErrorType } from './error';
-import { AbstractRequestSchema } from './types/request-schema';
-import { AbstractProcessedSchemas } from './util/schema';
-import { AbstractResponse } from './types/response-schema';
+import type { AnyErrorType } from './error';
+import type { AbstractRequestSchema } from './types/request-schema';
+import type { AbstractResponse } from './types/response-schema';
+import type { AbstractProcessedSchemas } from './util/schema';
+import type { z } from 'zod';
 
 export type DefaultReqAndSchema<T extends AbstractRequestSchema> = {
   req: z.infer<T>;
@@ -54,6 +54,7 @@ export type ApiEndpointHelper<
   E
 >;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AbstractEndpointDef = EndpointDef<any, any, any, AnyErrorType>;
 
 export type ResponseBody<T extends AbstractEndpointDef> = T['resp']['body'];

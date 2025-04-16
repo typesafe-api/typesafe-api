@@ -1,5 +1,5 @@
-import { getCompilerErrors, getTestFiles } from './util';
 import { parseTS } from './parse-ts';
+import { getCompilerErrors, getTestFiles } from './util';
 
 export type AllFileErrors = {
   [key: string]: string[];

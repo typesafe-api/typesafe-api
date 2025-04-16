@@ -1,9 +1,10 @@
-import { Controller, TRequest, TResponse } from '../src';
-import { CreateDogEndpointDef } from 'example-api-spec';
+import type { Controller, TRequest, TResponse } from '../src';
+import type { CreateDogEndpointDef } from 'example-api-spec';
+
 
 export const reqTest: Controller<CreateDogEndpointDef> = async (
   req: TRequest<CreateDogEndpointDef>,
-  res: TResponse<CreateDogEndpointDef>
+  _res: TResponse<CreateDogEndpointDef>
 ) => {
   // Valid header
   req.get('myheader');

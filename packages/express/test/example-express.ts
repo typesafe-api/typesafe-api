@@ -1,19 +1,14 @@
-import express from 'express';
-import findFreePorts from 'find-free-ports';
-import { addRoutes, ExpressRoute } from '../src';
 import {
-  CreateDogEndpointDef,
-  GetDogEndpointDef,
   getDogRoute,
-  GetDogsEndpointDef,
   getDogsRoute,
-  HeaderTestEndpointDef,
   headerTestRoute,
-  InternalErrorTestEndpointDef,
   internalErrorTestRoute,
   postDogRoute,
-  MyApiDefaultErrorType,
 } from 'example-api-spec';
+import express from 'express';
+import findFreePorts from 'find-free-ports';
+
+import { addRoutes } from '../src';
 import {
   createDogController,
   getDogController,
@@ -23,10 +18,22 @@ import {
 } from './example-controller';
 import { typesafeApiErrors } from '../src/lib/middleware/typesafe-api-errors';
 
+import type { ExpressRoute } from '../src';
+import type {
+  CreateDogEndpointDef,
+  GetDogEndpointDef,
+  GetDogsEndpointDef,
+  HeaderTestEndpointDef,
+  InternalErrorTestEndpointDef,
+  MyApiDefaultErrorType,
+} from 'example-api-spec';
+import type { Server } from 'http';
+
 const app = express();
 
 const middleware = [express.json()];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const routes: ExpressRoute<any>[] = [];
 
 const ePostDogRoute: ExpressRoute<CreateDogEndpointDef> = {
@@ -76,7 +83,10 @@ app.use(
   })
 );
 
-export const startApp = async (): Promise<{ server: any; baseUrl: string }> => {
+export const startApp = async (): Promise<{
+  server: Server;
+  baseUrl: string;
+}> => {
   const [port] = await findFreePorts();
   const baseUrl = `http://localhost:${port}`;
 

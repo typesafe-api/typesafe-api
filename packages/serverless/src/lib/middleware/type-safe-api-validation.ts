@@ -1,7 +1,7 @@
-import { z } from 'zod';
-import { AbstractEndpointDef, Route } from '@typesafe-api/core';
-import { TypesafeApiEvent } from '../../../src';
-import { MiddlewareObj } from '@middy/core';
+import type { TypesafeApiEvent } from '../../../src';
+import type { MiddlewareObj } from '@middy/core';
+import type { AbstractEndpointDef, Route } from '@typesafe-api/core';
+import type { z } from 'zod';
 
 export type OnValidationError<T extends AbstractEndpointDef> = (
   zodError: z.ZodError<T['mergedReq']>
@@ -15,7 +15,7 @@ interface TypesafeApiValidationParams<T extends AbstractEndpointDef> {
 export const validate = async <T extends AbstractEndpointDef>(
   params: TypesafeApiValidationParams<T>,
   event: TypesafeApiEvent<T>
-) => {
+): Promise<void> => {
   const { route, onError } = params;
 
   // Get typesafeApi and make sure it's been init correctly

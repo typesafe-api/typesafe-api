@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { ZodEmptyObject, ZopOptionalPrimitive } from './zod';
+import type { ZodEmptyObject, ZopOptionalPrimitive } from './zod';
+import type { z } from 'zod';
 
 export type RespBody = Record<string, z.ZodTypeAny>;
 export type RespHeaders = Record<string, ZopOptionalPrimitive>;

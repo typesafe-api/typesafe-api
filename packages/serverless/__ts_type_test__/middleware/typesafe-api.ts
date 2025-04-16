@@ -1,10 +1,15 @@
-import { APIGatewayProxyEvent } from 'aws-lambda';
-import { CreateDogEndpointDef } from '../../../core/test/example-routes';
-import {
-  parseEvent,
-  TypesafeApiEvent,
-} from '../../src/middleware/typesafe-api';
 import createEvent from '@serverless/event-mocks';
+
+import {
+  parseEvent
+} from '../../src/lib/middleware/typesafe-api';
+
+import type {
+  TypesafeApiEvent} from '../../src/lib/middleware/typesafe-api';
+import type { APIGatewayProxyEvent } from 'aws-lambda';
+import type { CreateDogEndpointDef } from 'example-api-spec';
+
+
 
 const request: CreateDogEndpointDef['mergedReq'] = {
   params: {},

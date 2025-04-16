@@ -1,6 +1,8 @@
-import { MiddlewareObj } from '@middy/core';
-import { APIGatewayProxyEvent } from 'aws-lambda';
-import { AbstractEndpointDef, serialize } from '@typesafe-api/core';
+import { serialize } from '@typesafe-api/core';
+
+import type { MiddlewareObj } from '@middy/core';
+import type { AbstractEndpointDef } from '@typesafe-api/core';
+import type { APIGatewayProxyEvent } from 'aws-lambda';
 
 type ToExclude = Record<string, never>;
 
@@ -15,7 +17,7 @@ export interface TypesafeApiEvent<T extends AbstractEndpointDef>
 }
 
 const parseHeaders = <T extends AbstractEndpointDef>(
-  headers: any
+  headers: APIGatewayProxyEvent['headers']
 ): T['mergedReq']['headers'] => {
   return Object.fromEntries(
     Object.entries(headers).map(([key, value]) => [key.toLowerCase(), value])
@@ -32,7 +34,7 @@ export const parseEvent = <T extends AbstractEndpointDef>(
   const query = event.queryStringParameters ?? {};
   const params = event.pathParameters ?? {};
   const parsedBody = JSON.parse(data ?? '{}');
-  const headers: any = event.headers ?? {};
+  const headers = event.headers ?? {};
 
   return {
     query: query as T['mergedReq']['query'],

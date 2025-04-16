@@ -1,16 +1,14 @@
 import { z } from 'zod';
-import {
+
+import { reqSchemaProcessor, routeHelper } from '../../../api';
+
+import type { MyApiEndpoint, MyApiEndpointErrorType } from '../../../api';
+import type { DogWithId } from '../../../dto';
+import type {
   PartialAbstractRequestSchemaShape,
   Route,
   AbstractResponse,
 } from '@typesafe-api/core';
-import {
-  MyApiEndpoint,
-  MyApiEndpointErrorType,
-  reqSchemaProcessor,
-  routeHelper,
-} from '../../../api';
-import { DogWithId } from '../../../dto';
 
 const getDogReqSchemaShape = {
   params: z.object({

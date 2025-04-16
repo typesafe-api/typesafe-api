@@ -1,6 +1,7 @@
-import mockContext from 'aws-lambda-mock-context';
 import createEvent from '@serverless/event-mocks';
-import { APIGatewayProxyEvent } from 'aws-lambda';
+import mockContext from 'aws-lambda-mock-context';
+
+import type { APIGatewayProxyEvent, Context } from 'aws-lambda';
 
 interface MockRequestParams {
   body?: Record<string, unknown>;
@@ -9,8 +10,15 @@ interface MockRequestParams {
   headers?: Record<string, unknown>;
 }
 
-export const mockRequest = (params: MockRequestParams = {}) => {
-  const { body = {}, pathParameters = {}, queryStringParameters = {}, headers = {} } = params;
+export const mockRequest = (
+  params: MockRequestParams = {}
+): { event: APIGatewayProxyEvent; context: Context } => {
+  const {
+    body = {},
+    pathParameters = {},
+    queryStringParameters = {},
+    headers = {},
+  } = params;
   const event = createEvent('aws:apiGateway', {
     body: JSON.stringify(body),
     pathParameters: pathParameters,

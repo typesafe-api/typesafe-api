@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { ZodEmptyObject, ZopOptionalPrimitive } from './zod';
+import type { ZodEmptyObject, ZopOptionalPrimitive } from './zod';
+import type { z } from 'zod';
 
 export type ReqQuery = Record<string, ZopOptionalPrimitive>;
 export type ReqParams = Record<string, ZopOptionalPrimitive>;

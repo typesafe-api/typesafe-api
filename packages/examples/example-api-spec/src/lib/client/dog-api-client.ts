@@ -1,16 +1,20 @@
 import { AbstractApiClient, createRouteRequest } from '@typesafe-api/core';
-import { MyApiDefaultReq } from '../api';
+
 import {
-  CreateDogEndpointDef,
-  GetDogEndpointDef,
   getDogRoute,
-  GetDogsEndpointDef,
   getDogsRoute,
   postDogRoute,
-  GetSearchDogsEndpointDef,
   getSearchDogsRoute,
 } from '../routes';
-import { Dog } from '../dto';
+
+import type { MyApiDefaultReq } from '../api';
+import type {
+  CreateDogEndpointDef,
+  GetDogEndpointDef,
+  GetDogsEndpointDef,
+  GetSearchDogsEndpointDef,
+} from '../routes';
+import type { TAxiosResponse } from '@typesafe-api/core';
 
 export interface CreateDogParams {
   name: string;
@@ -27,7 +31,10 @@ export class DogApiClient extends AbstractApiClient<MyApiDefaultReq> {
     this,
     postDogRoute
   );
-  public createDog({ name, breed }: CreateDogParams) {
+  public createDog({
+    name,
+    breed,
+  }: CreateDogParams): Promise<TAxiosResponse<CreateDogEndpointDef>> {
     return this._createDog({
       body: {
         name,
@@ -36,14 +43,14 @@ export class DogApiClient extends AbstractApiClient<MyApiDefaultReq> {
     });
   }
   private _getDog = createRouteRequest<GetDogEndpointDef>(this, getDogRoute);
-  public getDog(_id: string) {
+  public getDog(_id: string): Promise<TAxiosResponse<GetDogEndpointDef>> {
     return this._getDog({
       params: { _id },
     });
   }
 
   private _getDogs = createRouteRequest<GetDogsEndpointDef>(this, getDogsRoute);
-  public getDogs(breed?: string) {
+  public getDogs(breed?: string): Promise<TAxiosResponse<GetDogsEndpointDef>> {
     return this._getDogs({
       query: {
         breed,
@@ -56,7 +63,10 @@ export class DogApiClient extends AbstractApiClient<MyApiDefaultReq> {
     getSearchDogsRoute
   );
 
-  public getSearchDogs({ searchQuery, breed }: SearchDogsParams) {
+  public getSearchDogs({
+    searchQuery,
+    breed,
+  }: SearchDogsParams): Promise<TAxiosResponse<GetSearchDogsEndpointDef>> {
     return this._getSearchDogs({
       query: {
         searchQuery,

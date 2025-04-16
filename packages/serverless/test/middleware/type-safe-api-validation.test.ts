@@ -1,5 +1,9 @@
-import { CreateDogEndpointDef, postDogRoute } from 'example-api-spec';
-import { TypesafeApiEvent, validate, OnValidationError } from '../../src';
+import { postDogRoute } from 'example-api-spec';
+
+import { validate } from '../../src';
+
+import type { TypesafeApiEvent, OnValidationError } from '../../src';
+import type { CreateDogEndpointDef } from 'example-api-spec';
 
 describe('validate', () => {
   it('Should pass validation', async () => {

@@ -1,0 +1,53 @@
+{
+  "name": "example-api-serverless",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/example-api-serverless/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/example-api-serverless",
+        "main": "apps/example-api-serverless/src/main.ts",
+        "tsConfig": "apps/example-api-serverless/tsconfig.app.json",
+        "assets": ["apps/example-api-serverless/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/example-api-serverless/src/environments/environment.ts",
+              "with": "apps/example-api-serverless/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/js:node",
+      "options": {
+        "buildTarget": "example-api-serverless:build"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "example-api-serverless:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/example-api-serverless"],
+      "options": {
+        "jestConfig": "apps/example-api-serverless/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

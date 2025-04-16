@@ -1,16 +1,14 @@
-import {
-  HeaderTestEndpointDef,
-  headerTestRoute,
-  InternalErrorTestEndpointDef,
-  internalErrorTestRoute,
-  MyApiDefaultReq,
-} from 'example-api-spec';
-import {
-  AbstractApiClient,
-  ApiClientParams,
-  createRouteRequest,
-} from '@typesafe-api/core';
+import { AbstractApiClient, createRouteRequest } from '@typesafe-api/core';
+
+import { headerTestRoute, internalErrorTestRoute } from '../routes';
 import { DogApiClient } from './dog-api-client';
+
+import type { MyApiDefaultReq } from '../api';
+import type {
+  HeaderTestEndpointDef,
+  InternalErrorTestEndpointDef,
+} from '../routes';
+import type { ApiClientParams } from '@typesafe-api/core';
 
 export const defaultReqOptions: MyApiDefaultReq = {
   headers: {
@@ -30,7 +28,7 @@ export class RootApiClient extends AbstractApiClient<MyApiDefaultReq> {
     return defaultReqOptions;
   }
 
-  public dog = () => new DogApiClient(this.getChildParams());
+  public dog = (): DogApiClient => new DogApiClient(this.getChildParams());
 
   public headerTest = createRouteRequest<HeaderTestEndpointDef>(
     this,

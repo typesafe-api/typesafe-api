@@ -1,13 +1,23 @@
-import { Controller, TRequest, TResponse } from './controller';
-import { ErrorRequestHandler, RequestHandler, Router } from 'express';
-import { AbstractEndpointDef, Route } from '@typesafe-api/core';
-import { Request, Response, NextFunction } from 'express';
+import type { Controller, TRequest, TResponse } from './controller';
+import type { AbstractEndpointDef, Route } from '@typesafe-api/core';
+import type {
+  ErrorRequestHandler,
+  RequestHandler,
+  Router,
+  Request,
+  Response,
+  NextFunction,
+} from 'express';
+
 export interface ExpressRoute<T extends AbstractEndpointDef> extends Route<T> {
   middleware: Array<RequestHandler | ErrorRequestHandler>;
   controller: Controller<T>;
 }
 
-export const addRoutes = (r: Router, routes: ExpressRoute<any>[]): void => {
+export const addRoutes = (
+  r: Router,
+  routes: ExpressRoute<AbstractEndpointDef>[]
+): void => {
   for (const route of routes) {
     addRoute(r, route);
   }

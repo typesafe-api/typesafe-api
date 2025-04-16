@@ -1,11 +1,13 @@
-import { z } from 'zod';
-import {
+import { reqSchemaProcessor, routeHelper } from '../../api';
+import { DogSchema } from '../../dto/dog';
+
+import type { MyApiEndpoint } from '../../api';
+import type { DogWithId } from '../../dto/dog';
+import type {
   PartialAbstractRequestSchemaShape,
   Route,
   AbstractResponse,
 } from '@typesafe-api/core';
-import { DogSchema, DogWithId } from '../../dto/dog';
-import { MyApiEndpoint, reqSchemaProcessor, routeHelper } from '../../api';
 
 export interface CreateDogRes extends AbstractResponse {
   body: DogWithId;

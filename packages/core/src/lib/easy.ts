@@ -1,13 +1,15 @@
-import {
+import { TypesafeHttpError } from './error';
+
+import type {
   ApiEndpointHelper,
   DefaultReqAndSchema,
   EndpointDef,
   EndpointReqModelsAndSchemas,
 } from './endpoint';
-import { AbstractErrorType, TypesafeHttpError } from './error';
-import { AbstractRequestSchema } from './types';
-import { AbstractResponse } from './types/response-schema';
-import { AbstractProcessedSchemas } from './util';
+import type { AbstractErrorType } from './error';
+import type { AbstractRequestSchema } from './types';
+import type { AbstractResponse } from './types/response-schema';
+import type { AbstractProcessedSchemas } from './util';
 
 /*
  * Error types

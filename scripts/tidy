@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# This script is intended for local development use to prepare code for quality gates.
+# It runs formatters and linters to ensure code meets quality standards before submission.
+
+# Exit on error
+set -e
+
+# Lint
+npx nx run-many --target=lint --fix --verbose
+
+# Format typescript
+npx nx format
+
+

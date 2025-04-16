@@ -1,4 +1,4 @@
-import { AbstractEndpointDef } from './endpoint';
+import type { AbstractEndpointDef } from './endpoint';
 
 /*
  * All API should expect a 400 for validation and a 500 (nothing is perfect).

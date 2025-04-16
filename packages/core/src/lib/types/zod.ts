@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import type { z } from 'zod';
 
 export type ZodEmptyObject = z.ZodRecord<z.ZodString, z.ZodNever>;
 export type ZodPrimitive = z.ZodString | z.ZodNumber | z.ZodBoolean;

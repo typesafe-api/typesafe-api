@@ -1,5 +1,8 @@
-import { AbstractResponseSchema, schemaHelpers } from '../../src';
 import { z } from 'zod';
+
+import { schemaHelpers } from '../../src';
+
+import type { AbstractResponseSchema } from '../../src';
 
 /*
  * Set up a valid response
@@ -33,12 +36,12 @@ const validResponse: ValidResponse = {
  * Make sure all fields are required
  */
 
-const missingBody: ValidResponse = {
+const _missingBody: ValidResponse = {
   ...validResponse,
   body: undefined,
 };
 
-const missingHeaders: ValidResponse = {
+const _missingHeaders: ValidResponse = {
   ...validResponse,
   headers: undefined,
 };
@@ -47,14 +50,14 @@ const missingHeaders: ValidResponse = {
  * Make sure keys are well validated
  */
 
-const invalidBodyKey: ValidResponse = {
+const _invalidBodyKey: ValidResponse = {
   ...validResponse,
   body: {
     notAValidBodyKey: 'value',
   },
 };
 
-const invalidHeaderKey: ValidResponse = {
+const _invalidHeaderKey: ValidResponse = {
   ...validResponse,
   headers: {
     notAValidHeaderKey: 'value',
@@ -65,7 +68,7 @@ const invalidHeaderKey: ValidResponse = {
  * Make sure types are well validated
  */
 
-const invalidBodyType: ValidResponse = {
+const _invalidBodyType: ValidResponse = {
   ...validResponse,
   body: {
     // this should be a string
@@ -73,7 +76,7 @@ const invalidBodyType: ValidResponse = {
   },
 };
 
-const invalidHeaderType: ValidResponse = {
+const _invalidHeaderType: ValidResponse = {
   ...validResponse,
   headers: {
     // this should be a string
@@ -85,11 +88,11 @@ const invalidHeaderType: ValidResponse = {
  * Try to create schema with missing fields
  */
 
-const missingBodySchema = z.object({
+const _missingBodySchema = z.object({
   headers: schemaHelpers.emptyObject(),
 }) satisfies AbstractResponseSchema;
 
-const missingHeadersSchema = z.object({
+const _missingHeadersSchema = z.object({
   body: schemaHelpers.emptyObject(),
 }) satisfies AbstractResponseSchema;
 
@@ -97,12 +100,12 @@ const missingHeadersSchema = z.object({
  * Try to create schema with invalid types
  */
 
-const invalidBodyTypeSchema = z.object({
+const _invalidBodyTypeSchema = z.object({
   body: z.array(z.string()),
   headers: schemaHelpers.emptyObject(),
 }) satisfies AbstractResponseSchema;
 
-const invalidHeaderTypeSchema = z.object({
+const _invalidHeaderTypeSchema = z.object({
   body: schemaHelpers.emptyObject(),
   headers: z.array(z.string()),
 }) satisfies AbstractResponseSchema;

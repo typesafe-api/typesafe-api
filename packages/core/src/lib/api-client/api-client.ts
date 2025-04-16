@@ -1,5 +1,5 @@
-import { AxiosRequestConfig } from 'axios';
-import { AbstractRequest } from '../types/request-schema';
+import type { AbstractRequest } from '../types/request-schema';
+import type { AxiosRequestConfig } from 'axios';
 
 export type ApiClientParams<TDefaultRequest extends AbstractRequest> = {
   baseUrl?: string;

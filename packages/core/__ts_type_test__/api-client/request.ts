@@ -1,9 +1,11 @@
+/* eslint-disable @nx/enforce-module-boundaries */
+import { getDogRoute, postDogRoute } from 'example-api-spec';
+
 import { AbstractApiClient, createRouteRequest } from '../../src';
-import {
+
+import type {
   CreateDogEndpointDef,
   GetDogEndpointDef,
-  getDogRoute,
-  postDogRoute,
   MyApiDefaultReq,
 } from 'example-api-spec';
 

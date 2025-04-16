@@ -1,5 +1,8 @@
-import { AbstractRequestSchema, schemaHelpers } from '../../src/';
 import { z } from 'zod';
+
+import { schemaHelpers } from '../../src';
+
+import type { AbstractRequestSchema } from '../../src';
 
 /*
  * Set up a valid request
@@ -41,22 +44,22 @@ const validRequest: ValidRequest = {
  * Make sure all fields are required
  */
 
-const missingQuery: ValidRequest = {
+const _missingQuery: ValidRequest = {
   ...validRequest,
   query: undefined,
 };
 
-const missingParams: ValidRequest = {
+const _missingParams: ValidRequest = {
   ...validRequest,
   params: undefined,
 };
 
-const missingBody: ValidRequest = {
+const _missingBody: ValidRequest = {
   ...validRequest,
   body: undefined,
 };
 
-const missingHeaders: ValidRequest = {
+const _missingHeaders: ValidRequest = {
   ...validRequest,
   headers: undefined,
 };
@@ -65,28 +68,28 @@ const missingHeaders: ValidRequest = {
  * Make sure keys are well validated
  */
 
-const invalidQueryKey: ValidRequest = {
+const _invalidQueryKey: ValidRequest = {
   ...validRequest,
   query: {
     notAValidQueryKey: 'value',
   },
 };
 
-const invalidBodyKey: ValidRequest = {
+const _invalidBodyKey: ValidRequest = {
   ...validRequest,
   body: {
     notAValidBodyKey: 'value',
   },
 };
 
-const invalidHeaderKey: ValidRequest = {
+const _invalidHeaderKey: ValidRequest = {
   ...validRequest,
   headers: {
     notAValidHeaderKey: 'value',
   },
 };
 
-const invalidParamsKey: ValidRequest = {
+const _invalidParamsKey: ValidRequest = {
   ...validRequest,
   params: {
     notAValidParamKey: 'value',
@@ -97,14 +100,14 @@ const invalidParamsKey: ValidRequest = {
  * Make sure types are well validated
  */
 
-const invalidQueryType: ValidRequest = {
+const _invalidQueryType: ValidRequest = {
   ...validRequest,
   query: {
     name: ['this should be a string'],
   },
 };
 
-const invalidBodyType: ValidRequest = {
+const _invalidBodyType: ValidRequest = {
   ...validRequest,
   body: {
     // this should be a string
@@ -112,7 +115,7 @@ const invalidBodyType: ValidRequest = {
   },
 };
 
-const invalidHeaderType: ValidRequest = {
+const _invalidHeaderType: ValidRequest = {
   ...validRequest,
   headers: {
     // this should be a string
@@ -124,25 +127,25 @@ const invalidHeaderType: ValidRequest = {
  * Try to create schema with missing fields
  */
 
-const missingQuerySchema = z.object({
+const _missingQuerySchema = z.object({
   params: schemaHelpers.emptyObject(),
   body: schemaHelpers.emptyObject(),
   headers: schemaHelpers.emptyObject(),
 }) satisfies AbstractRequestSchema;
 
-const missingParamsSchema = z.object({
+const _missingParamsSchema = z.object({
   query: schemaHelpers.emptyObject(),
   body: schemaHelpers.emptyObject(),
   headers: schemaHelpers.emptyObject(),
 }) satisfies AbstractRequestSchema;
 
-const missingBodySchema = z.object({
+const _missingBodySchema = z.object({
   query: schemaHelpers.emptyObject(),
   params: schemaHelpers.emptyObject(),
   headers: schemaHelpers.emptyObject(),
 }) satisfies AbstractRequestSchema;
 
-const missingHeadersSchema = z.object({
+const _missingHeadersSchema = z.object({
   query: schemaHelpers.emptyObject(),
   params: schemaHelpers.emptyObject(),
   body: schemaHelpers.emptyObject(),
@@ -152,7 +155,7 @@ const missingHeadersSchema = z.object({
  * Try to create schema with invalid types
  */
 
-const invalidQueryTypeSchema = z.object({
+const _invalidQueryTypeSchema = z.object({
   query: z.object({
     name: z.array(z.string()),
   }),
@@ -161,7 +164,7 @@ const invalidQueryTypeSchema = z.object({
   headers: schemaHelpers.emptyObject(),
 }) satisfies AbstractRequestSchema;
 
-const invalidParamsTypeSchema = z.object({
+const _invalidParamsTypeSchema = z.object({
   query: schemaHelpers.emptyObject(),
   params: z.object({
     name: z.array(z.string()),
@@ -170,14 +173,14 @@ const invalidParamsTypeSchema = z.object({
   headers: schemaHelpers.emptyObject(),
 }) satisfies AbstractRequestSchema;
 
-const invalidBodyTypeSchema = z.object({
+const _invalidBodyTypeSchema = z.object({
   query: schemaHelpers.emptyObject(),
   params: schemaHelpers.emptyObject(),
   body: z.array(z.string()),
   headers: schemaHelpers.emptyObject(),
 }) satisfies AbstractRequestSchema;
 
-const invalidHeaderTypeSchema = z.object({
+const _invalidHeaderTypeSchema = z.object({
   query: schemaHelpers.emptyObject(),
   params: schemaHelpers.emptyObject(),
   body: schemaHelpers.emptyObject(),

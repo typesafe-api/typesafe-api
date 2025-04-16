@@ -1,14 +1,16 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios from 'axios';
+import deepMerge from 'deepmerge';
 import { urlJoin } from 'url-join-ts';
-import {
+
+import type {
   ResponseBody,
   ResponseHeaders,
   AbstractEndpointDef,
 } from '../endpoint';
-import { Route } from '../route';
-import deepMerge from 'deepmerge';
-import { AbstractApiClient } from './api-client';
-import { AbstractRequest } from '../types/request-schema';
+import type { Route } from '../route';
+import type { AbstractApiClient } from './api-client';
+import type { AbstractRequest } from '../types/request-schema';
+import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export interface TAxiosResponse<T extends AbstractEndpointDef>
   extends AxiosResponse<ResponseBody<T>> {
@@ -39,16 +41,19 @@ export const replaceUrlParams = (
   return path;
 };
 
-const safeObj = (obj: Record<string, unknown>) => obj ?? {};
+const safeObj = (obj: Record<string, unknown>): Record<string, unknown> =>
+  obj ?? {};
 
 const mergeOptions: deepMerge.Options = {
-  arrayMerge: (destinationArray: any[], sourceArray: any[]) => sourceArray,
+  arrayMerge: (destinationArray: unknown[], sourceArray: unknown[]) =>
+    sourceArray,
 };
 
 const customMerge = (
   destination: Record<string, unknown>,
   source: Record<string, unknown>
-) => deepMerge(safeObj(destination), safeObj(source), mergeOptions);
+): Record<string, unknown> =>
+  deepMerge(safeObj(destination), safeObj(source), mergeOptions);
 
 const getRequestOpts = async <
   E extends AbstractEndpointDef,

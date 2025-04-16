@@ -1,4 +1,5 @@
 import { exec } from 'child_process';
+
 import glob from 'glob-promise';
 
 export const EXPECTED_ERRORS_START = '@expected-compiler-errors-start';
@@ -8,7 +9,7 @@ interface Out {
   stderr: string;
 }
 
-const executeCmd = (command: string, callback: (out: Out) => void) => {
+const executeCmd = (command: string, callback: (out: Out) => void): void => {
   exec(command, function (error, stdout, stderr) {
     callback({ stdout, stderr });
   });

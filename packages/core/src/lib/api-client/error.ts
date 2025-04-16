@@ -1,5 +1,5 @@
-import { AbstractEndpointDef } from '../endpoint';
-import { AxiosError } from 'axios';
+import type { AbstractEndpointDef } from '../endpoint';
+import type { AxiosError } from 'axios';
 
 type ErrorStatuses<T extends AbstractEndpointDef> =
   T['errorType']['statusCode'];

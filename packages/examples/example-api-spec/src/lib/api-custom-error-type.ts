@@ -1,16 +1,20 @@
-import { z } from 'zod';
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
+  RouteHelper,
+  TypesafeHttpError,
+  RequestSchemaProcessor,
+  schemaHelpers,
+} from '@typesafe-api/core';
+import { z } from 'zod';
+
+import type {
   DefaultReqAndSchema,
   AbstractErrorType,
   AbstractProcessedSchemas,
-  RouteHelper,
   ApiEndpointHelper,
   BaseErrorCodes,
-  TypesafeHttpError,
   AbstractRequestSchema,
   PartialAbstractRequestSchemaShape,
-  RequestSchemaProcessor,
-  schemaHelpers,
   AbstractResponse,
 } from '@typesafe-api/core';
 
