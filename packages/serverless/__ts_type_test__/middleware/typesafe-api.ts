@@ -51,5 +51,7 @@ parsedEvent.headers.myheader;
 parsedEvent.headers.invalidHeader;
 
 // @expected-compiler-errors-start
-// (2,38): error TS2307: Cannot find module '../../../core/test/example-routes' or its corresponding type declarations.
-// (6,8): error TS2307: Cannot find module '../../src/middleware/typesafe-api' or its corresponding type declarations.
+// (36,20): error TS2339: Property 'invalidParam' does not exist on type 'never'.
+// (39,19): error TS2339: Property 'invalidQuery' does not exist on type 'never'.
+// (45,18): error TS2339: Property 'invalidBody' does not exist on type '{ name: string; breed: string; }'.
+// (51,21): error TS2339: Property 'invalidHeader' does not exist on type '{ myheader: string; }'.

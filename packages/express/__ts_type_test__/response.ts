@@ -17,4 +17,4 @@ export const reqTest: Controller<GetDogEndpointDef> = async (
 };
 
 // @expected-compiler-errors-start
-// (9,14): error TS2353: Object literal may only specify known properties, and 'somethingElse' does not exist in type 'BodyOrError<GetDogEndpointDef>'.
+// (10,14): error TS2353: Object literal may only specify known properties, and 'somethingElse' does not exist in type 'BodyOrError<GetDogEndpointDef>'.

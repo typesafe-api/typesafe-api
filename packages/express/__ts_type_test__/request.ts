@@ -26,7 +26,7 @@ export const reqTest: Controller<CreateDogEndpointDef> = async (
 };
 
 // @expected-compiler-errors-start
-// (12,11): error TS2769: No overload matches this call.
-// (15,13): error TS2339: Property 'badQuery' does not exist on type 'never'.
-// (21,12): error TS2339: Property 'badBody' does not exist on type '{ name: string; breed: string; }'.
-// (24,14): error TS2339: Property 'badParam' does not exist on type 'never'.
+// (13,11): error TS2769: No overload matches this call.
+// (16,13): error TS2339: Property 'badQuery' does not exist on type 'never'.
+// (22,12): error TS2339: Property 'badBody' does not exist on type '{ name: string; breed: string; }'.
+// (25,14): error TS2339: Property 'badParam' does not exist on type 'never'.

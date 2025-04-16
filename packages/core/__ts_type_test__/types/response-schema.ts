@@ -111,13 +111,13 @@ const _invalidHeaderTypeSchema = z.object({
 }) satisfies AbstractResponseSchema;
 
 // @expected-compiler-errors-start
-// (38,3): error TS2322: Type 'undefined' is not assignable to type '{ bodyField: string; }'.
-// (43,3): error TS2322: Type 'undefined' is not assignable to type '{ headerField: string; }'.
-// (53,5): error TS2353: Object literal may only specify known properties, and 'notAValidBodyKey' does not exist in type '{ bodyField: string; }'.
-// (60,5): error TS2353: Object literal may only specify known properties, and 'notAValidHeaderKey' does not exist in type '{ headerField: string; }'.
-// (72,5): error TS2322: Type 'number' is not assignable to type 'string'.
-// (80,5): error TS2322: Type 'number' is not assignable to type 'string'.
-// (90,4): error TS1360: Type 'ZodObject<{ headers: ZodEmptyObject; }, "strip", ZodTypeAny, { headers: Record<string, never>; }, { headers: Record<string, never>; }>' does not satisfy the expected type 'AbstractResponseSchema'.
-// (94,4): error TS1360: Type 'ZodObject<{ body: ZodEmptyObject; }, "strip", ZodTypeAny, { body: Record<string, never>; }, { body: Record<string, never>; }>' does not satisfy the expected type 'AbstractResponseSchema'.
-// (103,4): error TS1360: Type 'ZodObject<{ body: ZodArray<ZodString, "many">; headers: ZodEmptyObject; }, "strip", ZodTypeAny, { body: string[]; headers: Record<string, never>; }, { ...; }>' does not satisfy the expected type 'AbstractResponseSchema'.
-// (108,4): error TS1360: Type 'ZodObject<{ body: ZodEmptyObject; headers: ZodArray<ZodString, "many">; }, "strip", ZodTypeAny, { body: Record<string, never>; headers: string[]; }, { ...; }>' does not satisfy the expected type 'AbstractResponseSchema'.
+// (41,3): error TS2322: Type 'undefined' is not assignable to type '{ bodyField: string; }'.
+// (46,3): error TS2322: Type 'undefined' is not assignable to type '{ headerField: string; }'.
+// (56,5): error TS2353: Object literal may only specify known properties, and 'notAValidBodyKey' does not exist in type '{ bodyField: string; }'.
+// (63,5): error TS2353: Object literal may only specify known properties, and 'notAValidHeaderKey' does not exist in type '{ headerField: string; }'.
+// (75,5): error TS2322: Type 'number' is not assignable to type 'string'.
+// (83,5): error TS2322: Type 'number' is not assignable to type 'string'.
+// (93,4): error TS1360: Type 'ZodObject<{ headers: ZodEmptyObject; }, "strip", ZodTypeAny, { headers: Record<string, never>; }, { headers: Record<string, never>; }>' does not satisfy the expected type 'AbstractResponseSchema'.
+// (97,4): error TS1360: Type 'ZodObject<{ body: ZodEmptyObject; }, "strip", ZodTypeAny, { body: Record<string, never>; }, { body: Record<string, never>; }>' does not satisfy the expected type 'AbstractResponseSchema'.
+// (106,4): error TS1360: Type 'ZodObject<{ body: ZodArray<ZodString, "many">; headers: ZodEmptyObject; }, "strip", ZodTypeAny, { body: string[]; headers: Record<string, never>; }, { ...; }>' does not satisfy the expected type 'AbstractResponseSchema'.
+// (111,4): error TS1360: Type 'ZodObject<{ body: ZodEmptyObject; headers: ZodArray<ZodString, "many">; }, "strip", ZodTypeAny, { body: Record<string, never>; headers: string[]; }, { ...; }>' does not satisfy the expected type 'AbstractResponseSchema'.
