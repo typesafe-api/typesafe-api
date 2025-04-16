@@ -13,6 +13,7 @@
     "@nrwl/linter": "14.7.4",
     "@nrwl/node": "^14.7.4",
     "@nrwl/workspace": "14.7.4",
+    "@nx/eslint": "^20.7.1",
     "@nx/jest": "20.7.1",
     "@nx/js": "^20.7.1",
     "@serverless/event-mocks": "^1.1.1",
