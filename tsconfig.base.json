@@ -19,6 +19,7 @@
     "paths": {
       "@typesafe-api/core": ["packages/core/src/index.ts"],
       "@typesafe-api/express": ["packages/express/src/index.ts"],
+      "@typesafe-api/fastify": ["packages/fastify/src/index.ts"],
       "@typesafe-api/open-api": ["packages/open-api/src/index.ts"],
       "@typesafe-api/serverless": ["packages/serverless/src/index.ts"],
       "@typesafe-api/ts-type-test": ["packages/ts-type-test/src/index.ts"],
